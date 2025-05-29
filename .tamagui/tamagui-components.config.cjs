@@ -31892,11 +31892,11 @@ function useHover(context2, props) {
   const unbindMouseMoveRef = React51.useRef(() => {
   });
   const restTimeoutPendingRef = React51.useRef(false);
-  const isHoverOpen = React51.useCallback(() => {
+  const isHoverOpen = useEffectEvent(() => {
     var _dataRef$current$open;
     const type = (_dataRef$current$open = dataRef.current.openEvent) == null ? void 0 : _dataRef$current$open.type;
     return (type == null ? void 0 : type.includes("mouse")) && type !== "mousedown";
-  }, [dataRef]);
+  });
   React51.useEffect(() => {
     if (!enabled) return;
     function onOpenChange2(_ref) {
@@ -32088,7 +32088,7 @@ function useHover(context2, props) {
   index2(() => {
     var _handleCloseRef$curre;
     if (!enabled) return;
-    if (open && (_handleCloseRef$curre = handleCloseRef.current) != null && _handleCloseRef$curre.__options.blockPointerEvents && isHoverOpen()) {
+    if (open && (_handleCloseRef$curre = handleCloseRef.current) != null && (_handleCloseRef$curre = _handleCloseRef$curre.__options) != null && _handleCloseRef$curre.blockPointerEvents && isHoverOpen()) {
       performedPointerEventsMutationRef.current = true;
       const floatingEl = elements.floating;
       if (isElement(elements.domReference) && floatingEl) {
@@ -32237,7 +32237,6 @@ function useDismiss(context2, props) {
   const tree = useFloatingTree();
   const outsidePressFn = useEffectEvent(typeof unstable_outsidePress === "function" ? unstable_outsidePress : () => false);
   const outsidePress = typeof unstable_outsidePress === "function" ? outsidePressFn : unstable_outsidePress;
-  const insideReactTreeRef = React51.useRef(false);
   const endedOrStartedInsideRef = React51.useRef(false);
   const {
     escapeKey: escapeKeyBubbles,
@@ -32248,6 +32247,7 @@ function useDismiss(context2, props) {
     outsidePress: outsidePressCapture
   } = normalizeProp(capture);
   const isComposingRef = React51.useRef(false);
+  const blurTimeoutRef = React51.useRef(-1);
   const closeOnEscapeKeyDown = useEffectEvent((event) => {
     var _dataRef$current$floa;
     if (!open || !enabled || !escapeKey || event.key !== "Escape") {
@@ -32287,8 +32287,8 @@ function useDismiss(context2, props) {
   });
   const closeOnPressOutside = useEffectEvent((event) => {
     var _dataRef$current$floa2;
-    const insideReactTree = insideReactTreeRef.current;
-    insideReactTreeRef.current = false;
+    const insideReactTree = dataRef.current.insideReactTree;
+    dataRef.current.insideReactTree = false;
     const endedOrStartedInside = endedOrStartedInsideRef.current;
     endedOrStartedInsideRef.current = false;
     if (outsidePressEvent === "click" && endedOrStartedInside) {
@@ -32434,8 +32434,8 @@ function useDismiss(context2, props) {
     };
   }, [dataRef, elements, escapeKey, outsidePress, outsidePressEvent, open, onOpenChange, ancestorScroll, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, escapeKeyCapture, closeOnEscapeKeyDownCapture, closeOnPressOutside, outsidePressCapture, closeOnPressOutsideCapture]);
   React51.useEffect(() => {
-    insideReactTreeRef.current = false;
-  }, [outsidePress, outsidePressEvent]);
+    dataRef.current.insideReactTree = false;
+  }, [dataRef, outsidePress, outsidePressEvent]);
   const reference = React51.useMemo(() => ({
     onKeyDown: closeOnEscapeKeyDown,
     ...referencePress && {
@@ -32458,9 +32458,16 @@ function useDismiss(context2, props) {
       endedOrStartedInsideRef.current = true;
     },
     [captureHandlerKeys[outsidePressEvent]]: () => {
-      insideReactTreeRef.current = true;
+      dataRef.current.insideReactTree = true;
+    },
+    onBlurCapture() {
+      clearTimeoutIfSet(blurTimeoutRef);
+      dataRef.current.insideReactTree = true;
+      blurTimeoutRef.current = window.setTimeout(() => {
+        dataRef.current.insideReactTree = false;
+      });
     }
-  }), [closeOnEscapeKeyDown, outsidePressEvent]);
+  }), [closeOnEscapeKeyDown, outsidePressEvent, dataRef]);
   return React51.useMemo(() => enabled ? {
     reference,
     floating
@@ -32952,7 +32959,9 @@ function safePolygon(options) {
     blockPointerEvents = false,
     requireIntent = true
   } = options;
-  let timeoutId;
+  const timeoutRef = {
+    current: -1
+  };
   let hasLanded = false;
   let lastX = null;
   let lastY = null;
@@ -32988,11 +32997,11 @@ function safePolygon(options) {
     } = _ref;
     return /* @__PURE__ */ __name(function onMouseMove(event) {
       function close() {
-        clearTimeout(timeoutId);
+        clearTimeoutIfSet(timeoutRef);
         onClose();
       }
       __name(close, "close");
-      clearTimeout(timeoutId);
+      clearTimeoutIfSet(timeoutRef);
       if (!elements.domReference || !elements.floating || placement == null || x == null || y == null) {
         return;
       }
@@ -33105,7 +33114,7 @@ function safePolygon(options) {
       if (!isPointInPolygon([clientX, clientY], getPolygon([x, y]))) {
         close();
       } else if (!hasLanded && requireIntent) {
-        timeoutId = window.setTimeout(close, 40);
+        timeoutRef.current = window.setTimeout(close, 40);
       }
     }, "onMouseMove");
   }, "fn");
@@ -34811,7 +34820,9 @@ function getGridCellIndices2(indices, cellMap) {
 }
 __name(getGridCellIndices2, "getGridCellIndices");
 function isListIndexDisabled2(listRef, index8, disabledIndices) {
-  if (disabledIndices) {
+  if (typeof disabledIndices === "function") {
+    return disabledIndices(index8);
+  } else if (disabledIndices) {
     return disabledIndices.includes(index8);
   }
   const element = listRef.current[index8];
@@ -35752,6 +35763,10 @@ function FloatingFocusManager(props) {
             nodeToFocus.focus();
           }
         }
+        if (dataRef.current.insideReactTree) {
+          dataRef.current.insideReactTree = false;
+          return;
+        }
         if ((isUntrappedTypeableCombobox ? true : !modal) && relatedTarget && movedToUnrelatedNode && !isPointerDownRef.current && // Fix React 18 Strict Mode returnFocus due to double rendering.
         relatedTarget !== getPreviouslyFocusedElement()) {
           preventReturnFocusRef.current = true;
@@ -35770,7 +35785,7 @@ function FloatingFocusManager(props) {
         floating.removeEventListener("focusout", handleFocusOutside);
       };
     }
-  }, [disabled, domReference, floating, floatingFocusElement, modal, tree, portalContext, onOpenChange, closeOnFocusOut, restoreFocus, getTabbableContent, isUntrappedTypeableCombobox, getNodeId, orderRef]);
+  }, [disabled, domReference, floating, floatingFocusElement, modal, tree, portalContext, onOpenChange, closeOnFocusOut, restoreFocus, getTabbableContent, isUntrappedTypeableCombobox, getNodeId, orderRef, dataRef]);
   const beforeGuardRef = React61.useRef(null);
   const afterGuardRef = React61.useRef(null);
   const mergedBeforeGuardRef = useLiteMergeRefs([beforeGuardRef, portalContext == null ? void 0 : portalContext.beforeInsideRef]);
@@ -35813,7 +35828,6 @@ function FloatingFocusManager(props) {
   }, [disabled, open, floatingFocusElement, ignoreInitialFocus, getTabbableElements, initialFocusRef]);
   index4(() => {
     if (disabled || !floatingFocusElement) return;
-    let preventReturnFocusScroll = false;
     const doc = getDocument2(floatingFocusElement);
     const previouslyFocusedElement = activeElement2(doc);
     addPreviouslyFocusedElement(previouslyFocusedElement);
@@ -35829,7 +35843,6 @@ function FloatingFocusManager(props) {
       if (reason !== "outside-press") return;
       if (nested) {
         preventReturnFocusRef.current = false;
-        preventReturnFocusScroll = true;
       } else if (isVirtualClick2(event) || isVirtualPointerEvent2(event)) {
         preventReturnFocusRef.current = false;
       } else {
@@ -35842,7 +35855,6 @@ function FloatingFocusManager(props) {
         });
         if (isPreventScrollSupported) {
           preventReturnFocusRef.current = false;
-          preventReturnFocusScroll = true;
         } else {
           preventReturnFocusRef.current = true;
         }
@@ -35883,7 +35895,7 @@ function FloatingFocusManager(props) {
           (tabbableReturnElement !== activeEl && activeEl !== doc.body ? isFocusInsideFloatingTree : true)
         ) {
           tabbableReturnElement.focus({
-            preventScroll: preventReturnFocusScroll
+            preventScroll: true
           });
         }
         fallbackEl.remove();
@@ -35969,8 +35981,11 @@ function FloatingFocusManager(props) {
 }
 __name(FloatingFocusManager, "FloatingFocusManager");
 var lockCount = 0;
+var scrollbarProperty = "--floating-ui-scrollbar-width";
 function enableScrollLock() {
-  const isIOS = /iP(hone|ad|od)|iOS/.test(getPlatform2());
+  const platform2 = getPlatform2();
+  const isIOS = /iP(hone|ad|od)|iOS/.test(platform2) || // iPads can claim to be MacIntel
+  platform2 === "MacIntel" && navigator.maxTouchPoints > 1;
   const bodyStyle = document.body.style;
   const scrollbarX = Math.round(document.documentElement.getBoundingClientRect().left) + document.documentElement.scrollLeft;
   const paddingProp = scrollbarX ? "paddingLeft" : "paddingRight";
@@ -35978,6 +35993,7 @@ function enableScrollLock() {
   const scrollX = bodyStyle.left ? parseFloat(bodyStyle.left) : window.scrollX;
   const scrollY = bodyStyle.top ? parseFloat(bodyStyle.top) : window.scrollY;
   bodyStyle.overflow = "hidden";
+  bodyStyle.setProperty(scrollbarProperty, scrollbarWidth + "px");
   if (scrollbarWidth) {
     bodyStyle[paddingProp] = scrollbarWidth + "px";
   }
@@ -35997,6 +36013,7 @@ function enableScrollLock() {
       overflow: "",
       [paddingProp]: ""
     });
+    bodyStyle.removeProperty(scrollbarProperty);
     if (isIOS) {
       Object.assign(bodyStyle, {
         position: "",
@@ -36186,7 +36203,6 @@ function useDismiss2(context2, props) {
   const tree = useFloatingTree2();
   const outsidePressFn = useEffectEvent2(typeof unstable_outsidePress === "function" ? unstable_outsidePress : () => false);
   const outsidePress = typeof unstable_outsidePress === "function" ? outsidePressFn : unstable_outsidePress;
-  const insideReactTreeRef = React61.useRef(false);
   const endedOrStartedInsideRef = React61.useRef(false);
   const {
     escapeKey: escapeKeyBubbles,
@@ -36197,6 +36213,7 @@ function useDismiss2(context2, props) {
     outsidePress: outsidePressCapture
   } = normalizeProp2(capture);
   const isComposingRef = React61.useRef(false);
+  const blurTimeoutRef = React61.useRef(-1);
   const closeOnEscapeKeyDown = useEffectEvent2((event) => {
     var _dataRef$current$floa;
     if (!open || !enabled || !escapeKey || event.key !== "Escape") {
@@ -36236,8 +36253,8 @@ function useDismiss2(context2, props) {
   });
   const closeOnPressOutside = useEffectEvent2((event) => {
     var _dataRef$current$floa2;
-    const insideReactTree = insideReactTreeRef.current;
-    insideReactTreeRef.current = false;
+    const insideReactTree = dataRef.current.insideReactTree;
+    dataRef.current.insideReactTree = false;
     const endedOrStartedInside = endedOrStartedInsideRef.current;
     endedOrStartedInsideRef.current = false;
     if (outsidePressEvent === "click" && endedOrStartedInside) {
@@ -36383,8 +36400,8 @@ function useDismiss2(context2, props) {
     };
   }, [dataRef, elements, escapeKey, outsidePress, outsidePressEvent, open, onOpenChange, ancestorScroll, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, escapeKeyCapture, closeOnEscapeKeyDownCapture, closeOnPressOutside, outsidePressCapture, closeOnPressOutsideCapture]);
   React61.useEffect(() => {
-    insideReactTreeRef.current = false;
-  }, [outsidePress, outsidePressEvent]);
+    dataRef.current.insideReactTree = false;
+  }, [dataRef, outsidePress, outsidePressEvent]);
   const reference = React61.useMemo(() => ({
     onKeyDown: closeOnEscapeKeyDown,
     ...referencePress && {
@@ -36407,9 +36424,16 @@ function useDismiss2(context2, props) {
       endedOrStartedInsideRef.current = true;
     },
     [captureHandlerKeys2[outsidePressEvent]]: () => {
-      insideReactTreeRef.current = true;
+      dataRef.current.insideReactTree = true;
+    },
+    onBlurCapture() {
+      clearTimeoutIfSet2(blurTimeoutRef);
+      dataRef.current.insideReactTree = true;
+      blurTimeoutRef.current = window.setTimeout(() => {
+        dataRef.current.insideReactTree = false;
+      });
     }
-  }), [closeOnEscapeKeyDown, outsidePressEvent]);
+  }), [closeOnEscapeKeyDown, outsidePressEvent, dataRef]);
   return React61.useMemo(() => enabled ? {
     reference,
     floating
@@ -36878,12 +36902,13 @@ function useListNavigation(context2, props) {
   index4(() => {
     if (!open) {
       keyRef.current = null;
+      focusItemOnOpenRef.current = focusItemOnOpen;
     }
-  }, [open]);
+  }, [open, focusItemOnOpen]);
   const hasActiveIndex = activeIndex != null;
   const item = React61.useMemo(() => {
     function syncCurrentTarget(currentTarget) {
-      if (!open) return;
+      if (!latestOpenRef.current) return;
       const index8 = listRef.current.indexOf(currentTarget);
       if (index8 !== -1 && indexRef.current !== index8) {
         indexRef.current = index8;
@@ -36937,7 +36962,7 @@ function useListNavigation(context2, props) {
       }
     };
     return props2;
-  }, [open, floatingFocusElementRef, focusItemOnHover, listRef, onNavigate, virtual]);
+  }, [latestOpenRef, floatingFocusElementRef, focusItemOnHover, listRef, onNavigate, virtual]);
   const getParentOrientation = React61.useCallback(() => {
     var _tree$nodesRef$curren;
     return parentOrientation != null ? parentOrientation : tree == null || (_tree$nodesRef$curren = tree.nodesRef.current.find((node) => node.id === parentId)) == null || (_tree$nodesRef$curren = _tree$nodesRef$curren.context) == null || (_tree$nodesRef$curren = _tree$nodesRef$curren.dataRef) == null ? void 0 : _tree$nodesRef$curren.current.orientation;
@@ -37000,7 +37025,7 @@ function useListNavigation(context2, props) {
         cols,
         // treat undefined (empty grid spaces) as disabled indices so we
         // don't end up in them
-        disabledIndices: getGridCellIndices2([...disabledIndices || listRef.current.map((_, index9) => isListIndexDisabled2(listRef, index9) ? index9 : void 0), void 0], cellMap),
+        disabledIndices: getGridCellIndices2([...(typeof disabledIndices !== "function" ? disabledIndices : null) || listRef.current.map((_, index9) => isListIndexDisabled2(listRef, index9, disabledIndices) ? index9 : void 0), void 0], cellMap),
         minIndex: minGridIndex,
         maxIndex: maxGridIndex,
         prevIndex: getGridCellIndexOfCorner2(
@@ -40720,11 +40745,11 @@ function useHover2(context2, props) {
   const unbindMouseMoveRef = React78.useRef(() => {
   });
   const restTimeoutPendingRef = React78.useRef(false);
-  const isHoverOpen = React78.useCallback(() => {
+  const isHoverOpen = useEffectEvent3(() => {
     var _dataRef$current$open;
     const type = (_dataRef$current$open = dataRef.current.openEvent) == null ? void 0 : _dataRef$current$open.type;
     return (type == null ? void 0 : type.includes("mouse")) && type !== "mousedown";
-  }, [dataRef]);
+  });
   React78.useEffect(() => {
     if (!enabled) return;
     function onOpenChange2(_ref) {
@@ -40916,7 +40941,7 @@ function useHover2(context2, props) {
   index6(() => {
     var _handleCloseRef$curre;
     if (!enabled) return;
-    if (open && (_handleCloseRef$curre = handleCloseRef.current) != null && _handleCloseRef$curre.__options.blockPointerEvents && isHoverOpen()) {
+    if (open && (_handleCloseRef$curre = handleCloseRef.current) != null && (_handleCloseRef$curre = _handleCloseRef$curre.__options) != null && _handleCloseRef$curre.blockPointerEvents && isHoverOpen()) {
       performedPointerEventsMutationRef.current = true;
       const floatingEl = elements.floating;
       if (isElement(elements.domReference) && floatingEl) {
@@ -41164,7 +41189,6 @@ function useDismiss3(context2, props) {
   const tree = useFloatingTree3();
   const outsidePressFn = useEffectEvent3(typeof unstable_outsidePress === "function" ? unstable_outsidePress : () => false);
   const outsidePress = typeof unstable_outsidePress === "function" ? outsidePressFn : unstable_outsidePress;
-  const insideReactTreeRef = React78.useRef(false);
   const endedOrStartedInsideRef = React78.useRef(false);
   const {
     escapeKey: escapeKeyBubbles,
@@ -41175,6 +41199,7 @@ function useDismiss3(context2, props) {
     outsidePress: outsidePressCapture
   } = normalizeProp3(capture);
   const isComposingRef = React78.useRef(false);
+  const blurTimeoutRef = React78.useRef(-1);
   const closeOnEscapeKeyDown = useEffectEvent3((event) => {
     var _dataRef$current$floa;
     if (!open || !enabled || !escapeKey || event.key !== "Escape") {
@@ -41214,8 +41239,8 @@ function useDismiss3(context2, props) {
   });
   const closeOnPressOutside = useEffectEvent3((event) => {
     var _dataRef$current$floa2;
-    const insideReactTree = insideReactTreeRef.current;
-    insideReactTreeRef.current = false;
+    const insideReactTree = dataRef.current.insideReactTree;
+    dataRef.current.insideReactTree = false;
     const endedOrStartedInside = endedOrStartedInsideRef.current;
     endedOrStartedInsideRef.current = false;
     if (outsidePressEvent === "click" && endedOrStartedInside) {
@@ -41361,8 +41386,8 @@ function useDismiss3(context2, props) {
     };
   }, [dataRef, elements, escapeKey, outsidePress, outsidePressEvent, open, onOpenChange, ancestorScroll, enabled, escapeKeyBubbles, outsidePressBubbles, closeOnEscapeKeyDown, escapeKeyCapture, closeOnEscapeKeyDownCapture, closeOnPressOutside, outsidePressCapture, closeOnPressOutsideCapture]);
   React78.useEffect(() => {
-    insideReactTreeRef.current = false;
-  }, [outsidePress, outsidePressEvent]);
+    dataRef.current.insideReactTree = false;
+  }, [dataRef, outsidePress, outsidePressEvent]);
   const reference = React78.useMemo(() => ({
     onKeyDown: closeOnEscapeKeyDown,
     ...referencePress && {
@@ -41385,9 +41410,16 @@ function useDismiss3(context2, props) {
       endedOrStartedInsideRef.current = true;
     },
     [captureHandlerKeys3[outsidePressEvent]]: () => {
-      insideReactTreeRef.current = true;
+      dataRef.current.insideReactTree = true;
+    },
+    onBlurCapture() {
+      clearTimeoutIfSet3(blurTimeoutRef);
+      dataRef.current.insideReactTree = true;
+      blurTimeoutRef.current = window.setTimeout(() => {
+        dataRef.current.insideReactTree = false;
+      });
     }
-  }), [closeOnEscapeKeyDown, outsidePressEvent]);
+  }), [closeOnEscapeKeyDown, outsidePressEvent, dataRef]);
   return React78.useMemo(() => enabled ? {
     reference,
     floating

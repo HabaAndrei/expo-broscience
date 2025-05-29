@@ -1,9 +1,14 @@
-import React from 'react'
+import { supabase } from '@/utils/supabase';
+import { Text, View } from "react-native";
 
-const index = () => {
+
+export default function Home(){
+
+  console.log(supabase);
+
   return (
-    <div>index</div>
+    <View>
+      <Text>Index tsx</Text>
+    </View>
   )
 }
-
-export default index
