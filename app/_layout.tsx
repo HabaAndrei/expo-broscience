@@ -22,10 +22,11 @@ export default function RootLayout() {
       <ThemeColorContext.Provider value={{themeColor, setThemeColor}}>
         <Theme name={themeColor}>
           <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <Stack>
-              <Stack.Screen name="test" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </Stack>
+          <Stack>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="test" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
           </ThemeProvider>
         </Theme>
       </ThemeColorContext.Provider>
