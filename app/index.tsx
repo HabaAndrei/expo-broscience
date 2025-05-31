@@ -1,33 +1,32 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { View, Button, Text } from 'react-native';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/firebase';
 import { useGoogleAuth } from '@/GoogleAuth';
-import { View, Button } from 'react-native';
 
-export default function App() {
+export default function Index() {
   const [user, setUser] = useState(null);
   const { signIn, request } = useGoogleAuth();
 
-
-  setTimeout(()=>{
-    const auth = getAuth();
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       console.log(firebaseUser, ' -------- uuuussseeerrrr  -------');
       setUser(firebaseUser);
     });
     return unsubscribe;
-  }, 2000);
-
-  useEffect(() => {
-    ''
   }, []);
 
   return (
-    <View>
-      <Button
-        title="Sign in with Google"
-        onPress={() => signIn()}
-        disabled={!request}
-      />
+    <View style={{ padding: 20 }}>
+      {user ? (
+        <Text>Welcome, {user.email}</Text>
+      ) : (
+        <Button
+          title="Sign in with Google"
+          onPress={() => signIn()}
+          disabled={!request}
+        />
+      )}
     </View>
   );
 }
