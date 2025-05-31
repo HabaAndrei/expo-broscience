@@ -1,9 +1,12 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import LoginScreen from '@/LoginScreen';
+import { useGoogleAuth } from '@/GoogleAuth';
+import { View, Button } from 'react-native';
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const { signIn, request } = useGoogleAuth();
+
 
   setTimeout(()=>{
     const auth = getAuth();
@@ -18,5 +21,13 @@ export default function App() {
     ''
   }, []);
 
-  return user ? <LoginScreen /> : <LoginScreen />;
+  return (
+    <View>
+      <Button
+        title="Sign in with Google"
+        onPress={() => signIn()}
+        disabled={!request}
+      />
+    </View>
+  );
 }
