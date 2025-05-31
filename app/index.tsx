@@ -1,13 +1,22 @@
-import React from 'react'
-import { View, Text } from 'react-native';
-const index = () => {
-  return (
-    <View>
-      <Text>
-        index
-      </Text>
-    </View>
-  )
-}
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import LoginScreen from '@/LoginScreen';
 
-export default index
+export default function App() {
+  const [user, setUser] = useState(null);
+
+  setTimeout(()=>{
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      console.log(firebaseUser, ' -------- uuuussseeerrrr  -------');
+      setUser(firebaseUser);
+    });
+    return unsubscribe;
+  }, 2000);
+
+  useEffect(() => {
+    ''
+  }, []);
+
+  return user ? <LoginScreen /> : <LoginScreen />;
+}
