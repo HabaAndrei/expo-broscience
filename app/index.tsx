@@ -1,8 +1,14 @@
 import React from 'react'
+import { SafeAreaView } from 'react-native';
+import { Button, Text } from 'tamagui';
 
 const index = () => {
+
   return (
-    <div>index</div>
+    <SafeAreaView>
+      <Text>index</Text>
+      <Button >Test</Button>
+    </SafeAreaView>
   )
 }
 
