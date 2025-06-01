@@ -7,7 +7,8 @@ import { TamaguiProvider, Theme } from 'tamagui'
 import { tamaguiConfig } from '../tamagui.config'
 import { useState } from 'react';
 
-import { ThemeColorContext } from '@/hooks/ThemeColorContext';
+import { ThemeColorContext } from '@/contexts/ThemeColorContext';
+import { UserContext } from '@/contexts/UserContext';
 
 export default function RootLayout() {
 
@@ -16,19 +17,24 @@ export default function RootLayout() {
   let colorScheme = 'light';
 
   const [themeColor, setThemeColor] = useState("blue");
+  const [user, setUser] = useState(null);
 
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme}>
       <ThemeColorContext.Provider value={{themeColor, setThemeColor}}>
-        <Theme name={themeColor}>
-          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <Stack>
-              <Stack.Screen name="test" options={{ headerShown: false }} />
-              <Stack.Screen name="+not-found" />
-            </Stack>
-          </ThemeProvider>
-        </Theme>
-      </ThemeColorContext.Provider>
+        <UserContext.Provider value={{user, setUser}}>
+          <Theme name={themeColor}>
+            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <Stack>
+                <Stack.Screen name="test" options={{ headerShown: false }} />
+                <Stack.Screen name="+not-found" />
+                <Stack.Screen name="functionalities" />
+                <Stack.Screen name="login" />
+              </Stack>
+            </ThemeProvider>
+          </Theme>
+        </UserContext.Provider>
+        </ThemeColorContext.Provider>
     </TamaguiProvider>
   )
 }
