@@ -6,7 +6,7 @@ import { Stack } from 'expo-router'
 import { TamaguiProvider, Theme } from 'tamagui'
 import { tamaguiConfig } from '../tamagui.config'
 import { useState } from 'react';
-
+import { StatusBar } from 'expo-status-bar';
 import { ThemeColorContext } from '@/contexts/ThemeColorContext';
 import { UserContext } from '@/contexts/UserContext';
 
@@ -24,6 +24,7 @@ export default function RootLayout() {
       <ThemeColorContext.Provider value={{themeColor, setThemeColor}}>
         <UserContext.Provider value={{user, setUser}}>
           <Theme name={themeColor}>
+            <StatusBar style="dark" />
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
               <Stack>
                 <Stack.Screen name="test" options={{ headerShown: false }} />

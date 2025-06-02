@@ -27,9 +27,6 @@ const index = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {'akjbdschbwcjhbwkjhghjnecjkh'.split('').map((i, index)=>{
-        return <Text key={index} style={{alignSelf: 'center'}} >okok</Text>
-      })}
       <LoadingOverlay></LoadingOverlay>
     </SafeAreaView>
 
