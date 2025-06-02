@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from 'react'
-import { SafeAreaView, View, Text } from 'react-native';
+import { SafeAreaView } from 'react-native';
 import { UserContext } from '@/contexts/UserContext';
 import { useRouter } from 'expo-router';
 import LoadingOverlay from '@/components/LoadingOveraly';

@@ -27,10 +27,11 @@ export default function RootLayout() {
             <StatusBar style="dark" />
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
               <Stack>
+                <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="test" options={{ headerShown: false }} />
-                <Stack.Screen name="+not-found" />
-                <Stack.Screen name="functionalities" />
-                <Stack.Screen name="login" />
+                <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+                <Stack.Screen name="functionalities" options={{ headerShown: false }} />
+                <Stack.Screen name="login" options={{ headerShown: false }} />
               </Stack>
             </ThemeProvider>
           </Theme>
