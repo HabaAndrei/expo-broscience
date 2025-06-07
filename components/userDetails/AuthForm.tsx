@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from 'react';
 import { isValidEmail } from '@/helpers/diverse';
 import { Firebase } from '@/providers/Firebase';
 import { UserContext } from '@/contexts/UserContext';
+import { useRouter } from 'expo-router';
 
 export default function AuthForm() {
   const { user } = useContext(UserContext);
@@ -17,7 +18,7 @@ export default function AuthForm() {
     email: '',
     password: '',
   });
-
+  const router = useRouter();
   const firebase = new Firebase();
 
   useEffect(() => {
@@ -68,6 +69,7 @@ export default function AuthForm() {
       });
       if (!resultLogin.isResolved) {
         setGeneralError("The email address or password is invalid.");
+        return;
       }
     } else if (mode === 'signup') {
       const resultSignup = await firebase._createUserWithEmailAndPassword({
@@ -82,6 +84,7 @@ export default function AuthForm() {
         } else {
           setGeneralError("We were unable to create your account.");
         }
+        return;
       }
     } else if (mode === 'reset') {
       const resultReset = await firebase._sendPasswordResetEmail(formData.email);
@@ -91,11 +94,14 @@ export default function AuthForm() {
         } else {
           setGeneralError("We were unable to send you the email.");
         }
+        return;
       } else {
         setSuccessMessage("You will receive the email soon");
+        return;
       }
     }
     setStatus('off');
+    router.navigate('/functionalities');
   };
 
   const handleLogout = async () => {
