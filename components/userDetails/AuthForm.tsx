@@ -146,7 +146,7 @@ export default function AuthForm() {
                   placeholder="First Name"
                   value={formData.firstName}
                   onChangeText={(text) => handleChange('firstName', text)}
-                  size="$4"
+                  size="$5"
                   width={250}
                 />
                 {errors.firstName && (
@@ -157,7 +157,7 @@ export default function AuthForm() {
                   placeholder="Last Name"
                   value={formData.lastName}
                   onChangeText={(text) => handleChange('lastName', text)}
-                  size="$4"
+                  size="$5"
                   width={250}
                 />
                 {errors.lastName && (
@@ -172,7 +172,7 @@ export default function AuthForm() {
               autoCapitalize="none"
               value={formData.email}
               onChangeText={(text) => handleChange('email', text)}
-              size="$4"
+              size="$5"
               width={250}
             />
             {errors.email && (
@@ -186,7 +186,7 @@ export default function AuthForm() {
                   secureTextEntry
                   value={formData.password}
                   onChangeText={(text) => handleChange('password', text)}
-                  size="$4"
+                  size="$5"
                   width={250}
                 />
                 {errors.password && (
