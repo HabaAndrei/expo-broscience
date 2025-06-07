@@ -2,11 +2,13 @@ import { View } from 'react-native';
 import { Button, Form, H4, Input, Spinner, Paragraph, XStack } from 'tamagui';
 import { useState, useEffect } from 'react';
 import { isValidEmail } from '@/helpers/diverse';
+import { Firebase } from '@/providers/Firebase';
 
 export default function AuthForm() {
   const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('login');
   const [status, setStatus] = useState<'off' | 'submitting' | 'submitted'>('off');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [successMessage, setSuccessMessage] = useState<string>('');
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -14,15 +16,14 @@ export default function AuthForm() {
     password: '',
   });
 
-  // pe acesta il voi scoate din schema !! si merg sa rezolv jos
-  useEffect(() => {
-    if (status === 'submitting') {
-      const timer = setTimeout(() => setStatus('off'), 2000);
-      return () => {
-        clearTimeout(timer);
-      };
-    }
-  }, [status]);
+  const firebase = new Firebase();
+
+  useEffect(()=>{
+    if (!successMessage.length) return;
+    setTimeout(()=>{
+      setSuccessMessage('');
+    }, 3000);
+  }, [successMessage]);
 
   const handleChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -53,12 +54,44 @@ export default function AuthForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const setGeneralError = (error: string) => {
+    setErrors((prev) => ({ ...prev, general: error }));
+  }
+
+  const handleSubmit = async () => {
     if (!validate()) return;
     setStatus('submitting');
-    // console.log(mode);
 
-    // Here you would send data to the backend
+    if (mode == 'login') {
+      const resultLogin = await firebase._signInWithEmailAndPassword({email: formData.email, password: formData.password});
+      if (resultLogin.isResolved == false) {
+        setGeneralError("The email address or password is invalid.");
+      }
+    } else if (mode == 'signup') {
+      const resultSignup = await firebase._createUserWithEmailAndPassword({
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        secondName: formData.lastName
+      })
+      if (resultSignup.isResolved == false && resultSignup?.err?.includes("auth/email-already-in-use")) {
+        setGeneralError("The email address is already in use");
+      } else if (resultSignup.isResolved == false) {
+        setGeneralError("We were unable to create your account.");
+      }
+    } else if (mode == 'reset') {
+      const resultReset = await firebase._sendPasswordResetEmail(formData.email);
+      if (resultReset.isResolved == false && resultReset?.err?.includes("(auth/invalid-email)")) {
+        setGeneralError('Invalid email address.');
+      }  else if ( resultReset.isResolved == false){
+        setGeneralError("We were unable to send you the email.");
+      }
+      if (resultReset.isResolved == true) {
+        setSuccessMessage("If you entered the correct email address, you will receive the email");
+      }
+    }
+    setStatus('off');
+
   };
 
   return (
@@ -85,6 +118,10 @@ export default function AuthForm() {
 
           {errors.general ? (
             <Paragraph color="red">{errors.general}</Paragraph>
+          ) : null}
+
+          {successMessage.length ? (
+            <Paragraph color="green">{successMessage}</Paragraph>
           ) : null}
 
           {mode === 'signup' && (
