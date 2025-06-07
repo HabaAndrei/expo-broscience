@@ -5,10 +5,12 @@ import { Stack } from 'expo-router'
 // import { useColorScheme } from 'react-native'
 import { TamaguiProvider, Theme } from 'tamagui'
 import { tamaguiConfig } from '../tamagui.config'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ThemeColorContext } from '@/contexts/ThemeColorContext';
 import { UserContext } from '@/contexts/UserContext';
+import { Firebase } from '@/providers/Firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function RootLayout() {
 
@@ -16,8 +18,25 @@ export default function RootLayout() {
   // const colorScheme = useColorScheme();
   let colorScheme = 'light';
 
-  const [themeColor, setThemeColor] = useState("blue");
-  const [user, setUser] = useState(null);
+  const [themeColor, setThemeColor] = useState<string>("blue");
+  const [user, setUser] = useState<any>(null);
+  const firebase = new Firebase();
+
+  useEffect(()=>{
+    reloadUser();
+  }, []);
+
+  function reloadUser(){
+    if (!firebase.auth) return;
+    onAuthStateChanged(firebase.auth, async (_user) => {
+      console.log({_user});
+      if (_user) {
+        setUser(_user);
+      } else {
+        setUser(null);
+      }
+    });
+  }
 
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme}>
