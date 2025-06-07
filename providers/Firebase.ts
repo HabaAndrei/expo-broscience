@@ -11,7 +11,7 @@ import * as Device from 'expo-device';
 // singleton
 class Firebase {
 
-  private static instance: Firebase;
+  private static instance: Firebase | undefined = undefined;
 
   firebaseConfig = {
     apiKey: EnvConfig.get('firebaseApiKey'),
