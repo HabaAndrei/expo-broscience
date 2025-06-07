@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Button, Form, H4, Input, Spinner, Paragraph, XStack } from 'tamagui';
 import { useState, useEffect, useContext } from 'react';
 import { isValidEmail } from '@/helpers/diverse';
@@ -109,7 +109,13 @@ export default function AuthForm() {
   };
 
   return (
-    <View>
+   <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <Form
         alignItems="center"
         minWidth={320}
@@ -256,6 +262,6 @@ export default function AuthForm() {
           </Button>
         }
       </Form>
-    </View>
+    </ScrollView>
   );
 }
