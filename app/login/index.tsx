@@ -58,12 +58,19 @@ export default function LoginIndex(){
       case 'Workouts':
         return <Workouts value={userNavigationState} dispatch={dispatch} />;
       case 'HeightWeight':
-        return <HeightWeight value={userNavigationState} dispatch={dispatch} />
+        return <HeightWeight
+          setHeightWeight={setHeightWeight}
+          height={userNavigationState?.pages?.HeightWeight?.height}
+          weight={userNavigationState?.pages?.HeightWeight?.weight}
+        />
       default:
         return <Text> Aici am terminat, suntem gata </Text>;
     }
   };
 
+  function setHeightWeight({height, weight}){
+    dispatch({ type: 'setHeightWeight', payload: {height, weight}});
+  }
 
   function findNextPage(){
     const nextPageName = Object.keys(userNavigationState?.pages)[progress.current]

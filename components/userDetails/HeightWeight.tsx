@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
-import type { SliderProps } from 'tamagui';
 import { Slider, XStack } from 'tamagui';
 
-export default function HeightWeight(props) {
+type HeightWeightProps = {
+  setHeightWeight: ({}: any) => void;
+  height: number | null | undefined | string;
+  weight: number | null | undefined | string;
+};
 
-  const [heightSlider, setHeightSlider] = useState(props?.value?.pages?.HeightWeight?.height);
-  const [weightSlider, setWeightSlider] = useState(props?.value?.pages?.HeightWeight?.weight);
 
-  function setHeightWeight(){
-    props.dispatch({ type: 'setHeightWeight', payload: {
-      height: heightSlider,
-      weight: weightSlider,
-    }});
-  }
+export default function HeightWeight({setHeightWeight, height, weight}: HeightWeightProps) {
+
+  const [heightSlider, setHeightSlider] = useState<any>(height);
+  const [weightSlider, setWeightSlider] = useState<any>(weight);
 
   return (
     <View>
@@ -26,9 +25,12 @@ export default function HeightWeight(props) {
         <SimpleSlider
           width={250}
           value={[heightSlider]}
-          onValueChange={(val) => {
+          onValueChange={(val:any) => {
             setHeightSlider(val[0]);
-            setHeightWeight();
+            setHeightWeight({
+              height: val[0],
+              weight: weightSlider,
+            })
           }}
           defaultValue={heightSlider}
           max={250}
@@ -43,9 +45,12 @@ export default function HeightWeight(props) {
         <SimpleSlider
           width={250}
           value={[weightSlider]}
-          onValueChange={(val) => {
+          onValueChange={(val:any) => {
             setWeightSlider(val[0]);
-            setHeightWeight();
+            setHeightWeight({
+              height: heightSlider,
+              weight: val[0],
+            });
           }}
           defaultValue={weightSlider}
           max={120}
@@ -57,7 +62,7 @@ export default function HeightWeight(props) {
   );
 }
 
-function SimpleSlider({ children, defaultValue, max, ...props }: SliderProps) {
+function SimpleSlider({ children, defaultValue, max, ...props }: any) {
   return (
     <Slider defaultValue={[defaultValue]} max={max} step={1} {...props}>
       <Slider.Track>
