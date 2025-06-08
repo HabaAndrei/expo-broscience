@@ -6,6 +6,7 @@ import Welcome from '@/components/userDetails/Welcome';
 import Gender from '@/components/userDetails/Gender';
 import Workouts from '@/components/userDetails/Workouts';
 import HeightWeight from '@/components/userDetails/HeightWeight';
+import BornDate from '@/components/userDetails/BornDate';
 
 export default function LoginIndex(){
 
@@ -20,6 +21,7 @@ export default function LoginIndex(){
         ], chosenIndex: null, disabled: true
       },
       "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
+      "BornDate": {done: false, date: new Date(), disabled: true},
     },
     currentPage: "Welcome"
   });
@@ -37,6 +39,8 @@ export default function LoginIndex(){
         return {...state, pages: {...state.pages, "Workouts": {...state.pages.Workouts, done: true, disabled: false, chosenIndex: action.payload}}};
       case 'setHeightWeight':
         return {...state, pages: {...state.pages, "HeightWeight": {...state.pages.HeightWeight, done: true, disabled: false, weight: action.payload.weight, height: action.payload.height}}};
+      case 'setBornDate':
+        return {...state, pages: {...state.pages, "BornDate": {...state.pages.BornDate, done: true, disabled: false, date: action.payload}}};
       default:
         return {...state};
     }
@@ -63,12 +67,21 @@ export default function LoginIndex(){
           height={userNavigationState?.pages?.HeightWeight?.height}
           weight={userNavigationState?.pages?.HeightWeight?.weight}
         />
+      case 'BornDate':
+        return <BornDate
+          setBornDate={setBornDate}
+          date={userNavigationState?.pages?.BornDate?.date}
+        />
       default:
         return <Text> Aici am terminat, suntem gata </Text>;
     }
   };
 
-  function setHeightWeight({height, weight}){
+  function setBornDate(date: string | number){
+    dispatch({ type: 'setBornDate', payload: date});
+  }
+
+  function setHeightWeight({height, weight}: any){
     dispatch({ type: 'setHeightWeight', payload: {height, weight}});
   }
 
@@ -85,8 +98,6 @@ export default function LoginIndex(){
       const nextPageName = findNextPage();
       if (!nextPageName) return;
       dispatch({ type: 'setCurrentPage', payload: nextPageName });
-    } else {
-      console.log('nu putem sa facem next !!');
     }
   }
 
