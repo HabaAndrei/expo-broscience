@@ -12,7 +12,7 @@ export default function Workouts(props: any){
         }}
       >
         <YStack width={300} alignItems="center" space="$2">
-          {props.value.pages.Workouts.values.map((value: any, index: any)=>{
+          {props?.value?.pages?.Workouts?.values?.map((value: any, index: any)=>{
             return (
               <RadioGroupItemWithLabel key={index} size="$5" value={index} label={value.short + ' ' + `(${value.long})`} />
             )
