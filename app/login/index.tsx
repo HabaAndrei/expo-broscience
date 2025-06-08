@@ -4,6 +4,8 @@ import { useReducer } from 'react';
 import { Button } from 'tamagui';
 import Welcome from '@/components/userDetails/Welcome';
 import Gender from '@/components/userDetails/Gender';
+import Workouts from '@/components/userDetails/Workouts';
+import HeightWeight from '@/components/userDetails/HeightWeight';
 
 export default function LoginIndex(){
 
@@ -11,12 +13,13 @@ export default function LoginIndex(){
     pages: {
       "Welcome": { done: true, disabled: false },
       "Gender": {done: false, values: ["Male", "Female", "Other"], chosenIndex: null, disabled: true},
-      // "Workouts": {done: false, values: [
-      //     {short: "0-2", long: "Workouts now and then"},
-      //     {short: "3-5", long: "A few worksouts per week"},
-      //     {short: "6+", long: "Dedicated athlete"}
-      //   ], chosenIndex: null, disabled: true
-      // }
+      "Workouts": {done: false, values: [
+        {short: "0-2", long: "Workouts now and then"},
+        {short: "3-5", long: "A few worksouts per week"},
+        {short: "6+", long: "Dedicated athlete"},
+      ], chosenIndex: null, disabled: true
+    },
+    "HeightWeight": {done: false, height: undefined, weight: undefined, disabled: true},
     },
     currentPage: "Welcome"
   });
@@ -29,7 +32,11 @@ export default function LoginIndex(){
       case 'setCurrentPage':
         return {...state, currentPage: action.payload};
       case 'setGender':
-        return {...state, pages: {...state.pages, "Gender": {...state.pages.Gender, done: true, disabled: false, chosenId: action.payload}}};
+        return {...state, pages: {...state.pages, "Gender": {...state.pages.Gender, done: true, disabled: false, chosenIndex: action.payload}}};
+      case 'setWorkouts':
+        return {...state, pages: {...state.pages, "Workouts": {...state.pages.Workouts, done: true, disabled: false, chosenIndex: action.payload}}};
+      case 'setHeightWeight':
+        return {...state, pages: {...state.pages, "HeightWeight": {...state.pages.HeightWeight, done: true, disabled: false, weight: action.payload.weight, height: action.payload.height}}};
       default:
         return {...state};
     }
@@ -44,8 +51,11 @@ export default function LoginIndex(){
         return <Welcome />;
       case 'Gender':
         return <Gender value={userNavigationState} dispatch={dispatch} />;
+      case 'Workouts':
+        return <Workouts value={userNavigationState} dispatch={dispatch} />;
+      case 'HeightWeight':
+        return <HeightWeight value={userNavigationState} dispatch={dispatch} />
       default:
-        console.log('a venit la default!!');
         return <Text> Aici am terminat, suntem gata </Text>;
     }
   };
@@ -68,6 +78,7 @@ export default function LoginIndex(){
     const currentPage = userNavigationState.pages[currentPageName];
     if ( currentPage.disabled == false ){
       const nextPageName = findNextPage();
+      console.log(nextPageName, '-----');
       dispatch({ type: 'setCurrentPage', payload: nextPageName });
     } else {
       console.log('nu putem sa facem next !!');
@@ -82,8 +93,6 @@ export default function LoginIndex(){
         style={{ flex: 1 }}
       >
         {renderCurrentPage()}
-        {/* <Button onPress={()=>dispatch({type: "ok"})} >press</Button> */}
-        {/* <Text>{JSON.stringify(userNavigationState)}</Text> */}
 
         {disabledButton != undefined ?
           <Button
