@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 import { RadioGroup, YStack } from 'tamagui'
 import RadioGroupItemWithLabel from '@/components/RadioGroupItemWithLabel';
 
-export default function Gender(props){
+export default function Gender(props: any){
   return (
     <View>
       <Text>Gender</Text>
@@ -12,7 +12,7 @@ export default function Gender(props){
         }}
       >
         <YStack width={300} alignItems="center" space="$2">
-          {props.value.pages.Gender.values.map((value, index)=>{
+          {props.value.pages.Gender.values.map((value: any, index: any)=>{
             return (
               <RadioGroupItemWithLabel key={index} size="$5" value={index} label={value} />
             )
