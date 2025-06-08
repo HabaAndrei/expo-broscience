@@ -6,12 +6,19 @@ export default function Workouts(props: any){
   return (
     <View>
       <Text>Workouts</Text>
-      <RadioGroup aria-labelledby="Select one item for workout" name="form"
+      <RadioGroup
+        aria-labelledby="Select one item for workout"
+        name="form"
+        value={props?.value?.pages?.Workouts?.chosenIndex}
         onValueChange={(newVal)=>{
           props.dispatch({ type: 'setWorkouts', payload: newVal })
         }}
       >
-        <YStack width={300} alignItems="center" space="$2">
+        <YStack
+          width={300}
+          alignItems="center"
+          space="$2"
+        >
           {props?.value?.pages?.Workouts?.values?.map((value: any, index: any)=>{
             return (
               <RadioGroupItemWithLabel key={index} size="$5" value={index} label={value.short + ' ' + `(${value.long})`} />

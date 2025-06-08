@@ -4,8 +4,9 @@ import type { SliderProps } from 'tamagui';
 import { Slider, XStack } from 'tamagui';
 
 export default function HeightWeight(props) {
-  const [heightSlider, setHeightSlider] = useState(90);
-  const [weightSlider, setWeightSlider] = useState(160);
+
+  const [heightSlider, setHeightSlider] = useState(props?.value?.pages?.HeightWeight?.height);
+  const [weightSlider, setWeightSlider] = useState(props?.value?.pages?.HeightWeight?.weight);
 
   function setHeightWeight(){
     props.dispatch({ type: 'setHeightWeight', payload: {
@@ -19,7 +20,7 @@ export default function HeightWeight(props) {
       <Text>HeightWeight</Text>
 
       <Text style={{ fontSize: 18, marginVertical: 8 }}>
-        Selected your height: {heightSlider} kg
+        Selected your height: {heightSlider} cm
       </Text>
       <XStack height={50} alignItems="center" gap="$8">
         <SimpleSlider
@@ -30,13 +31,13 @@ export default function HeightWeight(props) {
             setHeightWeight();
           }}
           defaultValue={heightSlider}
-          max={150}
+          max={250}
         />
       </XStack>
 
 
       <Text style={{ fontSize: 18, marginVertical: 8 }}>
-        Selected your weight: {weightSlider} cm
+        Selected your weight: {weightSlider} kg
       </Text>
       <XStack height={50} alignItems="center" gap="$8">
         <SimpleSlider
@@ -47,7 +48,7 @@ export default function HeightWeight(props) {
             setHeightWeight();
           }}
           defaultValue={weightSlider}
-          max={250}
+          max={120}
         />
       </XStack>
 

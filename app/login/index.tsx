@@ -19,7 +19,7 @@ export default function LoginIndex(){
           {short: "6+", long: "Dedicated athlete"},
         ], chosenIndex: null, disabled: true
       },
-      "HeightWeight": {done: false, height: undefined, weight: undefined, disabled: true},
+      "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
     },
     currentPage: "Welcome"
   });
@@ -43,6 +43,10 @@ export default function LoginIndex(){
   }
 
   const disabledButton = userNavigationState?.pages?.[userNavigationState?.currentPage]?.disabled;
+  const progress = {
+    total: Object?.values(userNavigationState?.pages)?.length,
+    current: Object?.keys(userNavigationState.pages)?.indexOf(userNavigationState?.currentPage) + 1
+  }
 
   const renderCurrentPage = () => {
     const { currentPage } = userNavigationState;
@@ -62,14 +66,8 @@ export default function LoginIndex(){
 
 
   function findNextPage(){
-    const pages = userNavigationState.pages;
-    for(let key of Object.keys(pages)){
-      const page = pages[key];
-      if ( page.done == false && page.disabled == true ) {
-        return key
-      }
-    }
-    return false;
+    const nextPageName = Object.keys(userNavigationState?.pages)[progress.current]
+    return nextPageName;
   }
 
 
@@ -78,12 +76,18 @@ export default function LoginIndex(){
     const currentPage = userNavigationState.pages[currentPageName];
     if ( currentPage.disabled == false ){
       const nextPageName = findNextPage();
-      console.log(nextPageName, '-----');
+      if (!nextPageName) return;
       dispatch({ type: 'setCurrentPage', payload: nextPageName });
     } else {
       console.log('nu putem sa facem next !!');
     }
+  }
 
+  function previousPage(){
+    const actualIndexPage = progress.current;
+    if (actualIndexPage <= 1) return;
+    const previousPageName = Object?.keys(userNavigationState.pages)[actualIndexPage - 2];
+    dispatch({ type: 'setCurrentPage', payload: previousPageName });
   }
 
   return (
@@ -92,6 +96,15 @@ export default function LoginIndex(){
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
       >
+
+        <Button onPress={previousPage} >Back</Button>
+
+        {progress.current > 0 ?
+          <Text>
+            {progress.current} / {progress.total}
+          </Text> : null
+        }
+
         {renderCurrentPage()}
 
         {disabledButton != undefined ?
