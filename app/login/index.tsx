@@ -14,12 +14,12 @@ export default function LoginIndex(){
       "Welcome": { done: true, disabled: false },
       "Gender": {done: false, values: ["Male", "Female", "Other"], chosenIndex: null, disabled: true},
       "Workouts": {done: false, values: [
-        {short: "0-2", long: "Workouts now and then"},
-        {short: "3-5", long: "A few worksouts per week"},
-        {short: "6+", long: "Dedicated athlete"},
-      ], chosenIndex: null, disabled: true
-    },
-    "HeightWeight": {done: false, height: undefined, weight: undefined, disabled: true},
+          {short: "0-2", long: "Workouts now and then"},
+          {short: "3-5", long: "A few worksouts per week"},
+          {short: "6+", long: "Dedicated athlete"},
+        ], chosenIndex: null, disabled: true
+      },
+      "HeightWeight": {done: false, height: undefined, weight: undefined, disabled: true},
     },
     currentPage: "Welcome"
   });
