@@ -1,12 +1,14 @@
 import { View, Text } from 'react-native';
 import { RadioGroup, YStack } from 'tamagui'
 import RadioGroupItemWithLabel from '@/components/RadioGroupItemWithLabel';
+import { H4 } from 'tamagui';
 
 export default function ClientGoal(props: any){
   return (
-    <View>
-      <Text>ClientGoal</Text>
+    <View style={{alignItems: 'center'}} >
+      <H4>Select your goal</H4>
       <RadioGroup
+        style={{margin: 30}}
         aria-labelledby="Select your goal"
         name="form"
         value={props?.value?.pages?.ClientGoal?.chosenIndex}
@@ -21,7 +23,13 @@ export default function ClientGoal(props: any){
         >
           {props.value.pages.ClientGoal.values.map((value: any, index: any)=>{
             return (
-              <RadioGroupItemWithLabel key={index} size="$5" value={index} label={value} />
+              <RadioGroupItemWithLabel
+                key={index}
+                size="$5"
+                value={index}
+                label={value}
+                width={150}
+              />
             )
           })}
         </YStack>

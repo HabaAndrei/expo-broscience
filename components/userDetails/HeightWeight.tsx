@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { Slider, XStack } from 'tamagui';
+import { H4, H5 } from 'tamagui';
 
 type HeightWeightProps = {
   setHeightWeight: ({}: any) => void;
@@ -15,12 +16,9 @@ export default function HeightWeight({setHeightWeight, height, weight}: HeightWe
   const [weightSlider, setWeightSlider] = useState<any>(weight);
 
   return (
-    <View>
-      <Text>HeightWeight</Text>
+    <View style={{alignItems: 'center'}} >
 
-      <Text style={{ fontSize: 18, marginVertical: 8 }}>
-        Selected your height: {heightSlider} cm
-      </Text>
+      <H5>Selected your height: {heightSlider} cm</H5>
       <XStack height={50} alignItems="center" gap="$8">
         <SimpleSlider
           width={250}
@@ -37,10 +35,9 @@ export default function HeightWeight({setHeightWeight, height, weight}: HeightWe
         />
       </XStack>
 
+      <View style={{margin:35}} ></View>
 
-      <Text style={{ fontSize: 18, marginVertical: 8 }}>
-        Selected your weight: {weightSlider} kg
-      </Text>
+      <H5> Selected your weight: {weightSlider} kg </H5>
       <XStack height={50} alignItems="center" gap="$8">
         <SimpleSlider
           width={250}
