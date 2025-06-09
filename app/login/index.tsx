@@ -7,6 +7,7 @@ import Gender from '@/components/userDetails/Gender';
 import Workouts from '@/components/userDetails/Workouts';
 import HeightWeight from '@/components/userDetails/HeightWeight';
 import BornDate from '@/components/userDetails/BornDate';
+import ClientGoal from '@/components/userDetails/ClientGoal';
 
 export default function LoginIndex(){
 
@@ -22,6 +23,7 @@ export default function LoginIndex(){
       },
       "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
       "BornDate": {done: false, date: new Date(), disabled: true},
+      "ClientGoal": {done: false, values: ["Lose weight", "Maintain", "Gain weight"], chosenIndex: null, disabled: true}
     },
     currentPage: "Welcome"
   });
@@ -41,6 +43,8 @@ export default function LoginIndex(){
         return {...state, pages: {...state.pages, "HeightWeight": {...state.pages.HeightWeight, done: true, disabled: false, weight: action.payload.weight, height: action.payload.height}}};
       case 'setBornDate':
         return {...state, pages: {...state.pages, "BornDate": {...state.pages.BornDate, done: true, disabled: false, date: action.payload}}};
+      case 'setGoal':
+        return {...state, pages: {...state.pages, "ClientGoal": {...state.pages.ClientGoal, done: true, disabled: false, chosenIndex: action.payload}}};
       default:
         return {...state};
     }
@@ -72,6 +76,8 @@ export default function LoginIndex(){
           setBornDate={setBornDate}
           date={userNavigationState?.pages?.BornDate?.date}
         />
+      case 'ClientGoal':
+        return <ClientGoal value={userNavigationState} dispatch={dispatch} />;
       default:
         return <Text> Aici am terminat, suntem gata </Text>;
     }
