@@ -8,10 +8,13 @@ import Workouts from '@/components/userDetails/Workouts';
 import HeightWeight from '@/components/userDetails/HeightWeight';
 import BornDate from '@/components/userDetails/BornDate';
 import ClientGoal from '@/components/userDetails/ClientGoal';
+import ThanksMessage from '@/components/userDetails/ThanksMessage';
+import Feedbacks from '@/components/userDetails/Feedbacks';
+import PlanDetails from '@/components/userDetails/PlanDetails';
 
 export default function LoginIndex(){
 
-  const [userNavigationState, dispatch] = useReducer(reducer, {
+  const initialArg = {
     pages: {
       "Welcome": { done: true, disabled: false },
       "Gender": {done: false, values: ["Male", "Female", "Other"], chosenIndex: null, disabled: true},
@@ -23,13 +26,17 @@ export default function LoginIndex(){
       },
       "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
       "BornDate": {done: false, date: new Date(), disabled: true},
-      "ClientGoal": {done: false, values: ["Lose weight", "Maintain", "Gain weight"], chosenIndex: null, disabled: true}
+      "ClientGoal": {done: false, values: ["Lose weight", "Maintain", "Gain weight"], chosenIndex: null, disabled: true},
+      "ThanksMessage": { done: true, disabled: false },
+      "Feedbacks": { done: true, disabled: false },
+      "PlanDetails": { done: false, disabled: true }
     },
     currentPage: "Welcome"
-  });
+  }
 
-  function reducer(state, action){
-    console.log({state, action});
+  const [userNavigationState, dispatch] = useReducer(reducer, initialArg);
+
+  function reducer(state: any, action: any){
     switch (action.type) {
       case "ok":
         return {...state, pages: {...state.pages, "Welcome": {done: true, disabled: false}}};
@@ -45,6 +52,8 @@ export default function LoginIndex(){
         return {...state, pages: {...state.pages, "BornDate": {...state.pages.BornDate, done: true, disabled: false, date: action.payload}}};
       case 'setGoal':
         return {...state, pages: {...state.pages, "ClientGoal": {...state.pages.ClientGoal, done: true, disabled: false, chosenIndex: action.payload}}};
+      case 'setPlanDetails':
+          return {...state, pages: {...state.pages, "PlanDetails": {...state.pages.PlanDetails, done: true, disabled: false}}};
       default:
         return {...state};
     }
@@ -78,6 +87,12 @@ export default function LoginIndex(){
         />
       case 'ClientGoal':
         return <ClientGoal value={userNavigationState} dispatch={dispatch} />;
+      case 'ThanksMessage':
+        return <ThanksMessage />;
+      case 'Feedbacks':
+        return <Feedbacks />;
+      case 'PlanDetails':
+        return <PlanDetails/>
       default:
         return <Text> Aici am terminat, suntem gata </Text>;
     }
