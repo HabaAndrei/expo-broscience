@@ -1,7 +1,8 @@
 import { SafeAreaView, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import AuthForm from '@/components/userDetails/AuthForm';
 import { useReducer } from 'react';
-import { Button } from 'tamagui';
+import { Button, XStack } from 'tamagui';
+import { CircleArrowLeft } from '@tamagui/lucide-icons'
 import Welcome from '@/components/userDetails/Welcome';
 import Gender from '@/components/userDetails/Gender';
 import Workouts from '@/components/userDetails/Workouts';
@@ -11,7 +12,7 @@ import ClientGoal from '@/components/userDetails/ClientGoal';
 import ThanksMessage from '@/components/userDetails/ThanksMessage';
 import Feedbacks from '@/components/userDetails/Feedbacks';
 import PlanDetails from '@/components/userDetails/PlanDetails';
-import { CircleArrowLeft } from '@tamagui/lucide-icons'
+import ColorPalette from '@/components/ColorPalette';
 
 export default function LoginIndex(){
 
@@ -137,19 +138,40 @@ export default function LoginIndex(){
         style={{ flex: 1 }}
       >
         {/* Header */}
-        <View style={{ padding: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Button onPress={previousPage} icon={CircleArrowLeft}>
+        <XStack
+          padding="$4"
+          alignItems="center"
+          justifyContent="space-between"
+          backgroundColor="transparent"
+          borderBottomWidth={1}
+          borderBottomColor="$borderColor"
+        >
+          <Button
+            icon={CircleArrowLeft}
+            size="$3"
+            onPress={previousPage}
+          >
             Back
           </Button>
+
+          <ColorPalette />
+
           {progress.current > 0 && (
-            <Text>
+            <Text fontSize="$5">
               {progress.current} / {progress.total}
             </Text>
           )}
-        </View>
+        </XStack>
 
         {/* Main Content */}
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+          }}
+        >
           {renderCurrentPage()}
         </View>
 
