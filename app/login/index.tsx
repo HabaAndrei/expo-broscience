@@ -1,4 +1,4 @@
-import { SafeAreaView, KeyboardAvoidingView, Platform, Text } from 'react-native';
+import { SafeAreaView, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import AuthForm from '@/components/userDetails/AuthForm';
 import { useReducer } from 'react';
 import { Button } from 'tamagui';
@@ -11,6 +11,7 @@ import ClientGoal from '@/components/userDetails/ClientGoal';
 import ThanksMessage from '@/components/userDetails/ThanksMessage';
 import Feedbacks from '@/components/userDetails/Feedbacks';
 import PlanDetails from '@/components/userDetails/PlanDetails';
+import { CircleArrowLeft } from '@tamagui/lucide-icons'
 
 export default function LoginIndex(){
 
@@ -25,7 +26,7 @@ export default function LoginIndex(){
         ], chosenIndex: null, disabled: true
       },
       "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
-      "BornDate": {done: false, date: new Date(), disabled: true},
+      "BornDate": {done: true, date: new Date(), disabled: false}, // in production =>  done: false, disabled: true
       "ClientGoal": {done: false, values: ["Lose weight", "Maintain", "Gain weight"], chosenIndex: null, disabled: true},
       "ThanksMessage": { done: true, disabled: false },
       "Feedbacks": { done: true, disabled: false },
@@ -135,30 +136,38 @@ export default function LoginIndex(){
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
       >
+        {/* Header */}
+        <View style={{ padding: 16, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Button onPress={previousPage} icon={CircleArrowLeft}>
+            Back
+          </Button>
+          {progress.current > 0 && (
+            <Text>
+              {progress.current} / {progress.total}
+            </Text>
+          )}
+        </View>
 
-        <Button onPress={previousPage} >Back</Button>
+        {/* Main Content */}
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 16 }}>
+          {renderCurrentPage()}
+        </View>
 
-        {progress.current > 0 ?
-          <Text>
-            {progress.current} / {progress.total}
-          </Text> : null
-        }
-
-        {renderCurrentPage()}
-
-        {disabledButton != undefined ?
-          <Button
-            themeInverse
-            onPress={nextPage}
-            disabled={disabledButton}
-            opacity={disabledButton ? 0.5 : 1}
-          >
-            Continue
-          </Button> :
-          null
-        }
-
+        {/* Footer */}
+        {disabledButton !== undefined && (
+          <View style={{ padding: 16 }}>
+            <Button
+              themeInverse
+              onPress={nextPage}
+              disabled={disabledButton}
+              opacity={disabledButton ? 0.5 : 1}
+            >
+              Continue
+            </Button>
+          </View>
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
-  )
+  );
+
 }
