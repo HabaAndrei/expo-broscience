@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Button, Form, H4, Input, Spinner, Paragraph, XStack } from 'tamagui';
 import { useState, useEffect, useContext } from 'react';
 import { isValidEmail } from '@/helpers/diverse';
@@ -69,6 +69,7 @@ export default function AuthForm() {
       });
       if (!resultLogin.isResolved) {
         setGeneralError("The email address or password is invalid.");
+        setStatus('off');
         return;
       }
     } else if (mode === 'signup') {
@@ -84,6 +85,7 @@ export default function AuthForm() {
         } else {
           setGeneralError("We were unable to create your account.");
         }
+        setStatus('off');
         return;
       }
     } else if (mode === 'reset') {
@@ -94,9 +96,11 @@ export default function AuthForm() {
         } else {
           setGeneralError("We were unable to send you the email.");
         }
+        setStatus('off');
         return;
       } else {
         setSuccessMessage("You will receive the email soon");
+        setStatus('off');
         return;
       }
     }
@@ -109,7 +113,13 @@ export default function AuthForm() {
   };
 
   return (
-    <View>
+   <ScrollView
+      contentContainerStyle={{
+        flexGrow: 1,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <Form
         alignItems="center"
         minWidth={320}
@@ -256,6 +266,6 @@ export default function AuthForm() {
           </Button>
         }
       </Form>
-    </View>
+    </ScrollView>
   );
 }
