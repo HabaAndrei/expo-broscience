@@ -40,8 +40,6 @@ export default function LoginIndex(){
 
   function reducer(state: any, action: any){
     switch (action.type) {
-      case "ok":
-        return {...state, pages: {...state.pages, "Welcome": {done: true, disabled: false}}};
       case 'setCurrentPage':
         return {...state, currentPage: action.payload};
       case 'setGender':
