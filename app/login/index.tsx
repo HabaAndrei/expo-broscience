@@ -27,7 +27,7 @@ export default function LoginIndex(){
         ], chosenIndex: null, disabled: true
       },
       "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
-      "BornDate": {done: true, date: new Date(), disabled: false}, // in production =>  done: false, disabled: true
+      "BornDate": {done: true, date: new Date(2000, 0, 1), disabled: false}, // in production =>  done: false, disabled: true
       "ClientGoal": {done: false, values: ["Lose weight", "Maintain", "Gain weight"], chosenIndex: null, disabled: true},
       "ThanksMessage": { done: true, disabled: false },
       "Feedbacks": { done: true, disabled: false },
