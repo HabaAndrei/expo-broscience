@@ -1,7 +1,8 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { XStack, H5 } from 'tamagui';
+import { XStack, H5, YStack, Text, Card } from 'tamagui';
+import { AlertTriangle } from '@tamagui/lucide-icons';
 import PlanCard from '@/components/Cards/PlanCard';
 import LoadingOverlay from '@/components/LoadingOveraly';
 
@@ -93,7 +94,18 @@ export default function PlanDetails(props: any){
       }
 
       {isError && !Object?.keys(plan)?.length?
-        <Text>Error message</Text> : null
+          <YStack alignItems="center" justifyContent="center" mt="$6" px="$4">
+          <Card elevate size="$4" bordered backgroundColor="$red2" borderColor="$red8" width="90%" p="$4">
+            <XStack alignItems="center" space="$3">
+              <AlertTriangle size={24} color="#B00020" />
+              <YStack>
+                <Text fontWeight="700" fontSize="$5" color="$red10">Something went wrong</Text>
+                <Text fontSize="$3" color="$red9">We couldn't generate your plan.</Text>
+              </YStack>
+            </XStack>
+          </Card>
+        </YStack>
+       : null
       }
 
     </View>
