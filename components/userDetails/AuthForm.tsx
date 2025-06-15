@@ -78,7 +78,7 @@ export default function AuthForm(props: any) {
     setStatus('submitting');
 
     if (mode === 'login') {
-      const resultLogin = await firebase._signInWithEmailAndPassword({
+      const resultLogin: any = await firebase._signInWithEmailAndPassword({
         email: formData.email,
         password: formData.password
       });
@@ -88,7 +88,7 @@ export default function AuthForm(props: any) {
         return;
       }
     } else if (mode === 'signup') {
-      const resultSignup = await firebase._createUserWithEmailAndPassword({
+      const resultSignup: any = await firebase._createUserWithEmailAndPassword({
         email: formData.email,
         password: formData.password,
         firstName: formData.firstName,
@@ -104,7 +104,7 @@ export default function AuthForm(props: any) {
         return;
       }
     } else if (mode === 'reset') {
-      const resultReset = await firebase._sendPasswordResetEmail(formData.email);
+      const resultReset: any = await firebase._sendPasswordResetEmail(formData.email);
       if (!resultReset.isResolved) {
         if (resultReset?.err?.includes("(auth/invalid-email)")) {
           setGeneralError("Invalid email address.");
@@ -282,7 +282,6 @@ export default function AuthForm(props: any) {
           </> :
           <Button
             onPress={handleLogout}
-            width={150}
             size="$5"
             width={250}
             theme="accent"
