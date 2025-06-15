@@ -11,7 +11,8 @@ import { ThemeColorContext } from '@/contexts/ThemeColorContext';
 import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/providers/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { StorageService } from '@/providers/StorageService'
+import { StorageService } from '@/providers/StorageService';
+
 export default function RootLayout() {
 
   // if you want to have dark and light theme
