@@ -5,6 +5,7 @@ import { XStack, H5, YStack, Text, Card, Button } from 'tamagui';
 import { AlertTriangle } from '@tamagui/lucide-icons';
 import PlanCard from '@/components/Cards/PlanCard';
 import LoadingOverlay from '@/components/LoadingOveraly';
+import { EnvConfig } from '@/providers/EnvConfig';
 
 const detailsPlanText = {
   calories: {
@@ -51,7 +52,7 @@ export default function PlanDetails(props: any){
     const userDetails = props.getUserDetails();
     const age = new Date()?.getFullYear() - userDetails?.bornDate?.getFullYear();
     try {
-      const plan: any = await axios.post("http://127.0.0.1:8000/nutrition-plan",
+      const plan: any = await axios.post(EnvConfig.get('serverAddress') + "/nutrition-plan",
         {
           gender: userDetails.gender,
           workouts: userDetails.workouts,
