@@ -31,7 +31,9 @@ export default function LoginIndex(){
       "ClientGoal": {done: false, values: ["Lose weight", "Maintain", "Gain weight"], chosenIndex: null, disabled: true},
       "ThanksMessage": { done: true, disabled: false },
       "Feedbacks": { done: true, disabled: false },
-      "PlanDetails": { done: false, disabled: true, plan: undefined }
+      "PlanDetails": { done: false, disabled: true, plan: undefined },
+      "AuthForm": {}
+
     },
     currentPage: "Welcome"
   }
@@ -93,6 +95,8 @@ export default function LoginIndex(){
         return <Feedbacks />;
       case 'PlanDetails':
         return <PlanDetails value={userNavigationState} dispatch={dispatch} getUserDetails={getUserDetails} setUserPlan={setUserPlan} />
+      case 'AuthForm':
+        return <AuthForm/>
       default:
         return <Text> Aici am terminat, suntem gata </Text>;
     }
