@@ -5,10 +5,11 @@ import { isValidEmail } from '@/helpers/diverse';
 import { Firebase } from '@/providers/Firebase';
 import { UserContext } from '@/contexts/UserContext';
 import { useRouter } from 'expo-router';
+import { StorageService } from '@/providers/StorageService';
 
-export default function AuthForm() {
+export default function AuthForm(props: any) {
   const { user } = useContext(UserContext);
-  const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('login');
+  const [mode, setMode] = useState<'login' | 'signup' | 'reset'>('signup');
   const [status, setStatus] = useState<'off' | 'submitting' | 'submitted'>('off');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [successMessage, setSuccessMessage] = useState<string>('');
@@ -18,6 +19,7 @@ export default function AuthForm() {
     email: '',
     password: '',
   });
+  const [isInformation, setIsInformation] = useState<boolean>(false);
   const router = useRouter();
   const firebase = new Firebase();
 
@@ -28,6 +30,19 @@ export default function AuthForm() {
     }, 3000);
     return () => clearTimeout(timeout);
   }, [successMessage]);
+
+  useEffect(()=>{
+    getInitialInformations();
+  }, []);
+
+  async function getInitialInformations(){
+    const data = await StorageService.getStorage("initialInformations");
+    if (data.isResolved && data.data) {
+      setIsInformation(true);
+    }else{
+      setMode("login");
+    }
+  }
 
   const handleChange = (key: string, value: string) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -223,6 +238,16 @@ export default function AuthForm() {
             </Form.Trigger>
 
             <XStack gap="$2" marginTop="$4" justifyContent="center">
+              {(mode !== 'signup' && !isInformation) &&(
+                <Button
+                  size="$3"
+                  onPress={() => props.dispatch({ type: 'setCurrentPage', payload: 'Welcome' })}
+                  variant="outlined"
+                  width={110}
+                >
+                  Get started
+                </Button>
+              )}
               {mode !== 'login' && (
                 <Button
                   size="$3"
@@ -233,7 +258,7 @@ export default function AuthForm() {
                   Login
                 </Button>
               )}
-              {mode !== 'signup' && (
+              {(mode !== 'signup' && isInformation) &&(
                 <Button
                   size="$3"
                   onPress={() => setMode('signup')}
