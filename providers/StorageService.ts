@@ -9,19 +9,7 @@ class StorageService {
   }
 
   static async addStorage(key: string, data: any) {
-    let keyString;
-    let dataString;
-    if (typeof(key) !== "string") {
-      keyString = JSON.stringify(key);
-    } else {
-      keyString = key;
-    }
-    if (typeof(data) !== "string") {
-      dataString = JSON.stringify(data);
-    } else {
-      dataString = data;
-    }
-    await AsyncStorage.setItem(keyString, dataString);
+    await AsyncStorage.setItem(key, JSON.stringify(data));
     return { isResolved: true };
   }
 
@@ -30,7 +18,7 @@ class StorageService {
     return { isResolved: true };
   }
 
-  static async getAllStorage() {
+  static async getAllStorageKeys() {
     const keys = await AsyncStorage.getAllKeys();
     return { isResolved: true, data: keys };
   }
@@ -41,8 +29,12 @@ class StorageService {
   }
 
   static async multiGetStorage(arrayOfKeys: string[]) {
-    const data = await AsyncStorage.multiGet(arrayOfKeys);
-    return { isResolved: true, data: data };
+    let data: any = await AsyncStorage.multiGet(arrayOfKeys);
+    data = data.map((ar: string[])=>{
+      ar[1] = JSON.parse(ar[1]);
+      return ar;
+    })
+    return { isResolved: true, data };
   }
 
   static async multiSetStorage(arrayOfArrays: any[][]) {
