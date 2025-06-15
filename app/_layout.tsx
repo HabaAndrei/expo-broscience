@@ -11,7 +11,7 @@ import { ThemeColorContext } from '@/contexts/ThemeColorContext';
 import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/providers/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-
+import { StorageService } from '@/providers/StorageService'
 export default function RootLayout() {
 
   // if you want to have dark and light theme
@@ -23,7 +23,13 @@ export default function RootLayout() {
 
   useEffect(()=>{
     reloadUser();
+    getThemeColor();
   }, []);
+
+  async function getThemeColor(){
+    const resultTheme = await StorageService.getStorage("themeColor");
+    if (resultTheme.isResolved && resultTheme.data) setThemeColor(resultTheme.data)
+  }
 
   function reloadUser(){
     if (!auth) return;
