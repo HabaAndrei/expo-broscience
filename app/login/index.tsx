@@ -27,11 +27,11 @@ export default function LoginIndex(){
         ], chosenIndex: null, disabled: true
       },
       "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
-      "BornDate": {done: true, date: new Date(), disabled: false}, // in production =>  done: false, disabled: true
+      "BornDate": {done: true, date: new Date(2000, 0, 1), disabled: false}, // in production =>  done: false, disabled: true
       "ClientGoal": {done: false, values: ["Lose weight", "Maintain", "Gain weight"], chosenIndex: null, disabled: true},
       "ThanksMessage": { done: true, disabled: false },
       "Feedbacks": { done: true, disabled: false },
-      "PlanDetails": { done: false, disabled: true }
+      "PlanDetails": { done: false, disabled: true, plan: undefined }
     },
     currentPage: "Welcome"
   }
@@ -53,7 +53,7 @@ export default function LoginIndex(){
       case 'setGoal':
         return {...state, pages: {...state.pages, "ClientGoal": {...state.pages.ClientGoal, done: true, disabled: false, chosenIndex: action.payload}}};
       case 'setPlanDetails':
-          return {...state, pages: {...state.pages, "PlanDetails": {...state.pages.PlanDetails, done: true, disabled: false}}};
+          return {...state, pages: {...state.pages, "PlanDetails": {...state.pages.PlanDetails, done: true, disabled: false, plan: action.payload}}};
       default:
         return {...state};
     }
@@ -92,11 +92,24 @@ export default function LoginIndex(){
       case 'Feedbacks':
         return <Feedbacks />;
       case 'PlanDetails':
-        return <PlanDetails/>
+        return <PlanDetails value={userNavigationState} dispatch={dispatch} getUserDetails={getUserDetails} setUserPlan={setUserPlan} />
       default:
         return <Text> Aici am terminat, suntem gata </Text>;
     }
   };
+
+  function getUserDetails(){
+    const gender = userNavigationState?.pages.Gender.values[userNavigationState?.pages?.Gender?.chosenIndex]
+    const workouts = userNavigationState?.pages.Workouts.values[userNavigationState?.pages?.Workouts?.chosenIndex]?.short
+    const {height, weight} = userNavigationState?.pages.HeightWeight;
+    const bornDate = userNavigationState?.pages.BornDate.date;
+    const goal = userNavigationState?.pages.ClientGoal.values[userNavigationState?.pages?.ClientGoal?.chosenIndex];
+    return {gender, workouts, height, weight, bornDate, goal}
+  }
+
+  function setUserPlan(plan: object | undefined){
+    dispatch({ type: 'setPlanDetails', payload: plan});
+  }
 
   function setBornDate(date: string | number){
     dispatch({ type: 'setBornDate', payload: date});
