@@ -12,6 +12,7 @@ import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/providers/Firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { StorageService } from '@/providers/StorageService';
+import type { ThemeName } from 'tamagui'
 
 export default function RootLayout() {
 
@@ -19,7 +20,7 @@ export default function RootLayout() {
   // const colorScheme = useColorScheme();
   let colorScheme = 'light';
 
-  const [themeColor, setThemeColor] = useState<string>("blue");
+  const [themeColor, setThemeColor] = useState<ThemeName>("blue");
   const [user, setUser] = useState<any>(null);
 
   useEffect(()=>{
