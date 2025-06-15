@@ -1,6 +1,7 @@
 import { XStack, Button } from 'tamagui';
 import { useContext } from 'react';
 import { ThemeColorContext } from '@/contexts/ThemeColorContext';
+import { StorageService } from '@/providers/StorageService'
 import * as Haptics from 'expo-haptics';
 
 export default function ColorPalette() {
@@ -25,10 +26,11 @@ export default function ColorPalette() {
           height={32}
           borderRadius={9999}
           onPress={() => {
-            setThemeColor(color.name)
+            setThemeColor(color.name);
             Haptics.notificationAsync(
               Haptics.NotificationFeedbackType.Success
-            )
+            );
+            StorageService.addStorage("themeColor", color.name);
           }}
         />
       ))}

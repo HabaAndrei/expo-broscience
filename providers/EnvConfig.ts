@@ -7,7 +7,8 @@ class EnvConfig {
     firebaseProjectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
     firebaseStorageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
     firebaseMessagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    firebaseAppId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID
+    firebaseAppId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+    serverAddress: process.env.EXPO_PUBLIC_SERVER_ADDRESS,
   }
 
   static get(property: keyof typeof EnvConfig.env): string | undefined {

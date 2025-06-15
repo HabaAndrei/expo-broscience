@@ -1,31 +1,37 @@
 import { View } from 'react-native';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { XStack, H5, YStack, Text, Card } from 'tamagui';
+import { XStack, H5, YStack, Text, Card, Button } from 'tamagui';
 import { AlertTriangle } from '@tamagui/lucide-icons';
 import PlanCard from '@/components/Cards/PlanCard';
 import LoadingOverlay from '@/components/LoadingOveraly';
+import { EnvConfig } from '@/providers/EnvConfig';
 
 const detailsPlanText = {
   calories: {
-    title: ' g',
-    paragraph: 'Calories per day'
+    title: '',
+    paragraph: 'Calories per day',
+    label: 'Calories'
   },
   carbs: {
     title: ' g',
-    paragraph: 'Carbs per day'
+    paragraph: 'Carbs per day',
+    label: 'Carbs'
   },
   protein: {
     title: ' g',
-    paragraph: 'Protein per day'
+    paragraph: 'Protein per day',
+    label: 'Protein'
   },
   fats: {
     title: ' g',
-    paragraph: 'Fats per day'
+    paragraph: 'Fats per day',
+    label: 'Fats'
   },
   healthScore: {
     title: ' / 10',
-    paragraph: 'Healty score'
+    paragraph: 'Healty score',
+    label: 'Healty score'
   },
 }
 
@@ -46,7 +52,7 @@ export default function PlanDetails(props: any){
     const userDetails = props.getUserDetails();
     const age = new Date()?.getFullYear() - userDetails?.bornDate?.getFullYear();
     try {
-      const plan: any = await axios.post("http://127.0.0.1:8000/nutrition-plan",
+      const plan: any = await axios.post(EnvConfig.get('serverAddress') + "/nutrition-plan",
         {
           gender: userDetails.gender,
           workouts: userDetails.workouts,
@@ -69,20 +75,39 @@ export default function PlanDetails(props: any){
     }
   }
 
+  function editPlan(details: {key: string, value: string}){
+    let _plan: any = {...plan};
+    _plan[details.key] = details.value
+    setPlan(_plan)
+    props.setUserPlan(_plan);
+  }
+
   return (
     <View>
 
       {Object?.keys(plan)?.length ?
         <View style={{alignItems: 'center'}} >
           <H5>Daily plan to achieve</H5>
-          <XStack flexWrap="wrap" gap={6} justifyContent="center" alignItems="center">
+          <XStack style={{marginTop: 30}} flexWrap="wrap" gap={6} justifyContent="center" alignItems="center">
             {Object?.keys(plan).map((key, index) => (
               <PlanCard
                 key={index}
                 title={plan?.[key] + detailsPlanText?.[key]?.title}
                 paragraph={detailsPlanText?.[key]?.paragraph}
                 button={"Edit"}
-                func={()=>console.log("ok")}
+                edit={
+                  {
+                    inputValue: `${plan?.[key]}`,
+                    func: (newValsss: string)=>editPlan({key: key, value: newValsss}),
+                    title: `${detailsPlanText?.[key]?.paragraph}`,
+                    description: "Edit value",
+                    label: `${detailsPlanText?.[key]?.label}`,
+                    buttonComponent:
+                      <Button borderRadius="$10" alignSelf="center" size="$2">
+                        Edit
+                      </Button>
+                  }
+                }
               />
             ))}
           </XStack>

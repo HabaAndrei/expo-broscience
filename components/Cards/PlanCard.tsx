@@ -1,5 +1,6 @@
 
 import { Card, H5, Paragraph, Button, YStack, XStack } from 'tamagui'
+import EditDialog from '@/components/Dialogs/EditDialog';
 
 
 // PROPS:
@@ -7,6 +8,7 @@ import { Card, H5, Paragraph, Button, YStack, XStack } from 'tamagui'
 // paragraph => the paragraph of card
 // button => The name of the button
 // func => the function the be executed OPTIONAL
+// edit => false / object with details for edit dialog
 
 export default function PlanCard(props: any) {
   return (
@@ -16,7 +18,7 @@ export default function PlanCard(props: any) {
         animation="bouncy"
         size="$4"
         width={110}
-        height={180}
+        height={190}
         scale={0.9}
         hoverStyle={{ scale: 0.925 }}
         pressStyle={{ scale: 0.875 }}
@@ -26,7 +28,7 @@ export default function PlanCard(props: any) {
 }
 
 
-function CardDemo({ title, paragraph, button, func, ...rest }: any) {
+function CardDemo({ title, paragraph, button, func, edit, ...rest }: any) {
   return (
     <Card
       elevate
@@ -41,7 +43,16 @@ function CardDemo({ title, paragraph, button, func, ...rest }: any) {
         <Paragraph>{paragraph}</Paragraph>
       </YStack>
 
-      {func ? (
+      { edit? (
+        <EditDialog
+          inputValue={edit.inputValue}
+          func={edit.func}
+          title={edit.title}
+          description={edit.description}
+          label={edit.label}
+          buttonComponent={edit.buttonComponent}
+        />
+      ) : func && !edit ?
         <Button
           borderRadius="$10"
           alignSelf="center"
@@ -50,7 +61,7 @@ function CardDemo({ title, paragraph, button, func, ...rest }: any) {
         >
           {button}
         </Button>
-      ) : null}
+      : null}
     </Card>
   );
 }
