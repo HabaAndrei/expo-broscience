@@ -18,7 +18,7 @@ export default function PlanCard(props: any) {
         animation="bouncy"
         size="$4"
         width={110}
-        height={180}
+        height={190}
         scale={0.9}
         hoverStyle={{ scale: 0.925 }}
         pressStyle={{ scale: 0.875 }}
