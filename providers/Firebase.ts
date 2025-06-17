@@ -47,7 +47,7 @@ class Firebase {
       if ( !auth ) {
         throw new Error("auth is not defined at _createUserWithEmailAndPassword function");
       };
-      const rez = await createUserWithEmailAndPassword(auth, email, password);
+      const rez: any = await createUserWithEmailAndPassword(auth, email, password);
       const {uid} = rez.user;
       const {createdAt} = rez.user.metadata.createdAt;
       await this.addIntoDatabase({
@@ -75,7 +75,7 @@ class Firebase {
 
   async reAuth(password: string){
     return this.catchAndStoreError(async ()=>{
-      const user = this?.auth?.currentUser;
+      const user = auth?.currentUser;
       if ( !user || !user.email ) {
         throw new Error("user is not defined at reAuth function");
       };
@@ -134,7 +134,7 @@ class Firebase {
       const uid = auth?.currentUser?.uid;
       await addDoc(collection(db, "errors"), {uid, modelName, modelId, brand, mesErr});
       rezFin = {isResolved: true};
-    }catch(err){
+    }catch(err: any){
       this.storeErr(err?.message)
       rezFin = {isResolved: false, err};
     }
@@ -145,7 +145,7 @@ class Firebase {
     try{
       const data = await cb();
       return data;
-    }catch(err){
+    }catch(err: any){
       if ( !auth || !db) {
         return {isResolved: false, err: "auth or db are not defined at storeErr function"}
       };
