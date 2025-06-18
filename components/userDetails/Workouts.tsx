@@ -13,7 +13,7 @@ export default function Workouts(props: any){
         name="form"
         value={props?.value?.pages?.Workouts?.chosenIndex}
         onValueChange={(newVal)=>{
-          props.dispatch({ type: 'setWorkouts', payload: newVal })
+          props.handleChangeDispatch({ type: 'setWorkouts', payload: newVal })
         }}
       >
         <YStack

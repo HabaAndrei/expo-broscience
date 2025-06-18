@@ -54,7 +54,9 @@ export default function LoginIndex(){
       case 'setGoal':
         return {...state, pages: {...state.pages, "ClientGoal": {...state.pages.ClientGoal, done: true, disabled: false, chosenIndex: action.payload}}};
       case 'setPlanDetails':
-          return {...state, pages: {...state.pages, "PlanDetails": {...state.pages.PlanDetails, done: true, disabled: false, plan: action.payload}}};
+        return {...state, pages: {...state.pages, "PlanDetails": {...state.pages.PlanDetails, done: true, disabled: false, plan: action.payload}}};
+      case 'resetPlan':
+        return {...state, pages: {...state.pages, "PlanDetails": {done: false, disabled: true, plan: undefined}}};
       default:
         return {...state};
     }
@@ -72,9 +74,9 @@ export default function LoginIndex(){
       case 'Welcome':
         return <Welcome />;
       case 'Gender':
-        return <Gender value={userNavigationState} dispatch={dispatch} />;
+        return <Gender value={userNavigationState} handleChangeDispatch={handleChangeDispatch} />;
       case 'Workouts':
-        return <Workouts value={userNavigationState} dispatch={dispatch} />;
+        return <Workouts value={userNavigationState} handleChangeDispatch={handleChangeDispatch} />;
       case 'HeightWeight':
         return <HeightWeight
           setHeightWeight={setHeightWeight}
@@ -87,15 +89,15 @@ export default function LoginIndex(){
           date={userNavigationState?.pages?.BornDate?.date}
         />
       case 'ClientGoal':
-        return <ClientGoal value={userNavigationState} dispatch={dispatch} />;
+        return <ClientGoal value={userNavigationState} handleChangeDispatch={handleChangeDispatch} />;
       case 'ThanksMessage':
         return <ThanksMessage />;
       case 'Feedbacks':
         return <Feedbacks />;
       case 'PlanDetails':
-        return <PlanDetails value={userNavigationState} dispatch={dispatch} getUserDetails={getUserDetails} setUserPlan={setUserPlan} />
+        return <PlanDetails value={userNavigationState} getUserDetails={getUserDetails} setUserPlan={setUserPlan} />
       case 'AuthForm':
-        return <AuthForm dispatch={dispatch} />
+        return <AuthForm handleChangeDispatch={handleChangeDispatch} />
       default:
         return <Text> Aici am terminat, suntem gata </Text>;
     }
@@ -110,16 +112,29 @@ export default function LoginIndex(){
     return {gender, workouts, height, weight, bornDate, goal}
   }
 
+  function handleChangeDispatch(dispatchObject: any){
+    // this function wraps the main dispatch function from useReducer, allowing us to intercept every dispatch call.
+    // i used this approach because I wanted to call the 'resetPlan' function based on the dispatched action type.
+    if (dispatchObject.type) resetPlan(dispatchObject.type);
+    dispatch(dispatchObject);
+  }
+
+  function resetPlan(type: string){
+    const typesToReset = ["setGender", "setWorkouts", "setHeightWeight", "setBornDate", "setGoal"];
+    if (!typesToReset.includes(type)) return;
+    dispatch({ type: 'resetPlan' });
+  }
+
   function setUserPlan(plan: object | undefined){
-    dispatch({ type: 'setPlanDetails', payload: plan});
+    handleChangeDispatch({ type: 'setPlanDetails', payload: plan});
   }
 
   function setBornDate(date: string | number){
-    dispatch({ type: 'setBornDate', payload: date});
+    handleChangeDispatch({ type: 'setBornDate', payload: date});
   }
 
   function setHeightWeight({height, weight}: any){
-    dispatch({ type: 'setHeightWeight', payload: {height, weight}});
+    handleChangeDispatch({ type: 'setHeightWeight', payload: {height, weight}});
   }
 
   function findNextPage(){
@@ -134,7 +149,7 @@ export default function LoginIndex(){
     if ( currentPage.disabled == false ){
       const nextPageName = findNextPage();
       if (!nextPageName) return;
-      dispatch({ type: 'setCurrentPage', payload: nextPageName });
+      handleChangeDispatch({ type: 'setCurrentPage', payload: nextPageName });
     }
   }
 
@@ -142,7 +157,7 @@ export default function LoginIndex(){
     const actualIndexPage = progress.current;
     if (actualIndexPage <= 1) return;
     const previousPageName = Object?.keys(userNavigationState.pages)[actualIndexPage - 2];
-    dispatch({ type: 'setCurrentPage', payload: previousPageName });
+    handleChangeDispatch({ type: 'setCurrentPage', payload: previousPageName });
   }
 
   return (
