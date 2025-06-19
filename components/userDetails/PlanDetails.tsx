@@ -7,7 +7,7 @@ import PlanCard from '@/components/Cards/PlanCard';
 import LoadingOverlay from '@/components/LoadingOveraly';
 import { EnvConfig } from '@/providers/EnvConfig';
 
-const detailsPlanText = {
+const detailsPlanText: any = {
   calories: {
     title: '',
     paragraph: 'Calories per day',
@@ -37,7 +37,7 @@ const detailsPlanText = {
 
 export default function PlanDetails(props: any){
 
-  const [plan, setPlan] = useState({});
+  const [plan, setPlan] = useState<any>({});
   const [isError, setIsError] = useState(false);
 
   useEffect(()=>{
