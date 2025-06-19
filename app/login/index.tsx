@@ -13,6 +13,7 @@ import ThanksMessage from '@/components/userDetails/ThanksMessage';
 import Feedbacks from '@/components/userDetails/Feedbacks';
 import PlanDetails from '@/components/userDetails/PlanDetails';
 import ColorPalette from '@/components/ColorPalette';
+import { StorageService } from '@/providers/StorageService';
 
 export default function LoginIndex(){
 
@@ -127,6 +128,7 @@ export default function LoginIndex(){
 
   function setUserPlan(plan: object | undefined){
     handleChangeDispatch({ type: 'setPlanDetails', payload: plan});
+    StorageService.addStorage('initialInformations', {userDetails: getUserDetails(), plan})
   }
 
   function setBornDate(date: string | number){
