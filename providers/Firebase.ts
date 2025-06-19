@@ -7,6 +7,7 @@ import {signOut, deleteUser, initializeAuth, createUserWithEmailAndPassword, sig
   sendPasswordResetEmail, reauthenticateWithCredential, EmailAuthProvider, Auth
 } from "firebase/auth";
 import * as Device from 'expo-device';
+import { StorageService } from '@/providers/StorageService';
 
 
 const firebaseConfig = {
@@ -49,13 +50,21 @@ class Firebase {
       };
       const rez: any = await createUserWithEmailAndPassword(auth, email, password);
       const {uid} = rez.user;
-      const {createdAt} = rez.user.metadata.createdAt;
+      const {createdAt} = rez.user.metadata;
+      const initialInformations = await StorageService.getStorage("initialInformations");
+      if (!initialInformations.isResolved || !initialInformations.data) throw new Error("couldn't get initialInformations from async storage")
       await this.addIntoDatabase({
         database: 'users',
         id: uid,
         columnsWithValues: {
-          uid, createdAt, email, firstName, secondName, email_verified: false
+          uid, createdAt, email, firstName, secondName, email_verified: false,
+          ...initialInformations.data.userDetails
         }
+      });
+      await this.addIntoDatabase({
+        database: 'usersPlan',
+        id: uid,
+        columnsWithValues: initialInformations.data.plan
       });
       return {isResolved: true, data: rez};
     })
@@ -146,6 +155,7 @@ class Firebase {
       const data = await cb();
       return data;
     }catch(err: any){
+      console.log('catchAndStoreError: ', err);
       if ( !auth || !db) {
         return {isResolved: false, err: "auth or db are not defined at storeErr function"}
       };
