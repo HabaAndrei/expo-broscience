@@ -1,10 +1,6 @@
-import {
-  CameraType,
-  CameraView,
-  useCameraPermissions,
-} from "expo-camera";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Modal, Pressable, StyleSheet, View, } from "react-native";
 import { Button } from 'tamagui';
 import { X, RefreshCcw, Image as Img } from '@tamagui/lucide-icons';
 import * as ImagePicker from 'expo-image-picker';
@@ -42,6 +38,13 @@ export default function CameraUploader(props: any) {
     setIsCamera(false);
   };
 
+  const openCamera = () => {
+    if (!permission) return;
+    if (!permission.granted) {
+      requestPermission();
+    }
+    setIsCamera(true);
+  };
 
   const renderCamera = () => {
     return (
@@ -52,16 +55,16 @@ export default function CameraUploader(props: any) {
           mode="picture"
           facing={facing}
           mute={false}
-          responsiveOrientationWhenOrientationLocked
         />
 
-        {/* CONTROALE PESTE CAMERA */}
+        {/* Buton de închidere sus dreapta */}
         <View style={styles.topControls}>
           <Pressable onPress={closeCamera}>
             <X size={32} color="white" />
           </Pressable>
         </View>
 
+        {/* Controale jos */}
         <View style={styles.shutterContainer}>
           <Pressable onPress={pickImage}>
             <Img size={32} color="white" />
@@ -88,32 +91,23 @@ export default function CameraUploader(props: any) {
     );
   };
 
-  const openCamera = () => {
-    if (!permission) return;
-    if (!permission.granted) {
-      requestPermission();
-    }
-    setIsCamera(true);
-  };
-
   return (
     <View style={styles.container}>
-      <View>
+      <View style={{ gap: 10 }}>
         <Button onPress={openCamera}>Open Camera</Button>
         <Button onPress={pickImage}>Upload image</Button>
       </View>
-      {isCamera ? renderCamera() : null}
+
+      <Modal visible={isCamera} animationType="slide" presentationStyle="fullScreen">
+        {renderCamera()}
+      </Modal>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-  },
-  camera: {
-    flex: 1,
-    width: "100%",
+    paddingVertical: 20,
   },
   shutterBtn: {
     backgroundColor: "transparent",
@@ -132,9 +126,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   cameraOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 999,
-    elevation: 999,
+    flex: 1,
+    backgroundColor: "black",
   },
   topControls: {
     position: 'absolute',
