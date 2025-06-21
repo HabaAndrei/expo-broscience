@@ -123,7 +123,7 @@ export default function PlanDetails(props: any){
           <Card elevate size="$4" bordered backgroundColor="$red2" borderColor="$red8" width="90%" p="$4">
             <XStack alignItems="center" space="$3">
               <AlertTriangle size={24} color="#B00020" />
-              <YStack>
+              <YStack paddingInline={20} >
                 <Text fontWeight="700" fontSize="$5" color="$red10">Something went wrong</Text>
                 <Text fontSize="$3" color="$red9">We couldn't generate your plan.</Text>
               </YStack>
