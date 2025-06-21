@@ -6,9 +6,8 @@ import { AlertTriangle } from '@tamagui/lucide-icons';
 import PlanCard from '@/components/Cards/PlanCard';
 import LoadingOverlay from '@/components/LoadingOveraly';
 import { EnvConfig } from '@/providers/EnvConfig';
-import { StorageService } from '@/providers/StorageService';
 
-const detailsPlanText = {
+const detailsPlanText: any = {
   calories: {
     title: '',
     paragraph: 'Calories per day',
@@ -38,7 +37,7 @@ const detailsPlanText = {
 
 export default function PlanDetails(props: any){
 
-  const [plan, setPlan] = useState({});
+  const [plan, setPlan] = useState<any>({});
   const [isError, setIsError] = useState(false);
 
   useEffect(()=>{
@@ -68,7 +67,6 @@ export default function PlanDetails(props: any){
         setIsError(true);
         console.log("i have to add an error message");
       }
-      StorageService.addStorage('initialInformations', {userDetails, plan: plan.data.data})
       props.setUserPlan(plan.data.data);
       setPlan(plan.data.data);
     }catch(err){

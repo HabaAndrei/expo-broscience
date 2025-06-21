@@ -13,7 +13,7 @@ export default function Gender(props: any){
         name="form"
         value={props?.value?.pages?.Gender?.chosenIndex}
         onValueChange={(newVal)=>{
-          props.dispatch({ type: 'setGender', payload: newVal })
+          props.handleChangeDispatch({ type: 'setGender', payload: newVal })
         }}
       >
         <YStack

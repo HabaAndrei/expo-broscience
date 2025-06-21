@@ -13,7 +13,7 @@ export default function ClientGoal(props: any){
         name="form"
         value={props?.value?.pages?.ClientGoal?.chosenIndex}
         onValueChange={(newVal)=>{
-          props.dispatch({ type: 'setGoal', payload: newVal })
+          props.handleChangeDispatch({ type: 'setGoal', payload: newVal })
         }}
       >
         <YStack

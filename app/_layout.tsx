@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import { ThemeColorContext } from '@/contexts/ThemeColorContext';
 import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/providers/Firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, User } from 'firebase/auth';
 import { StorageService } from '@/providers/StorageService';
 import type { ThemeName } from 'tamagui'
 
@@ -21,7 +21,8 @@ export default function RootLayout() {
   let colorScheme = 'light';
 
   const [themeColor, setThemeColor] = useState<ThemeName>("blue");
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null | undefined | string>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(()=>{
     reloadUser();
@@ -36,18 +37,15 @@ export default function RootLayout() {
   function reloadUser(){
     if (!auth) return;
     onAuthStateChanged(auth, async (_user) => {
-      if (_user) {
-        setUser(_user);
-      } else {
-        setUser(null);
-      }
+      setUser(_user);
+      setLoading(false);
     });
   }
 
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme}>
       <ThemeColorContext.Provider value={{themeColor, setThemeColor}}>
-        <UserContext.Provider value={{user, setUser}}>
+        <UserContext.Provider value={{user, loading}}>
           <Theme name={themeColor}>
             <StatusBar style="dark" />
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

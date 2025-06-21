@@ -241,7 +241,7 @@ export default function AuthForm(props: any) {
               {(mode !== 'signup' && !isInformation) &&(
                 <Button
                   size="$3"
-                  onPress={() => props.dispatch({ type: 'setCurrentPage', payload: 'Welcome' })}
+                  onPress={() => props.handleChangeDispatch({ type: 'setCurrentPage', payload: 'Welcome' })}
                   variant="outlined"
                   width={110}
                 >

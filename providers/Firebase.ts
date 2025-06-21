@@ -7,6 +7,7 @@ import {signOut, deleteUser, initializeAuth, createUserWithEmailAndPassword, sig
   sendPasswordResetEmail, reauthenticateWithCredential, EmailAuthProvider, Auth
 } from "firebase/auth";
 import * as Device from 'expo-device';
+import { StorageService } from '@/providers/StorageService';
 
 
 const firebaseConfig = {
@@ -47,15 +48,23 @@ class Firebase {
       if ( !auth ) {
         throw new Error("auth is not defined at _createUserWithEmailAndPassword function");
       };
-      const rez = await createUserWithEmailAndPassword(auth, email, password);
+      const rez: any = await createUserWithEmailAndPassword(auth, email, password);
       const {uid} = rez.user;
-      const {createdAt} = rez.user.metadata.createdAt;
+      const {createdAt} = rez.user.metadata;
+      const initialInformations = await StorageService.getStorage("initialInformations");
+      if (!initialInformations.isResolved || !initialInformations.data) throw new Error("couldn't get initialInformations from async storage")
       await this.addIntoDatabase({
         database: 'users',
         id: uid,
         columnsWithValues: {
-          uid, createdAt, email, firstName, secondName, email_verified: false
+          uid, createdAt, email, firstName, secondName, email_verified: false,
+          ...initialInformations.data.userDetails
         }
+      });
+      await this.addIntoDatabase({
+        database: 'usersPlan',
+        id: uid,
+        columnsWithValues: initialInformations.data.plan
       });
       return {isResolved: true, data: rez};
     })
@@ -75,7 +84,7 @@ class Firebase {
 
   async reAuth(password: string){
     return this.catchAndStoreError(async ()=>{
-      const user = this?.auth?.currentUser;
+      const user = auth?.currentUser;
       if ( !user || !user.email ) {
         throw new Error("user is not defined at reAuth function");
       };
@@ -134,7 +143,7 @@ class Firebase {
       const uid = auth?.currentUser?.uid;
       await addDoc(collection(db, "errors"), {uid, modelName, modelId, brand, mesErr});
       rezFin = {isResolved: true};
-    }catch(err){
+    }catch(err: any){
       this.storeErr(err?.message)
       rezFin = {isResolved: false, err};
     }
@@ -145,7 +154,8 @@ class Firebase {
     try{
       const data = await cb();
       return data;
-    }catch(err){
+    }catch(err: any){
+      console.log('catchAndStoreError: ', err);
       if ( !auth || !db) {
         return {isResolved: false, err: "auth or db are not defined at storeErr function"}
       };

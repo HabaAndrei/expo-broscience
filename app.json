@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true ,
+      "edgeToEdgeEnabled": true,
       "package": "com.haba03.broscience",
       "softwareKeyboardLayoutMode": "pan"
     },
@@ -39,7 +39,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
