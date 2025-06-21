@@ -1,7 +1,9 @@
 import { Text, styled, Card, YStack, XStack } from 'tamagui'
-import { Settings } from '@tamagui/lucide-icons'
+import { Settings, Scan } from '@tamagui/lucide-icons'
 import { Pressable, ScrollView } from 'react-native'
 import ColorPalette from '@/components/ColorPalette';
+import { useRouter } from 'expo-router';
+
 
 const StyledCard = styled(Card, {
   size: '$4',
@@ -20,14 +22,14 @@ const IconLabel = styled(Text, {
   fontWeight: '600',
 })
 
-export function DemoCard(props: any) {
+export function DemoCard({name, icon, func, ...props}: any) {
   return (
-    <Pressable onPress={() => console.log('Card pressed')}>
+    <Pressable onPress={() => func()}>
       <YStack alignItems="center" space="$2">
         <StyledCard {...props}>
-          {props.icon}
+          {icon}
         </StyledCard>
-        <IconLabel>{props.name}</IconLabel>
+        <IconLabel>{name}</IconLabel>
       </YStack>
     </Pressable>
   )
@@ -35,38 +37,40 @@ export function DemoCard(props: any) {
 
 export default function Menu() {
 
+  const router = useRouter()
+
   const functionalities = [
     {
       name: "Tools",
       backgroundColor: '#e0e0e0',
       buttons: [
-        {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Scan", icon: <Scan size={40}/>, func: ()=>router.navigate('/scan')},
+        // {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        // {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        // {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
 
       ]
     },
-    {
-      name: "Tools 2",
-      buttons: [
-        {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-      ]
-    },
-    {
-      name: "Tools 3",
-      backgroundColor: '#e0e0e0',
-      buttons: [
-        {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+    // {
+    //   name: "Tools 2",
+    //   buttons: [
+    //     {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+    //     {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+    //     {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+    //     {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+    //   ]
+    // },
+    // {
+    //   name: "Tools 3",
+    //   backgroundColor: '#e0e0e0',
+    //   buttons: [
+    //     {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+    //     {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+    //     {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+    //     {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
 
-      ]
-    },
+    //   ]
+    // },
   ]
 
   return (
@@ -96,6 +100,7 @@ export default function Menu() {
                       key={i}
                       name={button.name}
                       icon={button.icon}
+                      func={button.func}
                     />
                   )
                 })}
