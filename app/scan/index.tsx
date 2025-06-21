@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import CameraUploader from '@/components/scan/CameraUploader';
@@ -35,17 +35,24 @@ export default function ScanIndex(){
       <Stack.Screen
         options={{
           headerTitle: "Scan food",
-          headerRight: () => <HomeButton/>
+          headerRight: () => <HomeButton />
         }}
       />
-      <View style={{flex: 1}} >
-        <CameraUploader setUri={setUri} uri={uri}/>
-      </View>
-      <View>
-        {uri ? renderPicture() : null}
-      </View>
+
+      <ScrollView style={{ flex: 1 }}>
+        <CameraUploader setUri={setUri} uri={uri} />
+        {uri ?
+          <View
+            contentContainerStyle={{ padding: 20, flexGrow: 1 }}
+            keyboardShouldPersistTaps="handled"
+          >
+            {renderPicture()}
+          </View>
+        : null}
+
+      </ScrollView>
     </>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
