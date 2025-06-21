@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { Button } from 'tamagui';
-import { X, RefreshCcw, Image as Img } from '@tamagui/lucide-icons'
+import { X, RefreshCcw, Image as Img } from '@tamagui/lucide-icons';
 
 export default function CameraUploader() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -17,7 +17,7 @@ export default function CameraUploader() {
   const [isCamera, setIsCamera] = useState(false);
 
   const takePicture = async () => {
-    const photo = await ref.current?.takePictureAsync();
+    const photo: any = await ref.current?.takePictureAsync();
     setUri(photo?.uri);
   };
 
@@ -31,17 +31,25 @@ export default function CameraUploader() {
 
   const closeCamera = () => {
     setIsCamera(false);
-  }
+  };
 
   const renderPicture = () => {
     return (
-      <View>
+      <View style={styles.imagePreviewContainer}>
         <Image
           source={{ uri }}
           contentFit="contain"
-          style={{ width: 300, aspectRatio: 1 }}
+          style={styles.imagePreview}
         />
-        <Button onPress={() => setUri(null)} title="Take another picture" />
+        <Button
+          icon={X}
+          onPress={() => setUri(null)}
+          size="$4"
+          theme="active"
+          marginTop="$4"
+        >
+          Take another picture
+        </Button>
       </View>
     );
   };
@@ -56,13 +64,13 @@ export default function CameraUploader() {
         mute={false}
         responsiveOrientationWhenOrientationLocked
       >
-        <View>
+        <View style={styles.topControls}>
           <Pressable onPress={closeCamera}>
             <X size={32} color="white" />
           </Pressable>
         </View>
-        <View style={styles.shutterContainer}>
 
+        <View style={styles.shutterContainer}>
           <Pressable onPress={uploadImages}>
             <Img size={32} color="white" />
           </Pressable>
@@ -72,37 +80,24 @@ export default function CameraUploader() {
               <View
                 style={[
                   styles.shutterBtn,
-                  {
-                    opacity: pressed ? 0.5 : 1,
-                  },
+                  { opacity: pressed ? 0.5 : 1 },
                 ]}
               >
-                <View
-                  style={[
-                    styles.shutterBtnInner,
-                    {
-                      backgroundColor: "white",
-                    },
-                  ]}
-                />
+                <View style={styles.shutterBtnInner} />
               </View>
             )}
           </Pressable>
+
           <Pressable onPress={toggleFacing}>
             <RefreshCcw size={32} color="white" />
           </Pressable>
         </View>
       </CameraView>
-    )
-  }
+    );
+  };
 
   const openCamera = () => {
-
-    console.log(permission);
-
-    if (!permission) {
-      return null;
-    }
+    if (!permission) return;
     if (!permission.granted) {
       requestPermission();
     }
@@ -111,7 +106,7 @@ export default function CameraUploader() {
 
   return (
     <View style={styles.container}>
-      <Button onPress={()=>openCamera()} >open camera</Button>
+      <Button onPress={openCamera}>Open Camera</Button>
       {uri ? renderPicture() : null}
       {isCamera ? renderCamera() : null}
     </View>
@@ -128,6 +123,12 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
     width: "100%",
+  },
+  topControls: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    zIndex: 10,
   },
   shutterContainer: {
     position: "absolute",
@@ -153,5 +154,16 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderRadius: 50,
+    backgroundColor: "white",
+  },
+  imagePreviewContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  imagePreview: {
+    width: 300,
+    height: 300,
+    borderRadius: 12,
   },
 });
