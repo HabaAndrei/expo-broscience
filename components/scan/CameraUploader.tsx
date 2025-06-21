@@ -56,43 +56,45 @@ export default function CameraUploader() {
 
   const renderCamera = () => {
     return (
-      <CameraView
-        style={styles.camera}
-        ref={ref}
-        mode="picture"
-        facing={facing}
-        mute={false}
-        responsiveOrientationWhenOrientationLocked
-      >
-        <View style={styles.topControls}>
-          <Pressable onPress={closeCamera}>
-            <X size={32} color="white" />
-          </Pressable>
-        </View>
+      <View style={styles.cameraOverlay}>
+        <CameraView
+          style={StyleSheet.absoluteFill}
+          ref={ref}
+          mode="picture"
+          facing={facing}
+          mute={false}
+          responsiveOrientationWhenOrientationLocked
+        >
+          <View style={styles.topControls}>
+            <Pressable onPress={closeCamera}>
+              <X size={32} color="white" />
+            </Pressable>
+          </View>
 
-        <View style={styles.shutterContainer}>
-          <Pressable onPress={uploadImages}>
-            <Img size={32} color="white" />
-          </Pressable>
+          <View style={styles.shutterContainer}>
+            <Pressable onPress={uploadImages}>
+              <Img size={32} color="white" />
+            </Pressable>
 
-          <Pressable onPress={takePicture}>
-            {({ pressed }) => (
-              <View
-                style={[
-                  styles.shutterBtn,
-                  { opacity: pressed ? 0.5 : 1 },
-                ]}
-              >
-                <View style={styles.shutterBtnInner} />
-              </View>
-            )}
-          </Pressable>
+            <Pressable onPress={takePicture}>
+              {({ pressed }) => (
+                <View
+                  style={[
+                    styles.shutterBtn,
+                    { opacity: pressed ? 0.5 : 1 },
+                  ]}
+                >
+                  <View style={styles.shutterBtnInner} />
+                </View>
+              )}
+            </Pressable>
 
-          <Pressable onPress={toggleFacing}>
-            <RefreshCcw size={32} color="white" />
-          </Pressable>
-        </View>
-      </CameraView>
+            <Pressable onPress={toggleFacing}>
+              <RefreshCcw size={32} color="white" />
+            </Pressable>
+          </View>
+        </CameraView>
+      </View>
     );
   };
 
@@ -106,7 +108,10 @@ export default function CameraUploader() {
 
   return (
     <View style={styles.container}>
-      <Button onPress={openCamera}>Open Camera</Button>
+      <View>
+        <Button onPress={openCamera}>Open Camera</Button>
+        <Button onPress={uploadImages}>Upload image</Button>
+      </View>
       {uri ? renderPicture() : null}
       {isCamera ? renderCamera() : null}
     </View>
@@ -116,9 +121,6 @@ export default function CameraUploader() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
   camera: {
     flex: 1,
@@ -165,5 +167,10 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 12,
+  },
+  cameraOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 999,
+    elevation: 999,
   },
 });
