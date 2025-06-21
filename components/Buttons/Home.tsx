@@ -6,7 +6,7 @@ export default function HomeButton(){
   const router = useRouter()
   return (
     <Button
-      onPress={() => router.navigate("/functionalities")}
+      onPress={() => router.replace("/functionalities")}
       icon={Home}
       marginInline={8}
     >

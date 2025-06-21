@@ -44,7 +44,7 @@ export default function Menu() {
       name: "Tools",
       backgroundColor: '#e0e0e0',
       buttons: [
-        {name: "Scan", icon: <Scan size={40}/>, func: ()=>router.navigate('/scan')},
+        {name: "Scan", icon: <Scan size={40}/>, func: ()=>router.replace('/scan')},
         // {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
         // {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
         // {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
