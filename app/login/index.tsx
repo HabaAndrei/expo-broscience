@@ -73,7 +73,7 @@ export default function LoginIndex(){
     const { currentPage } = userNavigationState;
     switch (currentPage) {
       case 'Welcome':
-        return <Welcome />;
+        return <Welcome handleChangeDispatch={handleChangeDispatch} />;
       case 'Gender':
         return <Gender value={userNavigationState} handleChangeDispatch={handleChangeDispatch} />;
       case 'Workouts':
