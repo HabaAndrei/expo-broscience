@@ -120,7 +120,7 @@ export default function AuthForm(props: any) {
       }
     }
     setStatus('off');
-    router.navigate('/functionalities');
+    router.navigate('/');
   };
 
   const handleLogout = async () => {
