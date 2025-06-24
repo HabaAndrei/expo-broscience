@@ -1,10 +1,11 @@
-import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
+import { Button } from 'tamagui';
+import { Firebase } from '@/providers/Firebase';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import Menu from '@/components/Functionalities/Menu';
+import { Image } from 'expo-image';
 
-export default function FunctionalitiesIndex(){
 
+const index = () => {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#A1CEDC' }}
@@ -15,11 +16,13 @@ export default function FunctionalitiesIndex(){
         />
       }>
       <View>
-        <Menu/>
+        <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
       </View>
     </ParallaxScrollView>
-  );
+  )
 }
+
+export default index
 
 const styles = StyleSheet.create({
   reactLogo: {

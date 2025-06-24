@@ -4,7 +4,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 export default function Layout() {
   return (
     <ProtectedRoute>
-      <Stack screenOptions={{ headerShown: false }}/>
+      <Stack screenOptions={{ headerShown: true }}/>
     </ProtectedRoute>
   );
 }

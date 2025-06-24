@@ -8,6 +8,7 @@ import {signOut, deleteUser, initializeAuth, createUserWithEmailAndPassword, sig
 } from "firebase/auth";
 import * as Device from 'expo-device';
 import { StorageService } from '@/providers/StorageService';
+import { useRouter } from 'expo-router';
 
 
 const firebaseConfig = {
@@ -24,6 +25,9 @@ const db = getFirestore(app);
 const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
+
+const router = useRouter();
+
 
 // singleton
 class Firebase {
@@ -115,6 +119,8 @@ class Firebase {
         throw new Error("auth is not defined at _signOut function");
       };
       await signOut(auth);
+      await StorageService.multiRemoveStorage(["initialInformations"]);
+      router.replace('/login');
       return {isResolved: true};
     })
   }

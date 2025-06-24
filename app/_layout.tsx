@@ -50,11 +50,12 @@ export default function RootLayout() {
             <StatusBar style="dark" />
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
               <Stack>
-                <Stack.Screen name="index" options={{ headerShown: false }} />
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="test" options={{ headerShown: false }} />
                 <Stack.Screen name="+not-found" options={{ headerShown: false }} />
                 <Stack.Screen name="functionalities" options={{ headerShown: false }} />
                 <Stack.Screen name="login" options={{ headerShown: false }} />
+                <Stack.Screen name="scan" options={{ headerShown: false }} />
               </Stack>
             </ThemeProvider>
           </Theme>
