@@ -45,32 +45,32 @@ export default function Menu() {
       backgroundColor: '#e0e0e0',
       buttons: [
         {name: "Scan", icon: <Scan size={40}/>, func: ()=>router.replace('/scan')},
-        // {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        // {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-        // {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Settings", icon: <Settings size={40}/>, func: ()=>console.log('---') },
 
       ]
     },
-    // {
-    //   name: "Tools 2",
-    //   buttons: [
-    //     {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-    //     {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-    //     {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-    //     {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-    //   ]
-    // },
-    // {
-    //   name: "Tools 3",
-    //   backgroundColor: '#e0e0e0',
-    //   buttons: [
-    //     {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-    //     {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-    //     {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
-    //     {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+    {
+      name: "Tools 2",
+      buttons: [
+        {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Settings 2", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+      ]
+    },
+    {
+      name: "Tools 3",
+      backgroundColor: '#e0e0e0',
+      buttons: [
+        {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
+        {name: "Settings 3", icon: <Settings size={40}/>, func: ()=>console.log('---') },
 
-    //   ]
-    // },
+      ]
+    },
   ]
 
   return (

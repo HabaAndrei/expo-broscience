@@ -2,6 +2,8 @@ import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import Menu from '@/components/Functionalities/Menu';
+import { Button } from 'tamagui';
+import { Firebase } from '@/providers/Firebase';
 
 export default function FunctionalitiesIndex(){
 
@@ -16,6 +18,8 @@ export default function FunctionalitiesIndex(){
       }>
       <View>
         <Menu/>
+
+        <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
       </View>
     </ParallaxScrollView>
   );
