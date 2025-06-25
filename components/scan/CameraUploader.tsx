@@ -50,21 +50,20 @@ export default function CameraUploader(props: any) {
     return (
       <View style={styles.cameraOverlay}>
         <CameraView
-          style={StyleSheet.absoluteFill}
           ref={ref}
           mode="picture"
           facing={facing}
           mute={false}
         />
 
-        {/* Buton de închidere sus dreapta */}
+        {/* close button up right */}
         <View style={styles.topControls}>
           <Pressable onPress={closeCamera}>
             <X size={32} color="white" />
           </Pressable>
         </View>
 
-        {/* Controale jos */}
+        {/* Down controlls  */}
         <View style={styles.shutterContainer}>
           <Pressable onPress={pickImage}>
             <Img size={32} color="white" />
