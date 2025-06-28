@@ -34,8 +34,9 @@ export default function TabLayout() {
             default: {},
           }),
         }}>
-        {navigators.map((navigator)=>{
+        {navigators.map((navigator, index)=>{
           return <Tabs.Screen
+            key={index}
             name={navigator.name}
             options={{
               title: navigator.title,
