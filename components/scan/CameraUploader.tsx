@@ -38,10 +38,11 @@ export default function CameraUploader(props: any) {
     setIsCamera(false);
   };
 
-  const openCamera = () => {
+  const openCamera = async () => {
     if (!permission) return;
     if (!permission.granted) {
-      requestPermission();
+      const newPermission = await requestPermission();
+      if (!newPermission.granted) return;
     }
     setIsCamera(true);
   };
@@ -54,6 +55,7 @@ export default function CameraUploader(props: any) {
           mode="picture"
           facing={facing}
           mute={false}
+          style={{ flex: 1 }}
         />
 
         {/* close button up right */}
