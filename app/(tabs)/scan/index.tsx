@@ -3,7 +3,7 @@ import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import CameraUploader from '@/components/Scan/CameraUploader';
 import { useState } from 'react';
-import { Button } from 'tamagui';
+import { Button, Card, Text, Spinner } from 'tamagui';
 import { Image } from "expo-image";
 import axios from 'axios';
 import { EnvConfig } from '@/providers/EnvConfig';
@@ -12,38 +12,24 @@ import { base64Image } from '@/helpers/diverse';
 export default function ScanIndex(){
 
   const [uri, setUri] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function analyzeImage(){
-
-    if (!uri) return;
+    if (!uri || isLoading) return;
     let image = await base64Image(uri);
     try {
+      setIsLoading(true);
       const result = await axios.post(EnvConfig.get('serverAddress') + '/analyzeImage',
         {image}, { 'headers': { 'Content-Type': 'application/json' }}
       );
       console.log(result);
-
+      setIsLoading(false);
     } catch(err) {
+      setIsLoading(false);
       console.log(err);
     }
   }
 
-  const renderPicture = () => {
-    return (
-      <View style={styles.imagePreviewContainer}>
-        {uri ?
-          <Image
-            source={{ uri }}
-            contentFit="contain"
-            style={styles.imagePreview}
-          /> : null
-        }
-        <Button onPress={analyzeImage} size="$4" theme="active" marginTop="$4" themeInverse >
-          Analyze
-        </Button>
-      </View>
-    );
-  };
 
   return (
     <>
@@ -56,21 +42,78 @@ export default function ScanIndex(){
 
       <ScrollView style={{ flex: 1 }}>
         <CameraUploader setUri={setUri} uri={uri} />
-        {uri ? <View>{renderPicture()}</View> : null}
+
+        {uri && (
+          <Card elevate bordered margin="$2">
+            <View style={styles.cardRow}>
+              {/* left content */}
+              <View style={styles.imageContainer}>
+                <Image
+                  source={{ uri }}
+                  contentFit="cover"
+                  style={styles.imagePreview}
+                />
+              </View>
+
+              {/* right content */}
+              <View style={styles.rightContent}>
+                <View >
+                  <Text  style={styles.textInstruction} >
+                    The image was successfully uploaded.
+                  </Text>
+                  <Text style={styles.textInstruction} >
+                    Press the button if you want to receive the analysis.
+                  </Text>
+                </View>
+
+                <View style={styles.buttonContainer}>
+                  <Button
+                    width={80}
+                    size="$3"
+                    variant="outlined"
+                    onPress={analyzeImage}
+                    // alignSelf="center"
+                  >
+                    Analyze
+                    {isLoading ? <Spinner color="grey" /> : null}
+                  </Button>
+                </View>
+              </View>
+
+            </View>
+          </Card>
+        )}
       </ScrollView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
-  imagePreviewContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
+  cardRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  imageContainer: {
+    flex: 1,
+    paddingRight: 10,
   },
   imagePreview: {
-    width: 300,
-    height: 300,
-    borderRadius: 12,
+    width: '100%',
+    height: 160,
+    borderRadius: 10,
+  },
+  rightContent: {
+    flex: 1,
+    paddingHorizontal: 5,
+    justifyContent: 'center',
+  },
+  textInstruction: {
+    fontSize: 13,
+    marginBottom: 5
+  },
+  buttonContainer: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    marginTop: 10,
   },
 })
