@@ -41,9 +41,9 @@ export default function TabLayout() {
             options={{
               title: `${navigator.title ? navigator.title : ''}`,
               tabBarLabelStyle: {
-                color: '', // overwrite color
+                color: 'black', // overwrite color
               },
-              tabBarIcon: ({ focused }) => <> {navigator.icon(focused)} </> ,
+              tabBarIcon: ({ focused }) => navigator.icon(focused) ,
             }}
           />
         })}
