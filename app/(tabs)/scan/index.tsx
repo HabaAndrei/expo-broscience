@@ -56,9 +56,7 @@ export default function ScanIndex(){
 
       <ScrollView style={{ flex: 1 }}>
         <CameraUploader setUri={setUri} uri={uri} />
-        {uri ?
-          <> {renderPicture()} </>
-        : null}
+        {uri ? <View>{renderPicture()}</View> : null}
       </ScrollView>
     </>
   );
