@@ -222,7 +222,7 @@ export default function AuthForm(props: any) {
 
             <Form.Trigger asChild disabled={status !== 'off'}>
               <Button
-                icon={status === 'submitting' ? () => <Spinner /> : undefined}
+                icon={status === 'submitting' ? () => <Spinner color="grey" /> : undefined}
                 size="$5"
                 width={250}
                 theme="accent"

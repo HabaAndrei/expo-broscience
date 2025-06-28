@@ -5,25 +5,40 @@ import CameraUploader from '@/components/scan/CameraUploader';
 import { useState } from 'react';
 import { Button } from 'tamagui';
 import { Image } from "expo-image";
+import axios from 'axios';
+import { EnvConfig } from '@/providers/EnvConfig';
+import { base64Image } from '@/helpers/diverse';
 
 export default function ScanIndex(){
 
   const [uri, setUri] = useState<string | null>(null);
 
+  async function analyzeImage(){
+
+    if (!uri) return;
+    let image = await base64Image(uri);
+    try {
+      const result = await axios.post(EnvConfig.get('serverAddress') + '/analyzeImage',
+        {image}, { 'headers': { 'Content-Type': 'application/json' }}
+      );
+      console.log(result);
+
+    } catch(err) {
+      console.log(err);
+    }
+  }
+
   const renderPicture = () => {
     return (
       <View style={styles.imagePreviewContainer}>
-        <Image
-          source={{ uri }}
-          contentFit="contain"
-          style={styles.imagePreview}
-        />
-        <Button
-          size="$4"
-          theme="active"
-          marginTop="$4"
-          themeInverse
-        >
+        {uri ?
+          <Image
+            source={{ uri }}
+            contentFit="contain"
+            style={styles.imagePreview}
+          /> : null
+        }
+        <Button onPress={analyzeImage} size="$4" theme="active" marginTop="$4" themeInverse >
           Analyze
         </Button>
       </View>
@@ -42,14 +57,8 @@ export default function ScanIndex(){
       <ScrollView style={{ flex: 1 }}>
         <CameraUploader setUri={setUri} uri={uri} />
         {uri ?
-          <View
-            contentContainerStyle={{ padding: 20, flexGrow: 1 }}
-            keyboardShouldPersistTaps="handled"
-          >
-            {renderPicture()}
-          </View>
+          <> {renderPicture()} </>
         : null}
-
       </ScrollView>
     </>
   );

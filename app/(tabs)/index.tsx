@@ -3,6 +3,7 @@ import { Button } from 'tamagui';
 import { Firebase } from '@/providers/Firebase';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { Image } from 'expo-image';
+import ColorPalette from '@/components/ColorPalette';
 
 
 const index = () => {
@@ -16,6 +17,7 @@ const index = () => {
         />
       }>
       <View>
+        <ColorPalette/>
         <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
       </View>
     </ParallaxScrollView>
