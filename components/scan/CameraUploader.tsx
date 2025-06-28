@@ -1,9 +1,9 @@
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useState } from "react";
 import { Modal, Pressable, StyleSheet, View, } from "react-native";
-import { Button } from 'tamagui';
-import { X, RefreshCcw, Image as Img } from '@tamagui/lucide-icons';
+import { X, RefreshCcw, Image as Img, Camera, NotebookPen} from '@tamagui/lucide-icons';
 import * as ImagePicker from 'expo-image-picker';
+import GroupButtons from '@/components/Buttons/GroupButtons';
 
 export default function CameraUploader(props: any) {
   const [permission, requestPermission] = useCameraPermissions();
@@ -92,9 +92,15 @@ export default function CameraUploader(props: any) {
 
   return (
     <View style={styles.container}>
-      <View style={{ gap: 10 }}>
-        <Button onPress={openCamera}>Open Camera</Button>
-        <Button onPress={pickImage}>Upload image</Button>
+
+      <View style={{alignSelf: 'center'}} >
+        <GroupButtons
+          buttons={[
+            {name: 'Take photo', icon: <Camera/>, func: openCamera},
+            {name: 'Upload', icon: <Img/>, func: pickImage},
+            {name: 'Tutorial', icon: <NotebookPen/>, func: ()=>console.log('tutorial!!')}
+          ]}
+        />
       </View>
 
       <Modal visible={isCamera} animationType="slide" presentationStyle="fullScreen">
