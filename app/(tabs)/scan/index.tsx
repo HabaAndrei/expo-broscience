@@ -57,14 +57,8 @@ export default function ScanIndex(){
       <ScrollView style={{ flex: 1 }}>
         <CameraUploader setUri={setUri} uri={uri} />
         {uri ?
-          <View
-            contentContainerStyle={{ padding: 20, flexGrow: 1 }}
-            keyboardShouldPersistTaps="handled"
-          >
-            {renderPicture()}
-          </View>
+          <> {renderPicture()} </>
         : null}
-
       </ScrollView>
     </>
   );
