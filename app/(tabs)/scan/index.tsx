@@ -1,7 +1,7 @@
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
-import CameraUploader from '@/components/scan/CameraUploader';
+import CameraUploader from '@/components/Scan/CameraUploader';
 import { useState } from 'react';
 import { Button } from 'tamagui';
 import { Image } from "expo-image";
