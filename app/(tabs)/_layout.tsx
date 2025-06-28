@@ -10,12 +10,12 @@ export default function TabLayout() {
   const navigators = [
     {
       name: "index",
-      title: 'Home',
+      title: "Home",
       icon: (focused: boolean) => <Home size={30} strokeWidth={focused ? 4 : 2} />
     },
     {
       name: "scan",
-      title: 'Scan',
+      title: "Scan",
       icon: (focused: boolean) => <Scan size={30} strokeWidth={focused ? 4 : 2} />
     },
   ]
@@ -37,9 +37,9 @@ export default function TabLayout() {
         {navigators.map((navigator, index)=>{
           return <Tabs.Screen
             key={index}
-            name={navigator.name}
+            name={navigator?.name ? navigator.name : ''}
             options={{
-              title: navigator.title,
+              title: `${navigator.title ? navigator.title : ''}`,
               tabBarLabelStyle: {
                 color: '', // overwrite color
               },
