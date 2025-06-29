@@ -10,6 +10,8 @@ import EditDialog from '@/components/Dialogs/EditDialog';
 // func => the function the be executed OPTIONAL
 // edit => false / object with details for edit dialog
 
+// Important: You have to choose between 'func' and 'edit' value to be executed on press
+
 export default function PlanCard(props: any) {
   return (
     <XStack $maxMd={{ flexDirection: 'column' }} >
