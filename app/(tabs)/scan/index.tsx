@@ -43,46 +43,44 @@ export default function ScanIndex(){
       <ScrollView style={{ flex: 1 }}>
         <CameraUploader setUri={setUri} uri={uri} />
 
-        {uri && (
-          <Card elevate bordered margin="$2">
-            <View style={styles.cardRow}>
-              {/* left content */}
-              <View style={styles.imageContainer}>
-                <Image
-                  source={{ uri }}
-                  contentFit="cover"
-                  style={styles.imagePreview}
-                />
-              </View>
-
-              {/* right content */}
-              <View style={styles.rightContent}>
-                <View >
-                  <Text  style={styles.textInstruction} >
-                    The image was successfully uploaded.
-                  </Text>
-                  <Text style={styles.textInstruction} >
-                    Press the button if you want to receive the analysis.
-                  </Text>
-                </View>
-
-                <View style={styles.buttonContainer}>
-                  <Button
-                    width={80}
-                    size="$3"
-                    variant="outlined"
-                    onPress={analyzeImage}
-                    // alignSelf="center"
-                  >
-                    Analyze
-                    {isLoading ? <Spinner color="grey" /> : null}
-                  </Button>
-                </View>
-              </View>
-
+        <Card elevate bordered margin="$2">
+          <View style={styles.cardRow}>
+            {/* left content */}
+            <View style={styles.imageContainer}>
+              <Image
+                source={uri ? {uri} : require('@/assets/images/no-image.png')}
+                contentFit="cover"
+                style={styles.imagePreview}
+              />
             </View>
-          </Card>
-        )}
+
+            {/* right content */}
+            <View style={styles.rightContent}>
+              <View >
+                <Text  style={styles.textInstruction} >
+                  { uri ? 'The image was successfully uploaded.' : 'Please upload an image to proceed.'}
+                </Text>
+                <Text style={styles.textInstruction} >
+                  { uri ? 'Press the button if you want to receive the analysis.' : ''}
+                </Text>
+              </View>
+
+              {uri && <View style={styles.buttonContainer}>
+                <Button
+                  width={80}
+                  size="$3"
+                  themeInverse
+                  onPress={analyzeImage}
+                >
+                  Analyze
+                  {isLoading ? <Spinner color="grey" /> : null}
+                </Button>
+              </View>
+              }
+            </View>
+          </View>
+        </Card>
+
       </ScrollView>
     </>
   );
