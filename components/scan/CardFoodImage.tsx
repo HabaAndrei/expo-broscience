@@ -18,7 +18,6 @@ export default function CardFoodImage(props: any){
       {/* right content */}
       <View style={styles.rightContent}>
         <View >
-
           {props.analysisError.isError ?
             <Text style={styles.textInstruction}>{props.analysisError.message}</Text> :
             <>
