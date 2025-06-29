@@ -1,4 +1,4 @@
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import CameraUploader from '@/components/Scan/CameraUploader';
@@ -7,6 +7,8 @@ import axios from 'axios';
 import { EnvConfig } from '@/providers/EnvConfig';
 import { base64Image } from '@/helpers/diverse';
 import CardFoodImage from '@/components/Scan/CardFoodImage';
+import ResultFoodAnalysis from '@/components/Scan/ResultFoodAnalysis';
+
 
 export default function ScanIndex(){
 
@@ -27,15 +29,13 @@ export default function ScanIndex(){
         {image}, { 'headers': { 'Content-Type': 'application/json' }}
       );
       const result = resultAnalyses.data;
-      console.log(result, ' ------ ');
-
-      if (!result.is_resolved) {
+      if (!result?.is_resolved) {
         setAnalysisError({isError: true, message: 'Try again. The analyses could not be resolved.'})
       }
-      if (result.data.is_food) {
+      if (!result?.data?.is_food) {
         setAnalysisError({isError: true, message: 'Try again with a food image this time.'})
       }
-      if (result.is_resolved && result.data.is_food) {
+      if (result?.is_resolved && result?.data?.is_food) {
         setAnalysis(result.data);
       }
       setIsLoading(false);
@@ -67,6 +67,9 @@ export default function ScanIndex(){
           isLoading={isLoading}
           analyzeImage={analyzeImage}
           analysisError={analysisError}
+        />
+        <ResultFoodAnalysis
+          analysis={analysis}
         />
       </ScrollView>
     </>
