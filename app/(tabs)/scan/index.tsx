@@ -7,7 +7,7 @@ import axios from 'axios';
 import { EnvConfig } from '@/providers/EnvConfig';
 import { base64Image } from '@/helpers/diverse';
 import CardFoodImage from '@/components/Scan/CardFoodImage';
-import ResultFoodAnalysis from '@/components/Scan/ResultFoodAnalysis';
+import TotalsFoodAnalysis from '@/components/Scan/TotalsFoodAnalysis';
 
 
 export default function ScanIndex(){
@@ -68,8 +68,9 @@ export default function ScanIndex(){
           analyzeImage={analyzeImage}
           analysisError={analysisError}
         />
-        <ResultFoodAnalysis
+        <TotalsFoodAnalysis
           analysis={analysis}
+          setAnalysis={setAnalysis}
         />
       </ScrollView>
     </>
