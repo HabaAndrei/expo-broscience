@@ -12,20 +12,38 @@ export default function ScanIndex(){
 
   const [uri, setUri] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [analysisError, setAnalysisError] = useState({isError: false, message: ''});
+  const [analysis, setAnalysis] = useState({});
 
   async function analyzeImage(){
     if (!uri || isLoading) return;
     let image = await base64Image(uri);
     try {
+      if (analysisError.isError) {
+        setAnalysisError({isError: false, message: ''});
+      }
       setIsLoading(true);
-      const result = await axios.post(EnvConfig.get('serverAddress') + '/analyzeImage',
+      const resultAnalyses = await axios.post(EnvConfig.get('serverAddress') + '/analyzeImage',
         {image}, { 'headers': { 'Content-Type': 'application/json' }}
       );
-      console.log(result);
+      const result = resultAnalyses.data;
+      console.log(result, ' ------ ');
+
+      if (!result.is_resolved) {
+        setAnalysisError({isError: true, message: 'Try again. The analyses could not be resolved.'})
+      }
+      if (result.data.is_food) {
+        setAnalysisError({isError: true, message: 'Try again with a food image this time.'})
+      }
+      if (result.is_resolved && result.data.is_food) {
+        setAnalysis(result.data);
+      }
       setIsLoading(false);
+
     } catch(err) {
-      setIsLoading(false);
       console.log(err);
+      setAnalysisError({isError: true, message: 'We had a system error. Please try again.'})
+      setIsLoading(false);
     }
   }
 
@@ -48,6 +66,7 @@ export default function ScanIndex(){
           uri={uri}
           isLoading={isLoading}
           analyzeImage={analyzeImage}
+          analysisError={analysisError}
         />
       </ScrollView>
     </>
