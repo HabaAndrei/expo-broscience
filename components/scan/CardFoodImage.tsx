@@ -18,12 +18,18 @@ export default function CardFoodImage(props: any){
       {/* right content */}
       <View style={styles.rightContent}>
         <View >
-          <Text  style={styles.textInstruction} >
-            { props.uri ? 'The image was successfully uploaded.' : 'Please upload an image to proceed.'}
-          </Text>
-          <Text style={styles.textInstruction} >
-            { props.uri ? 'Press the button if you want to receive the analysis.' : ''}
-          </Text>
+
+          {props.analysisError.isError ?
+            <Text style={styles.textInstruction}>{props.analysisError.message}</Text> :
+            <>
+              <Text  style={styles.textInstruction} >
+                { props.uri ? 'The image was successfully uploaded.' : 'Please upload an image to proceed.'}
+              </Text>
+              <Text style={styles.textInstruction} >
+                { props.uri ? 'Press the button if you want to receive the analysis.' : ''}
+              </Text>
+            </>
+          }
         </View>
 
         {props.uri && <View style={styles.buttonContainer}>
