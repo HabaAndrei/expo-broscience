@@ -1,0 +1,78 @@
+import { View } from 'react-native';
+import { XStack, YStack, Text, Button } from 'tamagui';
+import PlanCard from '@/components/Cards/PlanCard';
+import { totalDetails } from '@/helpers/diverse';
+
+
+const ingredientsLabels = {
+  ...totalDetails,
+  quantity: {
+    title: ' g',
+    paragraph: 'Total quantity ',
+    label: 'Total quantity'
+  }
+}
+
+export default function IngredientsFoodAnalysis(props: any){
+
+  let ingredients = props?.analysis?.ingredients;
+  function editVlues({key, newVal, index}: {key: string, newVal: string, index: number}){
+    ingredients[index][key] = newVal;
+    props.setAnalysis((prev:any)=>{
+      return {...prev, ingredient: [...ingredients]}
+    })
+  }
+
+  return (
+    <View style={{ alignItems: 'center', marginVertical: 15 }}>
+      {ingredients?.length ?
+      <>
+        <YStack gap="$2" mt="$2" >
+          <XStack gap="$2" style={{alignItems: "center"}}>
+            <Text fontWeight="bold">Ingredients</Text>
+          </XStack>
+        </YStack>
+
+        {ingredients.map((ingredient: any, index: number)=>{
+          const keysWithoutName: any = [];
+          Object.keys(ingredient).forEach((name)=>{if (name != 'name') keysWithoutName.push(name) })
+          return (
+            <View  key={index}>
+              <Text>{ingredient.name}</Text>
+              <XStack
+                mt="$3"
+                flexWrap="wrap"
+                gap="$3"
+                style={{justifyContent: "center", alignItems: "center"}}
+              >
+                {keysWithoutName?.map((key: string, index_: number) => {
+                  return (
+                    <PlanCard
+                      key={index_}
+                      title={ingredient?.[key] + ingredientsLabels?.[key]?.title}
+                      paragraph={ingredientsLabels?.[key]?.paragraph}
+                      button={'Edit'}
+                      edit={{
+                        inputValue: ingredient?.[key],
+                        func: (newVal: string) => editVlues({key, newVal, index}),
+                        title: ingredientsLabels?.[key]?.paragraph,
+                        description: 'Edit value',
+                        label: ingredientsLabels?.[key]?.label,
+                        buttonComponent: (
+                          <Button borderRadius="$10" alignSelf="center" size="$2">
+                            Edit
+                          </Button>
+                        )
+                      }}
+                    />
+                  )
+                })}
+              </XStack>
+            </View>
+          )
+        })}
+      </>: null
+      }
+    </View>
+  )
+}

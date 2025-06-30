@@ -8,7 +8,7 @@ import { EnvConfig } from '@/providers/EnvConfig';
 import { base64Image } from '@/helpers/diverse';
 import CardFoodImage from '@/components/Scan/CardFoodImage';
 import TotalsFoodAnalysis from '@/components/Scan/TotalsFoodAnalysis';
-
+import IngredientsFoodAnalysis from '@/components/Scan/IngredientsFoodAnalysis';
 
 export default function ScanIndex(){
 
@@ -31,8 +31,7 @@ export default function ScanIndex(){
       const result = resultAnalyses.data;
       if (!result?.is_resolved) {
         setAnalysisError({isError: true, message: 'Try again. The analyses could not be resolved.'})
-      }
-      if (!result?.data?.is_food) {
+      } else if (!result?.data?.is_food) {
         setAnalysisError({isError: true, message: 'Try again with a food image this time.'})
       }
       if (result?.is_resolved && result?.data?.is_food) {
@@ -69,6 +68,10 @@ export default function ScanIndex(){
           analysisError={analysisError}
         />
         <TotalsFoodAnalysis
+          analysis={analysis}
+          setAnalysis={setAnalysis}
+        />
+        <IngredientsFoodAnalysis
           analysis={analysis}
           setAnalysis={setAnalysis}
         />
