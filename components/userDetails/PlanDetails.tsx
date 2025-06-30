@@ -88,7 +88,7 @@ export default function PlanDetails(props: any){
       {Object?.keys(plan)?.length ?
         <View style={{alignItems: 'center'}} >
           <H5>Daily plan to achieve</H5>
-          <XStack style={{marginTop: 30}} flexWrap="wrap" gap={6} justifyContent="center" alignItems="center">
+          <XStack style={{marginTop: 30, justifyContent: "center", alignItems: "center"}} flexWrap="wrap" gap={6} >
             {Object?.keys(plan).map((key, index) => (
               <PlanCard
                 key={index}
@@ -103,7 +103,7 @@ export default function PlanDetails(props: any){
                     description: "Edit value",
                     label: `${detailsPlanText?.[key]?.label}`,
                     buttonComponent:
-                      <Button borderRadius="$10" alignSelf="center" size="$2">
+                      <Button style={{alignSelf: "center"}} size="$2">
                         Edit
                       </Button>
                   }
@@ -119,9 +119,9 @@ export default function PlanDetails(props: any){
       }
 
       {isError && !Object?.keys(plan)?.length?
-          <YStack alignItems="center" justifyContent="center" mt="$6" px="$4">
+          <YStack style={{alignItems: "center", justifyContent: "center"}} mt="$6" px="$4">
           <Card elevate size="$4" bordered backgroundColor="$red2" borderColor="$red8" width="90%" p="$4">
-            <XStack alignItems="center" space="$3">
+            <XStack style={{alignItems: "center"}} space="$3">
               <AlertTriangle size={24} color="#B00020" />
               <YStack paddingInline={20} >
                 <Text fontWeight="700" fontSize="$5" color="$red10">Something went wrong</Text>

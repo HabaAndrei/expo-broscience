@@ -18,7 +18,7 @@ export default function Workouts(props: any){
       >
         <YStack
           width={300}
-          alignItems="center"
+          style={{alignItems: "center"}}
           space="$2"
         >
           {props?.value?.pages?.Workouts?.values?.map((value: any, index: any)=>{

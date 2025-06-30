@@ -41,7 +41,7 @@ function CardDemo({ title, paragraph, button, func, edit, ...rest }: any) {
       justifyContent="space-between"
     >
       <YStack>
-        <H5 marginBottom="$1">{title}</H5>
+        <H5 mb="$1">{title}</H5>
         <Paragraph>{paragraph}</Paragraph>
       </YStack>
 
@@ -56,8 +56,7 @@ function CardDemo({ title, paragraph, button, func, edit, ...rest }: any) {
         />
       ) : func && !edit ?
         <Button
-          borderRadius="$10"
-          alignSelf="center"
+          style={{alignSelf: "center"}}
           size="$2"
           onPress={() => func()}
         >

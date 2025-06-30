@@ -60,7 +60,7 @@ export default function TotalsFoodAnalysis(props: any) {
                   description: 'Edit value',
                   label: totalDetails[key].label,
                   buttonComponent: (
-                    <Button borderRadius="$10" alignSelf="center" size="$2">
+                    <Button style={{alignSelf: "center"}} size="$2">
                       Edit
                     </Button>
                   )

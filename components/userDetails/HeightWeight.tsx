@@ -19,7 +19,7 @@ export default function HeightWeight({setHeightWeight, height, weight}: HeightWe
     <View style={{alignItems: 'center'}} >
 
       <H5>Selected your height: {heightSlider} cm</H5>
-      <XStack height={50} alignItems="center" gap="$8">
+      <XStack height={50} style={{alignItems: "center"}} gap="$8">
         <SimpleSlider
           width={250}
           value={[heightSlider]}
@@ -38,7 +38,7 @@ export default function HeightWeight({setHeightWeight, height, weight}: HeightWe
       <View style={{margin:35}} ></View>
 
       <H5> Selected your weight: {weightSlider} kg </H5>
-      <XStack height={50} alignItems="center" gap="$8">
+      <XStack height={50} style={{alignItems: "center"}} gap="$8">
         <SimpleSlider
           width={250}
           value={[weightSlider]}
