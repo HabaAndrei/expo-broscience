@@ -29,3 +29,31 @@ export async function base64Image(image: string){
   }
   return image;
 }
+
+export const totalDetails: any = {
+  calories: {
+    title: '',
+    paragraph: 'Calories per image',
+    label: 'Calories'
+  },
+  carbs: {
+    title: ' g',
+    paragraph: 'Carbs per image',
+    label: 'Carbs'
+  },
+  protein: {
+    title: ' g',
+    paragraph: 'Protein per image',
+    label: 'Protein'
+  },
+  fats: {
+    title: ' g',
+    paragraph: 'Fats per image',
+    label: 'Fats'
+  },
+  total_quantity: {
+    title: ' g',
+    paragraph: 'Total quantity per image',
+    label: 'Total quantity'
+  }
+}

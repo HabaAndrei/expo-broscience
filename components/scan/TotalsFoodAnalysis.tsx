@@ -1,34 +1,7 @@
 import { View } from 'react-native';
 import PlanCard from '@/components/Cards/PlanCard';
 import { Button, H5, Text, XStack, YStack } from 'tamagui';
-
-const totalDetails: any = {
-  calories: {
-    title: '',
-    paragraph: 'Calories per image',
-    label: 'Calories'
-  },
-  carbs: {
-    title: ' g',
-    paragraph: 'Carbs per image',
-    label: 'Carbs'
-  },
-  protein: {
-    title: ' g',
-    paragraph: 'Protein per image',
-    label: 'Protein'
-  },
-  fats: {
-    title: ' g',
-    paragraph: 'Fats per image',
-    label: 'Fats'
-  },
-  total_quantity: {
-    title: ' g',
-    paragraph: 'Total quantity per image',
-    label: 'Total quantity'
-  }
-};
+import { totalDetails } from '@/helpers/diverse';
 
 export default function TotalsFoodAnalysis(props: any) {
   let existsTotals = false;
@@ -58,11 +31,11 @@ export default function TotalsFoodAnalysis(props: any) {
           <H5>Food Analysis</H5>
 
           <YStack gap="$2" mt="$2" >
-            <XStack gap="$2" alignItems="center">
+            <XStack gap="$2" style={{alignItems: 'center'}}>
               <Text fontWeight="bold">Name:</Text>
               <Text>{props.analysis.name || 'N/A'}</Text>
             </XStack>
-            <XStack gap="$2" alignItems="center">
+            <XStack gap="$2" style={{alignItems: 'center'}}>
               <Text fontWeight="bold">Health Score:</Text>
               <Text>{props.analysis.health_score ?? 'N/A'}</Text>
             </XStack>
@@ -72,8 +45,7 @@ export default function TotalsFoodAnalysis(props: any) {
             mt="$3"
             flexWrap="wrap"
             gap="$3"
-            justifyContent="center"
-            alignItems="center"
+            style={{justifyContent: "center", alignItems: "center"}}
           >
             {Object?.keys(totals)?.map((key: string, index: number) => (
               <PlanCard
