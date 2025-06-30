@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { XStack, YStack, Text, Button } from 'tamagui';
+import { XStack, YStack, Text, Button, H6 } from 'tamagui';
 import PlanCard from '@/components/Cards/PlanCard';
 import { totalDetails } from '@/helpers/diverse';
 
@@ -27,9 +27,9 @@ export default function IngredientsFoodAnalysis(props: any){
     <View style={{ alignItems: 'center', marginVertical: 15 }}>
       {ingredients?.length ?
       <>
-        <YStack gap="$2" mt="$2" >
+        <YStack gap="$2" mt="$2" mb="$2">
           <XStack gap="$2" style={{alignItems: "center"}}>
-            <Text fontWeight="bold">Ingredients</Text>
+             <H6>Ingredients</H6>
           </XStack>
         </YStack>
 
@@ -37,8 +37,8 @@ export default function IngredientsFoodAnalysis(props: any){
           const keysWithoutName: any = [];
           Object.keys(ingredient).forEach((name)=>{if (name != 'name') keysWithoutName.push(name) })
           return (
-            <View  key={index}>
-              <Text>{ingredient.name}</Text>
+            <View style={{marginTop: 20}} key={index}>
+              <Text style={{alignSelf: "center"}} fontWeight="bold">{ingredient.name}</Text>
               <XStack
                 mt="$3"
                 flexWrap="wrap"
