@@ -22,7 +22,7 @@ export default function RootLayout() {
 
   const [themeColor, setThemeColor] = useState<ThemeName>("blue");
   const [user, setUser] = useState<User | null | undefined | string>(null);
-  const [loading, setLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
 
   useEffect(()=>{
     reloadUser();
@@ -38,14 +38,14 @@ export default function RootLayout() {
     if (!auth) return;
     onAuthStateChanged(auth, async (_user) => {
       setUser(_user);
-      setLoading(false);
+      setIsUserLoading(false);
     });
   }
 
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme}>
       <ThemeColorContext.Provider value={{themeColor, setThemeColor}}>
-        <UserContext.Provider value={{user, loading}}>
+        <UserContext.Provider value={{user, isUserLoading}}>
           <Theme name={themeColor}>
             <StatusBar style="dark" />
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

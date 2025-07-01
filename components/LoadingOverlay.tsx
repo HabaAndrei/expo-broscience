@@ -17,7 +17,7 @@ export default function LoadingOverlay() {
       }}
     >
       <YStack
-        backgroundColor="#e0e0e0"
+        backgroundColor="$blue"
         borderRadius={12}
         padding={20}
         justifyContent="center"

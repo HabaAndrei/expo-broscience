@@ -4,7 +4,7 @@ import axios from 'axios';
 import { XStack, H5, YStack, Text, Card, Button } from 'tamagui';
 import { AlertTriangle } from '@tamagui/lucide-icons';
 import PlanCard from '@/components/Cards/PlanCard';
-import LoadingOverlay from '@/components/LoadingOveraly';
+import LoadingOverlay from '@/components/LoadingOverlay';
 import { EnvConfig } from '@/providers/EnvConfig';
 
 const detailsPlanText: any = {
