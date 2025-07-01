@@ -27,6 +27,40 @@ export default function IngredientsFoodAnalysis(props: any) {
     console.log('delete => ', index);
   }
 
+  function renderIngredientDetails(keysWithoutName: any, ingredient: any, index: number){
+    return (
+      <XStack
+        mt="$3"
+        flexWrap="wrap"
+        gap="$3"
+        style={{ justifyContent: "center", alignItems: "center" }}
+      >
+        {keysWithoutName?.map((key: string, index_: number) => {
+          return (
+            <PlanCard
+              key={index_}
+              title={ingredient?.[key] + ingredientsLabels?.[key]?.title}
+              paragraph={ingredientsLabels?.[key]?.paragraph}
+              button={'Edit'}
+              edit={{
+                inputValue: ingredient?.[key],
+                func: (newVal: string) => editVlues({ key, newVal, index }),
+                title: ingredientsLabels?.[key]?.paragraph,
+                description: 'Edit value',
+                label: ingredientsLabels?.[key]?.label,
+                buttonComponent: (
+                  <Button style={{alignSelf:"center"}} size="$2">
+                    Edit
+                  </Button>
+                )
+              }}
+            />
+          );
+        })}
+      </XStack>
+    )
+  }
+
   return (
     <View style={{ alignItems: 'center', marginVertical: 15 }}>
       {ingredients?.length ?
@@ -66,35 +100,7 @@ export default function IngredientsFoodAnalysis(props: any) {
                 </XStack>
 
                 {/* Card with ingredient details */}
-                <XStack
-                  mt="$3"
-                  flexWrap="wrap"
-                  gap="$3"
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  {keysWithoutName?.map((key: string, index_: number) => {
-                    return (
-                      <PlanCard
-                        key={index_}
-                        title={ingredient?.[key] + ingredientsLabels?.[key]?.title}
-                        paragraph={ingredientsLabels?.[key]?.paragraph}
-                        button={'Edit'}
-                        edit={{
-                          inputValue: ingredient?.[key],
-                          func: (newVal: string) => editVlues({ key, newVal, index }),
-                          title: ingredientsLabels?.[key]?.paragraph,
-                          description: 'Edit value',
-                          label: ingredientsLabels?.[key]?.label,
-                          buttonComponent: (
-                            <Button style={{alignSelf:"center"}} size="$2">
-                              Edit
-                            </Button>
-                          )
-                        }}
-                      />
-                    );
-                  })}
-                </XStack>
+                {renderIngredientDetails(keysWithoutName, ingredient, index)}
               </View>
             );
           })}
