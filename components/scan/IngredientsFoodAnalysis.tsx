@@ -61,6 +61,46 @@ export default function IngredientsFoodAnalysis(props: any) {
     )
   }
 
+  function renderIngredients(ingredients: any){
+    return (
+      <>
+      {ingredients.map((ingredient: any, index: number) => {
+        const keysWithoutName: any = [];
+        Object.keys(ingredient).forEach((name) => { if (name != 'name') keysWithoutName.push(name); });
+
+        return (
+          <View style={{ marginTop: 20 }} key={index}>
+            {/* ingredient name and delete button */}
+            <XStack
+              style={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginLeft: 10,
+                marginRight: 10
+              }}
+              borderBottomWidth={1}
+              borderColor="#ccc"
+            >
+              <Text fontWeight="bold">{ingredient.name}</Text>
+              <Button
+                icon={Trash2}
+                variant="outlined"
+                size="$3"
+                onPress={() => deleteIngredient(index)}
+              >
+                Delete
+              </Button>
+            </XStack>
+
+            {/* Card with ingredient details */}
+            {renderIngredientDetails(keysWithoutName, ingredient, index)}
+          </View>
+        );
+      })}
+      </>
+    )
+  }
+
   return (
     <View style={{ alignItems: 'center', marginVertical: 15 }}>
       {ingredients?.length ?
@@ -70,40 +110,7 @@ export default function IngredientsFoodAnalysis(props: any) {
               <H6>Ingredients</H6>
             </XStack>
           </YStack>
-
-          {ingredients.map((ingredient: any, index: number) => {
-            const keysWithoutName: any = [];
-            Object.keys(ingredient).forEach((name) => { if (name != 'name') keysWithoutName.push(name); });
-
-            return (
-              <View style={{ marginTop: 20 }} key={index}>
-                {/* ingredient name and delete button */}
-                <XStack
-                  style={{
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginLeft: 10,
-                    marginRight: 10
-                  }}
-                  borderBottomWidth={1}
-                  borderColor="#ccc"
-                >
-                  <Text fontWeight="bold">{ingredient.name}</Text>
-                  <Button
-                    icon={Trash2}
-                    variant="outlined"
-                    size="$3"
-                    onPress={() => deleteIngredient(index)}
-                  >
-                    Delete
-                  </Button>
-                </XStack>
-
-                {/* Card with ingredient details */}
-                {renderIngredientDetails(keysWithoutName, ingredient, index)}
-              </View>
-            );
-          })}
+          {renderIngredients(ingredients)}
         </> : null
       }
     </View>
