@@ -11,12 +11,20 @@ export default function TabLayout() {
     {
       name: "index",
       title: "Home",
-      icon: (focused: boolean) => <Home size={30} strokeWidth={focused ? 4 : 2} />
+      icon: (focused: boolean) => <Home size={30} strokeWidth={focused ? 4 : 2} />,
+      href: true
     },
     {
       name: "scan",
       title: "Scan",
-      icon: (focused: boolean) => <Scan size={30} strokeWidth={focused ? 4 : 2} />
+      icon: (focused: boolean) => <Scan size={30} strokeWidth={focused ? 4 : 2} />,
+      href: true
+    },
+    {
+      name: "searchFood",
+      title: "Search food",
+      icon: (focused: boolean) => <></>,
+      href: null
     },
   ]
 
@@ -43,7 +51,8 @@ export default function TabLayout() {
               tabBarLabelStyle: {
                 color: 'black', // overwrite color
               },
-              tabBarIcon: ({ focused }) => navigator.icon(focused) ,
+              tabBarIcon: ({ focused }) => navigator?.icon(focused),
+              href: navigator?.href ? navigator?.href : null
             }}
           />
         })}
