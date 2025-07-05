@@ -5,6 +5,7 @@ import { totalDetails } from '@/helpers/diverse';
 import { Trash2 } from '@tamagui/lucide-icons'
 import { useConfirmationDialog } from '@/contexts/ConfirmationDialogContext';
 
+// Labels used to display ingredient details
 const ingredientsLabels = {
   ...totalDetails,
   quantity: {
@@ -18,23 +19,27 @@ export default function IngredientsFoodAnalysis(props: any) {
   const confirm = useConfirmationDialog();
   let ingredients = props?.analysis?.ingredients;
 
-  function editVlues({ key, newVal, index }: { key: string, newVal: string, index: number }) {
+  // This function edits the values of an ingredient and updates the state variable
+  function editValues({ key, newVal, index }: { key: string, newVal: string, index: number }) {
     ingredients[index][key] = newVal;
     props.setAnalysis((prev: any) => {
       return { ...prev, ingredients: [...ingredients] };
     });
   }
 
-  async function deleteIngredient(index: number){
 
+  async function deleteIngredient(index: number){
+    // Ask the user for confirmation before proceeding with the delete action
     const isConfirmed = await confirm();
     if (!isConfirmed) return;
 
+    // Remove the ingredient at the specified index from the array
     let updatedIngredients = [...ingredients]
     updatedIngredients.splice(index, 1);
 
     let calories = 0, protein = 0, carbs = 0, fats = 0, total_quantity = 0;
 
+    // Recalculate the total values for each nutrient
     for(let ingredient of updatedIngredients){
       calories += ingredient.calories;
       protein += ingredient.protein;
@@ -42,7 +47,7 @@ export default function IngredientsFoodAnalysis(props: any) {
       fats += ingredient.fats;
       total_quantity += ingredient.quantity;
     }
-
+    // Update the state variable with the new totals and ingredient list
     props.setAnalysis((prev: any) => {
       return {
         ...prev,
@@ -70,7 +75,7 @@ export default function IngredientsFoodAnalysis(props: any) {
               button={'Edit'}
               edit={{
                 inputValue: ingredient?.[key],
-                func: (newVal: string) => editVlues({ key, newVal, index }),
+                func: (newVal: string) => editValues({ key, newVal, index }),
                 title: ingredientsLabels?.[key]?.paragraph,
                 description: 'Edit value',
                 label: ingredientsLabels?.[key]?.label,
