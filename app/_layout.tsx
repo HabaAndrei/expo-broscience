@@ -12,7 +12,8 @@ import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/providers/Firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { StorageService } from '@/providers/StorageService';
-import type { ThemeName } from 'tamagui'
+import type { ThemeName } from 'tamagui';
+import { ConfirmationDialogProvider } from '@/contexts/ConfirmationDialogContext';
 
 export default function RootLayout() {
 
@@ -22,7 +23,7 @@ export default function RootLayout() {
 
   const [themeColor, setThemeColor] = useState<ThemeName>("blue");
   const [user, setUser] = useState<User | null | undefined | string>(null);
-  const [loading, setLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
 
   useEffect(()=>{
     reloadUser();
@@ -38,24 +39,26 @@ export default function RootLayout() {
     if (!auth) return;
     onAuthStateChanged(auth, async (_user) => {
       setUser(_user);
-      setLoading(false);
+      setIsUserLoading(false);
     });
   }
 
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme}>
       <ThemeColorContext.Provider value={{themeColor, setThemeColor}}>
-        <UserContext.Provider value={{user, loading}}>
+        <UserContext.Provider value={{user, isUserLoading}}>
           <Theme name={themeColor}>
             <StatusBar style="dark" />
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="test" options={{ headerShown: false }} />
-                <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-                <Stack.Screen name="login" options={{ headerShown: false }} />
-              </Stack>
-            </ThemeProvider>
+            <ConfirmationDialogProvider>
+              <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                <Stack>
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="test" options={{ headerShown: false }} />
+                  <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+                  <Stack.Screen name="login" options={{ headerShown: false }} />
+                </Stack>
+              </ThemeProvider>
+            </ConfirmationDialogProvider>
           </Theme>
         </UserContext.Provider>
         </ThemeColorContext.Provider>

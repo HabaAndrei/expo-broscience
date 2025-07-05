@@ -2,13 +2,13 @@ import { ReactNode, useContext } from 'react';
 import { UserContext } from '@/contexts/UserContext';
 import { Redirect } from 'expo-router';
 import { SafeAreaView } from 'react-native';
-import LoadingOverlay from './LoadingOveraly';
+import LoadingOverlay from './LoadingOverlay';
 
 export default function ProtectedRoute({ children }: { children: ReactNode }){
 
-  const { user, loading } = useContext(UserContext);
+  const { user, isUserLoading } = useContext(UserContext);
 
-  if (loading) {
+  if (isUserLoading) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <LoadingOverlay></LoadingOverlay>
