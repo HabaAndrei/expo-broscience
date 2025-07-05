@@ -1,13 +1,13 @@
 import { View } from 'react-native';
 import { XStack, YStack, Text, Button, H6 } from 'tamagui';
 import PlanCard from '@/components/Cards/PlanCard';
-import { totalDetails } from '@/helpers/diverse';
+import { ingredientsLabels as ingredientsDetails } from '@/helpers/diverse';
 import { Trash2 } from '@tamagui/lucide-icons'
 import { useConfirmationDialog } from '@/contexts/ConfirmationDialogContext';
 
 // Labels used to display ingredient details
 const ingredientsLabels = {
-  ...totalDetails,
+  ...ingredientsDetails,
   quantity: {
     title: ' g',
     paragraph: 'Total quantity ',

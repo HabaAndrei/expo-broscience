@@ -30,7 +30,7 @@ export async function base64Image(image: string){
   return image;
 }
 
-export const totalDetails: any = {
+export const ingredientsLabels: any = {
   calories: {
     title: '',
     paragraph: 'Calories per image',
