@@ -3,6 +3,7 @@ import { XStack, YStack, Text, Button, H6 } from 'tamagui';
 import PlanCard from '@/components/Cards/PlanCard';
 import { totalDetails } from '@/helpers/diverse';
 import { Trash2 } from '@tamagui/lucide-icons'
+import { useConfirmationDialog } from '@/contexts/ConfirmationDialogContext';
 
 const ingredientsLabels = {
   ...totalDetails,
@@ -14,6 +15,7 @@ const ingredientsLabels = {
 };
 
 export default function IngredientsFoodAnalysis(props: any) {
+  const confirm = useConfirmationDialog();
   let ingredients = props?.analysis?.ingredients;
 
   function editVlues({ key, newVal, index }: { key: string, newVal: string, index: number }) {
@@ -23,8 +25,32 @@ export default function IngredientsFoodAnalysis(props: any) {
     });
   }
 
-  function deleteIngredient(index: number){
-    console.log('delete => ', index);
+  async function deleteIngredient(index: number){
+
+    const isConfirmed = await confirm();
+    if (!isConfirmed) return;
+
+    let updatedIngredients = [...ingredients]
+    updatedIngredients.splice(index, 1);
+
+    let calories = 0, protein = 0, carbs = 0, fats = 0, total_quantity = 0;
+
+    for(let ingredient of updatedIngredients){
+      calories += ingredient.calories;
+      protein += ingredient.protein;
+      carbs += ingredient.carbs;
+      fats += ingredient.fats;
+      total_quantity += ingredient.quantity;
+    }
+
+    props.setAnalysis((prev: any) => {
+      return {
+        ...prev,
+        totals: {calories, protein, carbs, fats, total_quantity},
+        ingredients: [...updatedIngredients],
+        total_quantity
+      };
+    });
   }
 
   function renderIngredientDetails(keysWithoutName: any, ingredient: any, index: number){
