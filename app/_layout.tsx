@@ -12,7 +12,8 @@ import { UserContext } from '@/contexts/UserContext';
 import { auth } from '@/providers/Firebase';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { StorageService } from '@/providers/StorageService';
-import type { ThemeName } from 'tamagui'
+import type { ThemeName } from 'tamagui';
+import { ConfirmationDialogProvider } from '@/contexts/ConfirmationDialogContext';
 
 export default function RootLayout() {
 
@@ -48,14 +49,16 @@ export default function RootLayout() {
         <UserContext.Provider value={{user, isUserLoading}}>
           <Theme name={themeColor}>
             <StatusBar style="dark" />
-            <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="test" options={{ headerShown: false }} />
-                <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-                <Stack.Screen name="login" options={{ headerShown: false }} />
-              </Stack>
-            </ThemeProvider>
+            <ConfirmationDialogProvider>
+              <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                <Stack>
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="test" options={{ headerShown: false }} />
+                  <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+                  <Stack.Screen name="login" options={{ headerShown: false }} />
+                </Stack>
+              </ThemeProvider>
+            </ConfirmationDialogProvider>
           </Theme>
         </UserContext.Provider>
         </ThemeColorContext.Provider>
