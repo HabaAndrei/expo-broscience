@@ -1,7 +1,8 @@
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
+import SearchBar from '@/components/SearchFood/SearchBar';
 
-export default function SearchFood() {
+export default function SearchFoodIndex() {
   return (
     <>
       <Stack.Screen
@@ -11,7 +12,7 @@ export default function SearchFood() {
         }}
       />
 
-
+      <SearchBar></SearchBar>
 
     </>
   );
