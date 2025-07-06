@@ -33,6 +33,15 @@ function DialogInstance(props: any) {
 
   const [input, setInput] = useState(props.inputValue);
 
+  // BUG ON IOS, on web works fine!
+  // I had to put this function because the input accept only string, not number
+  function returnInput(input_: any){
+    if (typeof(input_) != 'string') {
+      return JSON.stringify(input_);
+    }
+    return input_;
+  }
+
   return (
     <Dialog modal>
       <Dialog.Trigger asChild>
@@ -95,10 +104,10 @@ function DialogInstance(props: any) {
           </Dialog.Description>
 
           <Fieldset gap="$4" horizontal>
-            <Label width={64} htmlFor="name">
+            <Label width={64} >
               {props.label}
             </Label>
-            <Input flex={1} id="name" defaultValue={input}
+            <Input flex={1}  defaultValue={returnInput(input)}
               onChangeText={(newVal: string)=>setInput(newVal)}
             />
           </Fieldset>
