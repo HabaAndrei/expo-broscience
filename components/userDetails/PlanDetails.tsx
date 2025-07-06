@@ -98,7 +98,7 @@ export default function PlanDetails(props: any){
                 edit={
                   {
                     inputValue: `${plan?.[key]}`,
-                    func: (newValsss: string)=>editPlan({key: key, value: newValsss}),
+                    func: (newVal: string)=>editPlan({key: key, value: newVal}),
                     title: `${detailsPlanText?.[key]?.paragraph}`,
                     description: "Edit value",
                     label: `${detailsPlanText?.[key]?.label}`,
