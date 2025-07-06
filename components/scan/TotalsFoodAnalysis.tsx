@@ -55,7 +55,7 @@ export default function TotalsFoodAnalysis(props: any) {
                 button={'Edit'}
                 edit={{
                   inputValue: totals[key],
-                  func: (newValsss: string) => editTotalValues(key, newValsss),
+                  func: (newVal: string) => editTotalValues(key, newVal),
                   title: ingredientsLabels[key].paragraph,
                   description: 'Edit value',
                   label: ingredientsLabels[key].label,
