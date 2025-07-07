@@ -69,7 +69,7 @@ export default function IngredientsFoodAnalysis(props: any) {
         {keysWithoutName?.map((key: string, index_: number) => {
           return (
             <PlanCard
-              key={index_}
+              key={JSON.stringify(index_) + JSON.stringify(index) }
               title={ingredient?.[key] + ingredientsLabels?.[key]?.title}
               paragraph={ingredientsLabels?.[key]?.paragraph}
               button={'Edit'}
