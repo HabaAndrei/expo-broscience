@@ -21,6 +21,7 @@ export default function IngredientsFoodAnalysis(props: any) {
 
   // This function edits the values of an ingredient and updates the state variable
   function editValues({ key, newVal, index }: { key: string, newVal: string, index: number }) {
+    if (isNaN(Number(newVal))) return;
     ingredients[index][key] = newVal;
     props.setAnalysis((prev: any) => {
       return { ...prev, ingredients: [...ingredients] };

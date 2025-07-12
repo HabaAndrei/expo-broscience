@@ -76,6 +76,7 @@ export default function PlanDetails(props: any){
   }
 
   function editPlan(details: {key: string, value: string}){
+    if (isNaN(Number(details.value))) return;
     let _plan: any = {...plan};
     _plan[details.key] = details.value
     setPlan(_plan)

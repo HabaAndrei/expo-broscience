@@ -16,6 +16,7 @@ export default function TotalsFoodAnalysis(props: any) {
   const totals = props?.analysis?.totals;
 
   function editTotalValues(key: string, value: string) {
+    if (isNaN(Number(value))) return;
     props.setAnalysis((prev: any) => {
       return {
         ...prev,
