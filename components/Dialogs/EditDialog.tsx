@@ -1,6 +1,6 @@
 import { X } from '@tamagui/lucide-icons'
 import { Adapt, Button, Dialog, Fieldset, Input, Label, Sheet, Unspaced, View, XStack } from 'tamagui'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 // PROPS:
@@ -32,6 +32,10 @@ export default function EditDialog(props: any) {
 function DialogInstance(props: any) {
 
   const [input, setInput] = useState(props.inputValue);
+
+  useEffect(() => {
+    setInput(props.inputValue);
+  }, [props.inputValue]);
 
   // BUG ON IOS, on web works fine!
   // I had to put this function because the input accept only string, not number
@@ -107,7 +111,7 @@ function DialogInstance(props: any) {
             <Label width={64} >
               {props.label}
             </Label>
-            <Input flex={1}  defaultValue={returnInput(input)}
+            <Input flex={1}  value={returnInput(input)}
               onChangeText={(newVal: string)=>setInput(newVal)}
             />
           </Fieldset>
