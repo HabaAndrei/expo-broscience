@@ -31,15 +31,15 @@ export default function EditDialog(props: any) {
 
 function DialogInstance(props: any) {
 
-  const [input, setInput] = useState(props.inputValue);
+  const [input, setInput] = useState(makeString(props.inputValue));
 
   useEffect(() => {
-    setInput(props.inputValue);
+    setInput(makeString(props.inputValue));
   }, [props.inputValue]);
 
   // BUG ON IOS, on web works fine!
   // I had to put this function because the input accept only string, not number
-  function returnInput(input_: any){
+  function makeString(input_: any){
     if (typeof(input_) != 'string') {
       return JSON.stringify(input_);
     }
@@ -111,7 +111,7 @@ function DialogInstance(props: any) {
             <Label width={64} >
               {props.label}
             </Label>
-            <Input flex={1}  value={returnInput(input)}
+            <Input flex={1}  value={input}
               onChangeText={(newVal: string)=>setInput(newVal)}
             />
           </Fieldset>
