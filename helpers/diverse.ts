@@ -53,7 +53,7 @@ export const ingredientsLabels: any = {
   },
   total_quantity: {
     title: ' g',
-    paragraph: 'Total quantity per image',
+    paragraph: 'Quantity per image',
     label: 'Total quantity'
   }
 }
