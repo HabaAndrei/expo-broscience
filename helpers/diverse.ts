@@ -57,3 +57,35 @@ export const ingredientsLabels: any = {
     label: 'Total quantity'
   }
 }
+
+export function calculateBodyFat({ gender, waist, neck, height, hips = 0 }: {
+  gender: string, waist: number, neck: number, height: number, hips: number
+}) {
+
+  // hips is only for female
+  // typical margins of error around ± 3-4%
+
+  if (!['male', 'female'].includes(gender)) {
+    throw new Error("Gender must be 'male' or 'female'");
+  }
+
+  // Ensure all values are positive numbers
+  if ([waist, neck, height, hips].some(val => typeof val !== 'number' || val <= 0)) {
+    throw new Error("All measurements must be positive numbers");
+  }
+
+  const log10 = (n: number) => Math.log10(n);
+
+  let bodyFat;
+
+  if (gender === 'male') {
+    bodyFat = 86.010 * log10(waist - neck)
+      - 70.041 * log10(height)
+      + 36.76;
+  } else {
+    bodyFat = 163.205 * log10(waist + hips - neck)
+      - 97.684 * log10(height)
+      - 78.387;
+  }
+  return Number(bodyFat.toFixed(2)); // round to 2 decimal places
+}
