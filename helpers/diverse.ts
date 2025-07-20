@@ -89,3 +89,98 @@ export function calculateBodyFat({ gender, waist, neck, height, hips = 0 }: {
   }
   return Number(bodyFat.toFixed(2)); // round to 2 decimal places
 }
+
+export function calculateMacrosAndHealthScore({ gender, workouts, height, weight, age, goal }: {
+  gender: string, workouts: number, height: number, weight: number, age: number, goal: string
+}) {
+  // --- Calculate BMR ---
+  let BMR;
+  if (gender.toLowerCase() === 'male' || gender.toLowerCase() === 'm') {
+    BMR = 10 * weight + 6.25 * height - 5 * age + 5;
+  } else {
+    BMR = 10 * weight + 6.25 * height - 5 * age - 161;
+  }
+
+  // --- Activity factor based on workouts ---
+  let activityFactor;
+  if (workouts === 0) activityFactor = 1.2;
+  else if (workouts <= 2) activityFactor = 1.375;
+  else if (workouts <= 4) activityFactor = 1.55;
+  else if (workouts <= 6) activityFactor = 1.725;
+  else activityFactor = 1.9;
+
+  // --- Calculate TDEE ---
+  const TDEE = BMR * activityFactor;
+
+  // --- Adjust calories by goal ---
+  let calories;
+  if (goal === 'lose') calories = TDEE - 500;
+  else if (goal === 'gain') calories = TDEE + 300;
+  else calories = TDEE;
+
+  // --- Calculate macros ---
+  const proteinPerKg = goal === 'gain' ? 2.2 : 1.8;
+  const protein = proteinPerKg * weight;
+  const proteinCalories = protein * 4;
+
+  const fatCalories = calories * 0.25;
+  const fat = fatCalories / 9;
+
+  const carbCalories = calories - (proteinCalories + fatCalories);
+  const carbs = carbCalories / 4;
+
+  // --- Calculate health score ---
+  function calculateHealthyScore({ calories, protein, fat, carbs, TDEE }: {
+    calories: number, protein: number, fat: number, carbs: number, TDEE: number
+  }) {
+    const proteinCalories = protein * 4;
+    const fatCalories = fat * 9;
+    const carbCalories = carbs * 4;
+
+    const proteinPercent = (proteinCalories / calories) * 100;
+    const fatPercent = (fatCalories / calories) * 100;
+    const carbPercent = (carbCalories / calories) * 100;
+
+    const ideal = {
+      protein: [20, 30], // %
+      fat: [20, 35],     // %
+      carbs: [40, 60],   // %
+    };
+
+    function scoreMacro(percent: any, [min, max]: any) {
+      if (percent >= min && percent <= max) return 10;
+      const diff = Math.min(Math.abs(percent - min), Math.abs(percent - max));
+      return Math.max(0, 10 - diff);
+    }
+
+    const proteinScore = scoreMacro(proteinPercent, ideal.protein);
+    const fatScore = scoreMacro(fatPercent, ideal.fat);
+    const carbScore = scoreMacro(carbPercent, ideal.carbs);
+
+    let calorieScore = 0;
+    const calRatio = calories / TDEE;
+    if (calRatio >= 0.9 && calRatio <= 1.1) calorieScore = 10;
+    else if ((calRatio >= 0.8 && calRatio < 0.9) || (calRatio > 1.1 && calRatio <= 1.2)) calorieScore = 7;
+    else calorieScore = 4;
+
+    const avgScore = (proteinScore + fatScore + carbScore + calorieScore) / 4;
+
+    return Math.round(avgScore); // round to int 1-10 scale
+  }
+
+  const healthScore = calculateHealthyScore({
+    calories,
+    protein,
+    fat,
+    carbs,
+    TDEE,
+  });
+
+  return {
+    calories: Math.round(calories),
+    protein: Math.round(protein),
+    carbs: Math.round(carbs),
+    fats: Math.round(fat),
+    healthScore,
+  };
+}
