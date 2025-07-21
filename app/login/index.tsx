@@ -22,9 +22,9 @@ export default function LoginIndex(){
       "Welcome": { done: true, disabled: false },
       "Gender": {done: false, values: ["Male", "Female", "Other"], chosenIndex: null, disabled: true},
       "Workouts": {done: false, values: [
-          {short: "0-2", long: "Workouts now and then"},
-          {short: "3-5", long: "A few worksouts per week"},
-          {short: "6+", long: "Dedicated athlete"},
+          {short: "0-2", long: "Workouts now and then", value: 1.5},
+          {short: "3-5", long: "A few worksouts per week", value: 3.5},
+          {short: "6+", long: "Dedicated athlete", value: 6},
         ], chosenIndex: null, disabled: true
       },
       "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
@@ -106,7 +106,7 @@ export default function LoginIndex(){
 
   function getUserDetails(){
     const gender = userNavigationState?.pages.Gender.values[userNavigationState?.pages?.Gender?.chosenIndex]
-    const workouts = userNavigationState?.pages.Workouts.values[userNavigationState?.pages?.Workouts?.chosenIndex]?.short
+    const workouts = userNavigationState?.pages.Workouts.values[userNavigationState?.pages?.Workouts?.chosenIndex]?.value
     const {height, weight} = userNavigationState?.pages.HeightWeight;
     const bornDate = userNavigationState?.pages.BornDate.date;
     const goal = userNavigationState?.pages.ClientGoal.values[userNavigationState?.pages?.ClientGoal?.chosenIndex];
