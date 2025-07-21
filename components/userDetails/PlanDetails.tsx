@@ -6,6 +6,7 @@ import { AlertTriangle } from '@tamagui/lucide-icons';
 import PlanCard from '@/components/Cards/PlanCard';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import { EnvConfig } from '@/providers/EnvConfig';
+import { calculateMacrosAndHealthScore, PlanInputType } from '@/helpers/diverse';
 
 const detailsPlanText: any = {
   calories: {
@@ -48,19 +49,16 @@ export default function PlanDetails(props: any){
     }
   }, [props?.value?.pages?.PlanDetails?.plan]);
 
-  async function generatePlan(){
-    const userDetails = props.getUserDetails();
-    const age = new Date()?.getFullYear() - userDetails?.bornDate?.getFullYear();
+  function generatePlanWithFormula({ gender, workouts, height, weight, goal, age }: PlanInputType){
+    const resultPlan =  calculateMacrosAndHealthScore({ gender, workouts, height, weight, goal, age });
+    props.setUserPlan(resultPlan);
+    setPlan(resultPlan);
+  }
+
+  async function generatePlanWithAi({ gender, workouts, height, weight, goal, age }: PlanInputType){
     try {
       const plan: any = await axios.post(EnvConfig.get('serverAddress') + "/nutrition-plan",
-        {
-          gender: userDetails.gender,
-          workouts: userDetails.workouts,
-          height: userDetails.height,
-          weight: userDetails.weight,
-          age: age,
-          goal: userDetails.goal,
-        }
+        { gender, workouts, height, weight, goal, age }
       );
 
       if (!plan.data.is_resolved){
@@ -73,6 +71,19 @@ export default function PlanDetails(props: any){
       console.log(err);
       setIsError(true);
     }
+  }
+
+
+  async function generatePlan(){
+    const userDetails = props.getUserDetails();
+    const age = new Date()?.getFullYear() - userDetails?.bornDate?.getFullYear();
+    const { gender, workouts, height, goal, weight } = userDetails;
+    // two functions:
+
+    // generated with ai or with a math formula
+
+    // generatePlanWithAi({ gender, workouts, height, weight, goal, age });
+    generatePlanWithFormula({ gender, workouts, height, weight, goal, age });
   }
 
   function editPlan(details: {key: string, value: string}){
