@@ -90,13 +90,25 @@ export function calculateBodyFat({ gender, waist, neck, height, hips = 0 }: {
   return Number(bodyFat.toFixed(2)); // round to 2 decimal places
 }
 
-export function calculateMacrosAndHealthScore({ gender, workouts, height, weight, age, goal }: {
-  gender: string, workouts: number, height: number, weight: number, age: number, goal: string
-}) {
+export type PlanInputType = {
+  gender: string;
+  workouts: number | string;
+  height: number | string;
+  weight: number | string;
+  goal: string;
+  age: number | string;
+};
+
+export function calculateMacrosAndHealthScore({ gender, workouts, height, weight, age, goal }: PlanInputType ) {
   // --- Calculate BMR ---
   let BMR;
-  if (gender.toLowerCase() === 'male' || gender.toLowerCase() === 'm') {
-    BMR = 10 * weight + 6.25 * height - 5 * age + 5;
+  weight = Number(weight);
+  height = Number(height);
+  age = Number(age);
+  workouts = Number(workouts)
+
+  if (gender.toLowerCase() === 'male') {
+    BMR = 10 *  (weight) + 6.25 * height - 5 * age + 5;
   } else {
     BMR = 10 * weight + 6.25 * height - 5 * age - 161;
   }
@@ -114,12 +126,12 @@ export function calculateMacrosAndHealthScore({ gender, workouts, height, weight
 
   // --- Adjust calories by goal ---
   let calories;
-  if (goal === 'lose') calories = TDEE - 500;
-  else if (goal === 'gain') calories = TDEE + 300;
+  if (goal === 'Lose weight') calories = TDEE - 500;
+  else if (goal === 'Gain weight') calories = TDEE + 300;
   else calories = TDEE;
 
   // --- Calculate macros ---
-  const proteinPerKg = goal === 'gain' ? 2.2 : 1.8;
+  const proteinPerKg = goal === 'Gain weight' ? 2.2 : 1.8;
   const protein = proteinPerKg * weight;
   const proteinCalories = protein * 4;
 
