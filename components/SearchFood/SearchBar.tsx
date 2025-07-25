@@ -32,7 +32,6 @@ export default function SearchBar() {
         console.log("the search is not completed");
         return;
       }
-      console.log(resultSearch.data.data);
 
       setOptions(resultSearch?.data?.data?.length ? resultSearch?.data?.data : []);
     }catch(err){
