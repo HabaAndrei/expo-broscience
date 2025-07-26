@@ -9,7 +9,7 @@ import {signOut, deleteUser, initializeAuth, createUserWithEmailAndPassword, sig
 import * as Device from 'expo-device';
 import { StorageService } from '@/providers/StorageService';
 import { useRouter } from 'expo-router';
-
+import { FoodTrackEntry } from '@/helpers/diverse';
 
 const firebaseConfig = {
   apiKey: EnvConfig.get('firebaseApiKey'),
@@ -193,7 +193,7 @@ class Firebase {
 
   async addIntoDatabase(
     {database, id, columnsWithValues}:
-    {database: string, id: string | number, columnsWithValues: object}
+    {database: string, id: string | number | null, columnsWithValues: object}
   ){
     return this.catchAndStoreError(async ()=>{
       if ( !auth || !db) {
@@ -208,6 +208,15 @@ class Firebase {
     })
   }
 
+  async storeUsersFood( food: FoodTrackEntry ){
+    return this.catchAndStoreError(async ()=>{
+      const uid = auth?.currentUser?.uid;
+      await this.addIntoDatabase({
+        database: "userFood", id: null, columnsWithValues: {...food, uid}
+      })
+      return {isResolved: true};
+    })
+  }
 
 }
 
