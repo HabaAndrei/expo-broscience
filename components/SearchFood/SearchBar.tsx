@@ -4,13 +4,16 @@ import axios from 'axios';
 import { EnvConfig } from '@/providers/EnvConfig';
 import SearchResults from '@/components/SearchFood/SearchResults';
 import SelectedOption from '@/components/SearchFood/SelectedOption';
+import NutritionLabel from '@/components/SearchFood/NutritionLabel';
 
-type FoodItem = {
-  name: string;
-  calories: number,
-  carbs: number,
-  fats: number,
-  protein: number,
+export type FoodItem = {
+  brand_name?: string | undefined | null;
+  food_id: number | string,
+  food_name: string,
+  food_type: string,
+  food_url: string,
+  servings: any,
+  editable?: any,
 };
 
 export default function SearchBar() {
@@ -39,6 +42,13 @@ export default function SearchBar() {
     }
   }
 
+  function selectFood(food: FoodItem){
+    const serving = food?.servings?.[0];
+    const {calories, carbohydrate, fat, metric_serving_amount, metric_serving_unit, protein} = serving;
+    food['editable'] = {calories, carbohydrate, fat, metric_serving_amount, metric_serving_unit, protein};
+    setSelected(food);
+  }
+
   return (
     <YStack style={{ alignSelf: 'center' }}  width="100%" space="$2" mt="$4" position="relative">
       <Input
@@ -53,7 +63,7 @@ export default function SearchBar() {
         onBlur={() => {
           setTimeout(() => setShowOptions(false), 200)
         }}
-        width="80%"
+        width="90%"
         borderColor="#ccc"
         borderWidth={1}
       />
@@ -61,15 +71,18 @@ export default function SearchBar() {
       {showOptions && options.length > 0 && (
         <SearchResults
           options={options}
-          func={(optin:FoodItem)=>{
+          func={(option:FoodItem)=>{
             setShowOptions(false)
-            setSelected(optin)
+            selectFood(option)
           }}
         />
       )}
 
       {selected ? (
-        <SelectedOption selected={selected} setSelected={setSelected} />
+        <>
+          <SelectedOption selected={selected} setSelected={setSelected} />
+          <NutritionLabel selected={selected} />
+        </>
       ) : null}
 
     </YStack>

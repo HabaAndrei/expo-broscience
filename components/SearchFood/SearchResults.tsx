@@ -3,7 +3,7 @@ import { Button, Text, YStack } from "tamagui"
 export default function SearchResults(props: any) {
   return (
     <YStack
-      width="80%"
+      width="90%"
       position="absolute"
       top={48}
       borderRadius={10}
@@ -33,12 +33,23 @@ export default function SearchResults(props: any) {
           px="$3"
           py="$2"
         >
-          <YStack alignItems="center">
-            <Text fontSize={15} color="#333" fontWeight="600">
+          <YStack alignItems="center" width="100%" paddingHorizontal={10}>
+            <Text
+              fontSize={15}
+              color="#333"
+              fontWeight="600"
+              textAlign="center"
+              flexShrink={1}
+            >
               {option.food_name}
             </Text>
             {option.brand_name && (
-              <Text fontSize={13} color="#888">
+              <Text
+                fontSize={13}
+                color="#888"
+                textAlign="center"
+                flexShrink={1}
+              >
                 {option.brand_name}
               </Text>
             )}
