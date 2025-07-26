@@ -1,79 +1,62 @@
 import { Button, H6, XStack } from "tamagui";
 import PlanCard from "@/components/Cards/PlanCard";
 
-const nutrientsLabels: any = {
+const nutrientsLabels: Record<string, { title: string; paragraph: string; label: string }> = {
   calories: {
-    title: '',
-    paragraph: 'Calories',
+    title: ' kcal',
+    paragraph: 'Calories in current portion',
     label: 'Calories'
   },
   carbohydrate: {
     title: ' g',
-    paragraph: 'carbohydrate',
-    label: 'carbohydrate'
+    paragraph: 'Carbohydrates per portion',
+    label: 'Carbohydrate'
   },
   fat: {
     title: ' g',
-    paragraph: 'fat',
-    label: 'fat'
+    paragraph: 'Fats per portion',
+    label: 'Fat'
   },
   protein: {
     title: ' g',
-    paragraph: 'Protein',
+    paragraph: 'Protein per portion',
     label: 'Protein'
   },
   metric_serving_amount: {
-    title: '',
-    paragraph: 'Quantity',
+    title: '', // Unit will be added dynamically
+    paragraph: 'Serving Size',
     label: 'Quantity'
   }
-}
+};
 
-export default function SelectedOption(props: any) {
+export default function SelectedOption({ selected, setSelected }: any) {
+  const editable = selected?.editable ?? {};
+  const { metric_serving_unit = '' } = editable;
+  const { food_name } = selected;
 
-  const editable = props?.selected?.editable ?? {};
-  const { metric_serving_unit } = editable;
-
-  // This line ensures that the 'quantity' property is the first property in the object
-  let selectedValue = {metric_serving_amount: editable.metric_serving_amount, ...editable};
+  // Ensure metric_serving_amount is the first property shown
+  const selectedValue = { metric_serving_amount: editable.metric_serving_amount, ...editable };
 
   /**
-   * Updates the nutrient values when the quantity changes.
-   * Ensures the values per gram are recalculated with up to 3 decimal places.
-   * If the input quantity is invalid or < 1, it defaults to 1.
+   * Updates nutrient values based on quantity changes.
    */
   function editQuantityValue(key: string, newVal: string | number) {
-
-    console.log({newVal, key});
-
-    // If newVal is not a number, do nothing
-    // Only process if the edited key is "quantity"
-    if ((key !== 'metric_serving_amount') || isNaN(Number(newVal))) return;
+    if (key !== 'metric_serving_amount' || isNaN(Number(newVal))) return;
 
     let quantity = Number(newVal);
-    // Ensure the quantity is at least 1
     if (isNaN(quantity) || quantity < 1) quantity = 1;
 
-    const exQuantity = selectedValue?.['metric_serving_amount'];
-    // If there's no previous quantity or the new one is the same, do nothing
+    const exQuantity = selectedValue.metric_serving_amount;
     if (!exQuantity || exQuantity === quantity) return;
 
-    // Extract the current nutrient values
-    let { calories, carbohydrate, protein, fat } = selectedValue;
+    const { calories = 0, carbohydrate = 0, protein = 0, fat = 0 } = selectedValue;
 
-    calories = Number(calories);
-    carbohydrate = Number(carbohydrate);
-    protein = Number(protein);
-    fat = Number(fat);
+    const calories1g = +(Number(calories) / exQuantity).toFixed(3);
+    const carbohydrate1g = +(Number(carbohydrate) / exQuantity).toFixed(3);
+    const protein1g = +(Number(protein) / exQuantity).toFixed(3);
+    const fats1g = +(Number(fat) / exQuantity).toFixed(3);
 
-    // Calculate the nutrient values per 1 gram, rounded
-    const calories1g = +(calories / exQuantity).toFixed(3);
-    const carbohydrate1g = +(carbohydrate / exQuantity).toFixed(3);
-    const protein1g = +(protein / exQuantity).toFixed(3);
-    const fats1g = +(fat / exQuantity).toFixed(3);
-
-    // Update the selected values with the recalculated nutrients
-    props.setSelected((prev: any) => ({
+    setSelected((prev: any) => ({
       ...prev,
       editable: {
         calories: +(calories1g * quantity).toFixed(3),
@@ -81,56 +64,62 @@ export default function SelectedOption(props: any) {
         protein: +(protein1g * quantity).toFixed(3),
         fat: +(fats1g * quantity).toFixed(3),
         metric_serving_amount: quantity,
-        metric_serving_unit: metric_serving_unit
+        metric_serving_unit
       }
     }));
   }
 
   /**
-   * Filters out the 'metric_serving_unit' property from the list of keys
-   * (because 'metric_serving_unit' is not a nutrient or editable value).
+   * Removes non-editable or non-nutrient fields from display.
    */
   function filterKeys(keys: string[]) {
-    let newKeys = keys.filter((key) => {
-      if (key != 'metric_serving_unit') {
-        return true;
-      }
-    })
-    return newKeys;
+    return keys.filter((key) => key !== 'metric_serving_unit');
   }
 
   return (
     <>
-      <XStack gap="$2" mt="$3" style={{ justifyContent: "center" }}>
-        <H6>{props.selected.name}</H6>
+      <XStack gap="$2" mt="$3" style={{justifyContent: "center"}}>
+        <H6>{food_name}</H6>
       </XStack>
-      <XStack style={{marginTop: 30, justifyContent: "center", alignItems: "center"}} flexWrap="wrap" gap={6} >
-        {filterKeys(Object?.keys(selectedValue)).map((key, index) => (
-          <PlanCard
-            key={index}
-            title={selectedValue?.[key] + nutrientsLabels?.[key]?.title}
-            paragraph={nutrientsLabels?.[key]?.paragraph}
-            button={key === 'quantity' ? "Edit" : null}
-            // If the field is "metric_serving_amount", add an edit form inside the PlanCard
-            edit={
-              key === 'metric_serving_amount'
-                ? {
-                    inputValue: `${selectedValue?.[key]}`,
-                    func: (newVal: string) => editQuantityValue(key, newVal),
-                    title: nutrientsLabels?.[key]?.paragraph,
-                    description: "Edit value",
-                    label: nutrientsLabels?.[key]?.label,
-                    buttonComponent: (
-                      <Button style={{ alignSelf: "center" }} size="$2">
-                        Edit
-                      </Button>
-                    )
-                  }
-                : null
-            }
-          />
-        ))}
+      <XStack mt="$3" style={{justifyContent: "center", alignItems: "center"}}  flexWrap="wrap" gap={6}>
+        {filterKeys(Object.keys(selectedValue)).map((key, index) => {
+          const value = selectedValue?.[key];
+          const labelConfig = nutrientsLabels?.[key] ?? {
+            title: '',
+            paragraph: key,
+            label: key
+          };
+
+          const unitSuffix = key === 'metric_serving_amount' && metric_serving_unit
+            ? ` ${metric_serving_unit}`
+            : labelConfig.title;
+
+          return (
+            <PlanCard
+              key={index}
+              title={`${value}${unitSuffix}`}
+              paragraph={labelConfig.paragraph}
+              button={key === 'metric_serving_amount' ? "Edit" : null}
+              edit={
+                key === 'metric_serving_amount'
+                  ? {
+                      inputValue: String(value),
+                      func: (newVal: string) => editQuantityValue(key, newVal),
+                      title: labelConfig.paragraph,
+                      description: "Enter new amount",
+                      label: labelConfig.label,
+                      buttonComponent: (
+                        <Button style={{ alignSelf: "center" }} size="$2">
+                          Edit
+                        </Button>
+                      )
+                    }
+                  : null
+              }
+            />
+          );
+        })}
       </XStack>
     </>
-  )
+  );
 }
