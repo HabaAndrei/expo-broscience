@@ -209,3 +209,32 @@ export type FoodTrackEntry = {
   brandName: string | null;
   type: 'scan' | 'db' | string;
 };
+
+
+export const nutrientsLabels: Record<string, { title: string; paragraph: string; label: string }> = {
+  calories: {
+    title: ' kcal',
+    paragraph: 'Calories in current portion',
+    label: 'Calories'
+  },
+  carbohydrate: {
+    title: ' g',
+    paragraph: 'Carbohydrates per portion',
+    label: 'Carbohydrate'
+  },
+  fat: {
+    title: ' g',
+    paragraph: 'Fats per portion',
+    label: 'Fat'
+  },
+  protein: {
+    title: ' g',
+    paragraph: 'Protein per portion',
+    label: 'Protein'
+  },
+  metric_serving_amount: {
+    title: '', // Unit will be added dynamically
+    paragraph: 'Serving Size',
+    label: 'Quantity'
+  }
+};
