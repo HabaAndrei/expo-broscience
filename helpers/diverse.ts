@@ -196,3 +196,16 @@ export function calculateMacrosAndHealthScore({ gender, workouts, height, weight
     healthScore,
   };
 }
+
+export type FoodTrackEntry = {
+  calories: number;
+  carbohydrate: number;
+  protein: number;
+  fat: number;
+  metricServingAmount: number;
+  metricServingUnit: string;
+  foodName: string;
+  healthScore: number | null;
+  brandName: string | null;
+  type: 'scan' | 'db' | string;
+};
