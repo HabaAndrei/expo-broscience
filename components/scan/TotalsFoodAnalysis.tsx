@@ -2,8 +2,15 @@ import { View } from 'react-native';
 import PlanCard from '@/components/Cards/PlanCard';
 import { Button, H5, Text, XStack, YStack } from 'tamagui';
 import { ingredientsLabels } from '@/helpers/diverse';
+import { PlusSquare } from '@tamagui/lucide-icons';
+import { Firebase } from '@/providers/Firebase';
+import { useRef } from 'react';
+import { useRouter } from 'expo-router';
 
 export default function TotalsFoodAnalysis(props: any) {
+
+  const isStoring = useRef(false);
+  const router = useRouter();
   let existsTotals = false;
   if (
     props?.analysis?.totals &&
@@ -15,6 +22,8 @@ export default function TotalsFoodAnalysis(props: any) {
 
   const totals = props?.analysis?.totals;
 
+  const firebaseClient = new Firebase();
+
   function editTotalValues(key: string, value: string) {
     if (isNaN(Number(value))) return;
     props.setAnalysis((prev: any) => {
@@ -23,6 +32,36 @@ export default function TotalsFoodAnalysis(props: any) {
         totals: { ...prev.totals, [key]: value }
       };
     });
+  }
+
+  async function storeFood(){
+
+    if (isStoring.current) return;
+
+    isStoring.current = true;
+    const { health_score, name, total_quantity } = props.analysis;
+    const { calories, protein, carbs, fats } = totals;
+
+    const fieldsToStore = {
+      calories,
+      carbohydrate: carbs,
+      protein,
+      fat: fats,
+      metricServingAmount: total_quantity,
+      metricServingUnit: 'g',
+      foodName: name,
+      healthScore: health_score,
+      brandName: '',
+      type: "scan"
+    }
+    const responseSave: any = await firebaseClient.storeUsersFood(fieldsToStore);
+    isStoring.current = false;
+
+    if (responseSave.isResolved == true) router.replace("/")
+    else {
+      console.log("the store session could not be resolved", responseSave);
+    }
+
   }
 
   return (
@@ -39,6 +78,11 @@ export default function TotalsFoodAnalysis(props: any) {
             <XStack gap="$2" style={{alignItems: 'center'}}>
               <Text fontWeight="bold">Health Score:</Text>
               <Text>{props.analysis.health_score ?? 'N/A'}</Text>
+            </XStack>
+            <XStack gap="$2" style={{alignSelf: 'center'}} >
+              <Button size="$4" iconAfter={PlusSquare} onPress={storeFood} >
+                Add to My Foods
+              </Button>
             </XStack>
           </YStack>
 

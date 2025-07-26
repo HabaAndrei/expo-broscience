@@ -1,38 +1,20 @@
 import { Button, H6, XStack } from "tamagui";
 import PlanCard from "@/components/Cards/PlanCard";
-
-const nutrientsLabels: Record<string, { title: string; paragraph: string; label: string }> = {
-  calories: {
-    title: ' kcal',
-    paragraph: 'Calories in current portion',
-    label: 'Calories'
-  },
-  carbohydrate: {
-    title: ' g',
-    paragraph: 'Carbohydrates per portion',
-    label: 'Carbohydrate'
-  },
-  fat: {
-    title: ' g',
-    paragraph: 'Fats per portion',
-    label: 'Fat'
-  },
-  protein: {
-    title: ' g',
-    paragraph: 'Protein per portion',
-    label: 'Protein'
-  },
-  metric_serving_amount: {
-    title: '', // Unit will be added dynamically
-    paragraph: 'Serving Size',
-    label: 'Quantity'
-  }
-};
+import { PlusSquare } from '@tamagui/lucide-icons';
+import { nutrientsLabels } from '@/helpers/diverse';
+import { useRef } from "react";
+import { Firebase } from '@/providers/Firebase';
+import { useRouter } from 'expo-router';
 
 export default function SelectedOption({ selected, setSelected }: any) {
+
+  const isStoring = useRef(false);
+  const router = useRouter();
+  const firebaseClient = new Firebase();
+
   const editable = selected?.editable ?? {};
   const { metric_serving_unit = '' } = editable;
-  const { food_name } = selected;
+  const { food_name, brand_name } = selected;
 
   let selectedValue = {
     ...editable,
@@ -40,6 +22,36 @@ export default function SelectedOption({ selected, setSelected }: any) {
   };
   // Ensure metric_serving_amount is the first property shown
   selectedValue = {metric_serving_amount: selectedValue.metric_serving_amount, ...selectedValue};
+
+  async function storeFood(){
+
+    if (isStoring.current) return;
+    isStoring.current = true;
+
+    const {calories, carbohydrate, fat, metric_serving_amount, metric_serving_unit, protein } = selectedValue;
+    const fieldsToStore = {
+      calories,
+      carbohydrate,
+      protein,
+      fat,
+      metricServingAmount: metric_serving_amount,
+      metricServingUnit: metric_serving_unit,
+      foodName: food_name,
+      healthScore: null,
+      brandName: brand_name,
+      type: "db"
+    }
+    const responseSave: any = await firebaseClient.storeUsersFood(fieldsToStore);
+    isStoring.current = false;
+
+    if (responseSave.isResolved == true) router.replace("/")
+    else {
+      console.log("the store session could not be resolved", responseSave);
+    }
+
+  }
+
+
 
   /**
    * Updates nutrient values based on quantity changes.
@@ -84,6 +96,11 @@ export default function SelectedOption({ selected, setSelected }: any) {
     <>
       <XStack gap="$2" mt="$3" style={{justifyContent: "center"}}>
         <H6>{food_name}</H6>
+      </XStack>
+      <XStack gap="$2" style={{alignSelf: 'center'}} >
+        <Button size="$4" iconAfter={PlusSquare} onPress={storeFood} >
+          Add to My Foods
+        </Button>
       </XStack>
       <XStack mt="$3" style={{justifyContent: "center", alignItems: "center"}}  flexWrap="wrap" gap={6}>
         {filterKeys(Object.keys(selectedValue)).map((key, index) => {
