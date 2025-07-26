@@ -34,8 +34,12 @@ export default function SelectedOption({ selected, setSelected }: any) {
   const { metric_serving_unit = '' } = editable;
   const { food_name } = selected;
 
+  let selectedValue = {
+    ...editable,
+    metric_serving_amount: Math.trunc(Number(editable.metric_serving_amount)),
+  };
   // Ensure metric_serving_amount is the first property shown
-  const selectedValue = { metric_serving_amount: editable.metric_serving_amount, ...editable };
+  selectedValue = {metric_serving_amount: selectedValue.metric_serving_amount, ...selectedValue};
 
   /**
    * Updates nutrient values based on quantity changes.
