@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { YStack, Input } from 'tamagui';
 import axios from 'axios';
 import { EnvConfig } from '@/providers/EnvConfig';
@@ -24,6 +24,7 @@ export default function SearchBar() {
 
   useEffect(()=>{
     searchFood(searchText)
+    if (!searchText.length) setShowOptions(false);
   }, [searchText]);
 
   async function searchFood(input: string){
@@ -47,6 +48,7 @@ export default function SearchBar() {
     const {calories, carbohydrate, fat, metric_serving_amount, metric_serving_unit, protein} = serving;
     food['editable'] = {calories, carbohydrate, fat, metric_serving_amount, metric_serving_unit, protein};
     setSelected(food);
+    setShowOptions(false);
   }
 
   return (
@@ -61,6 +63,7 @@ export default function SearchBar() {
         }}
         onFocus={() => setShowOptions(true)}
         onBlur={() => {
+          // on blur is not working on ios
           setTimeout(() => setShowOptions(false), 200)
         }}
         width="90%"
