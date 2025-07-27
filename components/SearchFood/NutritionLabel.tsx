@@ -1,9 +1,10 @@
 import { View, Text } from 'tamagui';
 import { FoodItem } from '@/components/SearchFood/SearchBar';
+import { brand } from 'expo-device';
 
 export default function NutritionLabel({selected}: {selected: FoodItem}){
 
-  const {food_name, servings} = selected;
+  const {food_name, servings, brand_name} = selected;
   const serving = servings[0]
 
   const unitMap: Record<string, string> = {
@@ -70,6 +71,12 @@ export default function NutritionLabel({selected}: {selected: FoodItem}){
       <View px="$3" py="$2">
         <Text fontSize={24} fontWeight="900" color="#000" mb="$2"> Nutrition Facts </Text>
         <Text fontSize={14} mb="$2" fontWeight="600" color="#000">Name: {food_name}</Text>
+        {brand_name ?
+          <View flexDirection="row" style={{justifyContent: "space-between"}} mb="$2">
+            <Text fontSize={14} fontWeight="600" color="#000">Brand name:</Text>
+            <Text fontSize={14} fontWeight="600" color="#000">{brand_name}</Text>
+          </View> : null
+        }
 
         <View flexDirection="row" style={{justifyContent: "space-between"}} mb="$2">
           <Text fontSize={14} fontWeight="600" color="#000">Serving Size</Text>
