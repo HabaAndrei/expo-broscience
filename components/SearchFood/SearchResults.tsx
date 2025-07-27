@@ -1,4 +1,5 @@
 import { Button, Text, YStack } from "tamagui"
+import { ScrollView } from 'react-native';
 
 export default function SearchResults(props: any) {
   return (
@@ -10,7 +11,7 @@ export default function SearchResults(props: any) {
       borderWidth={1}
       borderColor="#ddd"
       elevation={5}
-      maxHeight={200}
+      maxHeight={300}
       overflow="scroll"
       backgroundColor="white"
       shadowColor="#000"
@@ -20,42 +21,44 @@ export default function SearchResults(props: any) {
       zIndex={1000}
       alignSelf="center"
     >
-      {props.options.map((option: any, idx: number) => (
-        <Button
-          key={idx}
-          onPress={() => props.func(option)}
-          size="$4"
-          justifyContent="center"
-          alignItems="center"
-          backgroundColor="transparent"
-          borderBottomWidth={idx === props.options.length - 1 ? 0 : 1}
-          borderBottomColor="#eee"
-          px="$3"
-          py="$2"
-        >
-          <YStack alignItems="center" width="100%" paddingHorizontal={10}>
-            <Text
-              fontSize={15}
-              color="#333"
-              fontWeight="600"
-              textAlign="center"
-              flexShrink={1}
-            >
-              {option.food_name}
-            </Text>
-            {option.brand_name && (
+      <ScrollView>
+        {props.options.map((option: any, idx: number) => (
+          <Button
+            key={idx}
+            onPress={() => props.func(option)}
+            size="$6"
+            justifyContent="center"
+            alignItems="center"
+            backgroundColor="transparent"
+            borderBottomWidth={idx === props.options.length - 1 ? 0 : 1}
+            borderBottomColor="#eee"
+            px="$3"
+            py="$2"
+          >
+            <YStack alignItems="center" width="100%" paddingHorizontal={10}>
               <Text
-                fontSize={13}
-                color="#888"
+                fontSize={15}
+                color="#333"
+                fontWeight="600"
                 textAlign="center"
-                flexShrink={1}
+                // flexShrink={1}
               >
-                {option.brand_name}
+                {option.food_name}
               </Text>
-            )}
-          </YStack>
-        </Button>
-      ))}
+              {option.brand_name && (
+                <Text
+                  fontSize={13}
+                  color="#888"
+                  textAlign="center"
+                  flexShrink={1}
+                >
+                  {option.brand_name}
+                </Text>
+              )}
+            </YStack>
+          </Button>
+        ))}
+      </ScrollView>
     </YStack>
   )
 }

@@ -211,10 +211,10 @@ class Firebase {
   async storeUsersFood( food: FoodTrackEntry ){
     return this.catchAndStoreError(async ()=>{
       const uid = auth?.currentUser?.uid;
-      await this.addIntoDatabase({
+      const result = await this.addIntoDatabase({
         database: "userFood", id: null, columnsWithValues: {...food, uid}
       })
-      return {isResolved: true};
+      return result;
     })
   }
 
