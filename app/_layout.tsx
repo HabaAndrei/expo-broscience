@@ -14,6 +14,7 @@ import { onAuthStateChanged, User } from 'firebase/auth';
 import { StorageService } from '@/providers/StorageService';
 import type { ThemeName } from 'tamagui';
 import { ConfirmationDialogProvider } from '@/contexts/ConfirmationDialogContext';
+import { ToastNotificationProvider } from '@/contexts/ToastNotificationContext';
 
 export default function RootLayout() {
 
@@ -46,22 +47,24 @@ export default function RootLayout() {
   return (
     <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme}>
       <ThemeColorContext.Provider value={{themeColor, setThemeColor}}>
-        <UserContext.Provider value={{user, isUserLoading}}>
-          <Theme name={themeColor}>
-            <StatusBar style="dark" />
-            <ConfirmationDialogProvider>
-              <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-                <Stack>
-                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                  <Stack.Screen name="test" options={{ headerShown: false }} />
-                  <Stack.Screen name="+not-found" options={{ headerShown: false }} />
-                  <Stack.Screen name="login" options={{ headerShown: false }} />
-                </Stack>
-              </ThemeProvider>
-            </ConfirmationDialogProvider>
-          </Theme>
-        </UserContext.Provider>
-        </ThemeColorContext.Provider>
+        <ToastNotificationProvider >
+          <UserContext.Provider value={{user, isUserLoading}}>
+            <Theme name={themeColor}>
+              <StatusBar style="dark" />
+              <ConfirmationDialogProvider>
+                <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                  <Stack>
+                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    <Stack.Screen name="test" options={{ headerShown: false }} />
+                    <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+                    <Stack.Screen name="login" options={{ headerShown: false }} />
+                  </Stack>
+                </ThemeProvider>
+              </ConfirmationDialogProvider>
+            </Theme>
+          </UserContext.Provider>
+        </ToastNotificationProvider>
+      </ThemeColorContext.Provider>
     </TamaguiProvider>
   )
 }
