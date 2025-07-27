@@ -1,4 +1,4 @@
-import { Button, H6, XStack } from "tamagui";
+import { Button, H6, XStack, Text, YStack } from "tamagui";
 import PlanCard from "@/components/Cards/PlanCard";
 import { PlusSquare } from '@tamagui/lucide-icons';
 import { nutrientsLabels } from '@/helpers/diverse';
@@ -103,9 +103,13 @@ export default function SelectedOption({ selected, setSelected }: any) {
 
   return (
     <>
-      <XStack gap="$2" mt="$3" style={{justifyContent: "center"}}>
-        <H6>{food_name}</H6>
+      <XStack gap="$2" mt="$3" pr="$3" pl="$3" pb="$4" style={{ alignSelf: 'center' }} >
+        <YStack>
+          <H6>{food_name}</H6>
+          {brand_name ? <Text style={{ alignSelf: 'center' }} >{brand_name}</Text> : null}
+        </YStack>
       </XStack>
+
       <XStack gap="$2" style={{alignSelf: 'center'}} >
         <Button size="$4" iconAfter={PlusSquare} onPress={storeFood} >
           Add to My Foods
