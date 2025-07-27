@@ -155,15 +155,25 @@ export default function LoginIndex(){
     }
   }
 
-  function previousPage(){
+  async function previousPage(){
     const actualIndexPage = progress.current;
+    const pageName = Object?.keys(userNavigationState.pages)[actualIndexPage - 1];
+    if (pageName == 'AuthForm') {
+      const data = await StorageService.getStorage("initialInformations");
+      // if the client doesnt have all informations we send him to the first page
+      // only if he wants to go back fram auth form
+      if (!data.data) {
+        handleChangeDispatch({ type: 'setCurrentPage', payload: Object?.keys(userNavigationState.pages)[0] });
+        return;
+      }
+    }
     if (actualIndexPage <= 1) return;
     const previousPageName = Object?.keys(userNavigationState.pages)[actualIndexPage - 2];
     handleChangeDispatch({ type: 'setCurrentPage', payload: previousPageName });
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#f9f9f9' }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={{ flex: 1 }}
