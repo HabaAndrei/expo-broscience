@@ -14,7 +14,7 @@ export default function SearchFoodIndex() {
         }}
       />
 
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{flex: 1, backgroundColor: "#f9f9f9"}}>
         <SearchBar></SearchBar>
       </SafeAreaView>
 

@@ -41,7 +41,6 @@ export default function SearchResults(props: any) {
                 color="#333"
                 fontWeight="600"
                 textAlign="center"
-                // flexShrink={1}
               >
                 {option.food_name}
               </Text>

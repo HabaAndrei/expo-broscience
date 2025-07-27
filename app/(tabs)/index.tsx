@@ -16,7 +16,7 @@ const index = () => {
           style={styles.reactLogo}
         />
       }>
-      <View>
+      <View style={{backgroundColor: '#f9f9f9'}} >
         <ColorPalette/>
         <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
       </View>

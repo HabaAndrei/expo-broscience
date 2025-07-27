@@ -66,6 +66,8 @@ export default function NutritionLabel({selected}: {selected: FoodItem}){
       }}
       mx="auto"
       my="$4"
+      mr="$5"
+      ml="$5"
     >
       {/* Header */}
       <View px="$3" py="$2">

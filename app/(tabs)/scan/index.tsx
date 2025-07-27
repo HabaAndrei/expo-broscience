@@ -84,6 +84,7 @@ export default function ScanIndex() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f9f9f9'
   },
   scrollView: {
     paddingBottom: 50,
