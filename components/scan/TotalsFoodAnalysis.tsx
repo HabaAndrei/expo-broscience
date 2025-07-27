@@ -6,11 +6,15 @@ import { PlusSquare } from '@tamagui/lucide-icons';
 import { Firebase } from '@/providers/Firebase';
 import { useRef } from 'react';
 import { useRouter } from 'expo-router';
+import { useToastNotification } from '@/contexts/ToastNotificationContext';
+
 
 export default function TotalsFoodAnalysis(props: any) {
 
   const isStoring = useRef(false);
   const router = useRouter();
+  const { addNotification } = useToastNotification()
+
   let existsTotals = false;
   if (
     props?.analysis?.totals &&
@@ -59,7 +63,13 @@ export default function TotalsFoodAnalysis(props: any) {
 
     if (responseSave.isResolved == true) router.replace("/")
     else {
-      console.log("the store session could not be resolved", responseSave);
+      addNotification(
+        {
+          type: 'error',
+          title: 'Error!',
+          description: 'Please try again.',
+        }
+      )
     }
 
   }

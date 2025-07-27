@@ -5,12 +5,15 @@ import { nutrientsLabels } from '@/helpers/diverse';
 import { useRef } from "react";
 import { Firebase } from '@/providers/Firebase';
 import { useRouter } from 'expo-router';
+import { useToastNotification } from '@/contexts/ToastNotificationContext';
 
 export default function SelectedOption({ selected, setSelected }: any) {
 
   const isStoring = useRef(false);
   const router = useRouter();
   const firebaseClient = new Firebase();
+  const { addNotification } = useToastNotification()
+
 
   const editable = selected?.editable ?? {};
   const { metric_serving_unit = '' } = editable;
@@ -46,7 +49,13 @@ export default function SelectedOption({ selected, setSelected }: any) {
 
     if (responseSave.isResolved == true) router.replace("/")
     else {
-      console.log("the store session could not be resolved", responseSave);
+      addNotification(
+        {
+          type: 'error',
+          title: 'Error!',
+          description: 'Please try again.',
+        }
+      )
     }
 
   }
