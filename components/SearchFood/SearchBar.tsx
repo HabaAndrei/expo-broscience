@@ -5,6 +5,7 @@ import { EnvConfig } from '@/providers/EnvConfig';
 import SearchResults from '@/components/SearchFood/SearchResults';
 import SelectedOption from '@/components/SearchFood/SelectedOption';
 import NutritionLabel from '@/components/SearchFood/NutritionLabel';
+import { ScrollView } from 'react-native';
 
 export type FoodItem = {
   brand_name?: string | undefined | null;
@@ -59,22 +60,22 @@ export default function SearchBar() {
           setSearchText(text)
           setShowOptions(true)
         }}
-        onFocus={() => setShowOptions(true)}
-        onBlur={() => {
-          setTimeout(() => setShowOptions(false), 200)
-        }}
+        // onFocus={() => setShowOptions(true)}
+        // onBlur={() => {
+        //   setTimeout(() => setShowOptions(false), 200)
+        // }}
         width="90%"
         borderColor="#ccc"
         borderWidth={1}
-      />
+        />
 
       {showOptions && options.length > 0 && (
         <SearchResults
-          options={options}
-          func={(option:FoodItem)=>{
-            setShowOptions(false)
-            selectFood(option)
-          }}
+        options={options}
+        func={(option:FoodItem)=>{
+          setShowOptions(false)
+          selectFood(option)
+        }}
         />
       )}
 

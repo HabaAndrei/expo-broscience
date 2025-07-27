@@ -24,7 +24,7 @@ export default function TabLayout() {
       name: "searchFood",
       title: "Search food",
       icon: (focused: boolean) => <></>,
-      href: null
+      href: true
     },
   ]
 

@@ -214,7 +214,7 @@ class Firebase {
       await this.addIntoDatabase({
         database: "userFood", id: null, columnsWithValues: {...food, uid}
       })
-      return {isResolved: true};
+      return {isResolved: false};
     })
   }
 

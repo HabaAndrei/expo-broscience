@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import SearchBar from '@/components/SearchFood/SearchBar';
-import { ScrollView } from 'react-native'
+import { SafeAreaView } from 'react-native'
 
 export default function SearchFoodIndex() {
   return (
@@ -14,9 +14,9 @@ export default function SearchFoodIndex() {
         }}
       />
 
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <SearchBar></SearchBar>
-      </ScrollView>
+      </SafeAreaView>
 
     </>
   );
