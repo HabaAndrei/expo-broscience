@@ -1,10 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { YStack, Input } from 'tamagui';
 import axios from 'axios';
 import { EnvConfig } from '@/providers/EnvConfig';
 import SearchResults from '@/components/SearchFood/SearchResults';
 import SelectedOption from '@/components/SearchFood/SelectedOption';
 import NutritionLabel from '@/components/SearchFood/NutritionLabel';
+import { ScrollView } from 'react-native';
 
 export type FoodItem = {
   brand_name?: string | undefined | null;
@@ -59,9 +60,15 @@ export default function SearchBar() {
         value={searchText}
         onChangeText={text => {
           setSearchText(text)
-          setShowOptions(true)
+          if (text.length) {
+            setShowOptions(true)
+          }
         }}
-        onFocus={() => setShowOptions(true)}
+        onFocus={() =>{
+          if (searchText.length) {
+            setShowOptions(true)
+          }
+        }}
         onBlur={() => {
           // on blur is not working on ios
           setTimeout(() => setShowOptions(false), 200)
@@ -69,7 +76,7 @@ export default function SearchBar() {
         width="90%"
         borderColor="#ccc"
         borderWidth={1}
-      />
+        />
 
       {showOptions && options.length > 0 && (
         <SearchResults
@@ -82,10 +89,10 @@ export default function SearchBar() {
       )}
 
       {selected ? (
-        <>
+        <ScrollView style={{marginBottom: 100}} >
           <SelectedOption selected={selected} setSelected={setSelected} />
           <NutritionLabel selected={selected} />
-        </>
+        </ScrollView>
       ) : null}
 
     </YStack>
