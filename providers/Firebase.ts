@@ -1,10 +1,10 @@
 import { EnvConfig } from './EnvConfig';
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, doc, setDoc, getDoc, Firestore } from "firebase/firestore";
+import { getFirestore, collection, addDoc, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getReactNativePersistence } from '@firebase/auth/dist/rn/index.js';
 import {signOut, deleteUser, initializeAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  sendPasswordResetEmail, reauthenticateWithCredential, EmailAuthProvider, Auth
+  sendPasswordResetEmail, reauthenticateWithCredential, EmailAuthProvider
 } from "firebase/auth";
 import * as Device from 'expo-device';
 import { StorageService } from '@/providers/StorageService';
@@ -54,21 +54,28 @@ class Firebase {
       };
       const rez: any = await createUserWithEmailAndPassword(auth, email, password);
       const {uid} = rez.user;
-      const {createdAt} = rez.user.metadata;
       const initialInformations = await StorageService.getStorage("initialInformations");
       if (!initialInformations.isResolved || !initialInformations.data) throw new Error("couldn't get initialInformations from async storage")
       await this.addIntoDatabase({
         database: 'users',
         id: uid,
         columnsWithValues: {
-          uid, createdAt, email, firstName, secondName, email_verified: false,
+          uid,
+          createdAt: serverTimestamp(),
+          email,
+          firstName,
+          secondName,
+          email_verified: false,
           ...initialInformations.data.userDetails
         }
       });
       await this.addIntoDatabase({
         database: 'usersPlan',
         id: uid,
-        columnsWithValues: initialInformations.data.plan
+        columnsWithValues: {
+          ...initialInformations.data.plan,
+          createdAt: serverTimestamp()
+        }
       });
       return {isResolved: true, data: rez};
     })
@@ -119,7 +126,7 @@ class Firebase {
         throw new Error("auth is not defined at _signOut function");
       };
       await signOut(auth);
-      await StorageService.multiRemoveStorage(["initialInformations"]);
+      await StorageService.deleteStorage();
       router.replace('/login');
       return {isResolved: true};
     })
@@ -173,7 +180,7 @@ class Firebase {
         modelId,
         brand,
         mesErr: err?.message,
-        createdAt: new Date()
+        createdAt: serverTimestamp()
       });
       return {isResolved: false, err: err.message}
     }
@@ -212,7 +219,11 @@ class Firebase {
     return this.catchAndStoreError(async ()=>{
       const uid = auth?.currentUser?.uid;
       await this.addIntoDatabase({
-        database: "userFood", id: null, columnsWithValues: {...food, uid}
+        database: "userFood", id: null, columnsWithValues: {
+          ...food,
+          uid,
+          createdAt: serverTimestamp()
+        }
       })
       return {isResolved: true};
     })
