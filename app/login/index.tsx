@@ -155,9 +155,38 @@ export default function LoginIndex(){
     }
   }
 
-  function previousPage(){
+  async function hasInitialInfoOnAuthForm(actualIndexPage: number) {
+    // Get the name of the current page based on index (adjusted by -1 because arrays are 0-based)
+    const actualPageName = Object?.keys(userNavigationState.pages)[actualIndexPage - 1];
+
+    // If the current page is 'AuthForm', check if 'initialInformations' exist in storage
+    if (actualPageName === 'AuthForm') {
+      const data = await StorageService.getStorage("initialInformations");
+      // If no data is found, return false (can't proceed)
+      if (!data.data) return false;
+    }
+    // Return true if the page is not 'AuthForm', or if data exists
+    return true;
+  }
+
+  async function previousPage() {
+    // Get the current page index (1-based) from the progress tracker
     const actualIndexPage = progress.current;
+
+    // Check if we're on 'AuthForm' and if the required info is available
+    const hasInfoInAuth = await hasInitialInfoOnAuthForm(actualIndexPage);
+
+    // If no info exists and we're on AuthForm, go back to the very first page
+    if (!hasInfoInAuth) {
+      const initialPage = Object?.keys(userNavigationState.pages)[0];
+      handleChangeDispatch({ type: 'setCurrentPage', payload: initialPage });
+      return;
+    }
+
+    // If already at the first page, don't go back any further
     if (actualIndexPage <= 1) return;
+
+    // Otherwise, go to the previous page in the navigation flow
     const previousPageName = Object?.keys(userNavigationState.pages)[actualIndexPage - 2];
     handleChangeDispatch({ type: 'setCurrentPage', payload: previousPageName });
   }
