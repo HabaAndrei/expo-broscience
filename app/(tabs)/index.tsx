@@ -4,7 +4,7 @@ import { Firebase } from '@/providers/Firebase';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { Image } from 'expo-image';
 import ColorPalette from '@/components/ColorPalette';
-
+import Calendar from '@/components/Home/Calendar';
 
 const index = () => {
   return (
@@ -18,6 +18,7 @@ const index = () => {
       }>
       <View>
         <ColorPalette/>
+        <Calendar></Calendar>
         <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
       </View>
     </ParallaxScrollView>
