@@ -24,6 +24,7 @@
     "@tamagui/lucide-icons": "^1.126.13",
     "@tamagui/metro-plugin": "^1.126.13",
     "axios": "^1.9.0",
+    "date-fns": "^4.1.0",
     "expo": "^53.0.20",
     "expo-blur": "14.1.5",
     "expo-camera": "16.1.11",
