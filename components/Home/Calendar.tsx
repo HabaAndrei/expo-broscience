@@ -20,22 +20,22 @@ export default function Calendar() {
   }
 
   return (
-    <YStack  style={{alignSelf: 'center', alignItems: "center", justifyContent: "center"}} width="100%" padding="$4">
-
+    <YStack width="100%" padding="$4" space="$4">
       <XStack
-        style={{alignSelf: 'center', alignItems: "center", justifyContent: "center"}}
-         space="$1" width="100%">
-
-        <Pressable
-          onPress={prev}
-        >
-          <ArrowLeftCircle
-            size="$3"
-            color="$color"
-          />
+        width="100%"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Pressable onPress={prev}>
+          <ArrowLeftCircle size="$3" color="$color" />
         </Pressable>
 
-        <XStack space="$1" justifyContent="center" alignItems="center" flexWrap="no-wrap">
+        <XStack
+          flex={1}
+          justifyContent="space-between"
+          alignItems="center"
+          paddingHorizontal="$2"
+        >
           {days.map((day, index) => {
             const isSelected = isSameDay(day, selectedDay);
             return (
@@ -63,14 +63,9 @@ export default function Calendar() {
           })}
         </XStack>
 
-      <Pressable
-        onPress={next}
-      >
-        <ArrowRightCircle
-          size="$3"
-          color="$color"
-        />
-      </Pressable>
+        <Pressable onPress={next}>
+          <ArrowRightCircle size="$3" color="$color" />
+        </Pressable>
       </XStack>
     </YStack>
   );
