@@ -3,7 +3,7 @@ import { ArrowLeftCircle, ArrowRightCircle } from '@tamagui/lucide-icons';
 import { useState } from 'react';
 import { format, startOfWeek, addDays, addWeeks, subWeeks, isSameDay } from 'date-fns';
 import { Pressable } from "react-native";
-import TargetResults from '@/components/Home/TargetResults'
+import PlanResults from '@/components/Home/PlanResults'
 
 export default function Calendar() {
   const [currentWeek, setCurrentWeek] = useState(new Date());
@@ -69,7 +69,7 @@ export default function Calendar() {
           </Pressable>
         </XStack>
       </YStack>
-      <TargetResults selectedDay={selectedDay} />
+      <PlanResults selectedDay={selectedDay} />
     </>
   );
 }
