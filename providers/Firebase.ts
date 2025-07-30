@@ -194,7 +194,7 @@ class Firebase {
       const docRef = doc(db, "users", uid);
       const dataFromDB = await getDoc(docRef);
       const data = dataFromDB.data();
-      return {data};
+      return {isResolved: true, data};
     })
   }
 
@@ -227,6 +227,17 @@ class Firebase {
       })
       return {isResolved: true};
     })
+  }
+
+  async getUserPlan(){
+    if ( !auth || !db) {
+      throw new Error("auth or db are not defined at getUserPlan function");
+    };
+    const uid = auth?.currentUser?.uid;
+    const docRef = doc(db, "usersPlan", uid);
+    const dataFromDB = await getDoc(docRef);
+    const data = dataFromDB.data();
+    return {isResolved: true, data};
   }
 
 }
