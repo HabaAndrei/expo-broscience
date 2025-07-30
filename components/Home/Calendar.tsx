@@ -3,6 +3,7 @@ import { ArrowLeftCircle, ArrowRightCircle } from '@tamagui/lucide-icons';
 import { useState } from 'react';
 import { format, startOfWeek, addDays, addWeeks, subWeeks, isSameDay } from 'date-fns';
 import { Pressable } from "react-native";
+import TargetResults from '@/components/Home/TargetResults'
 
 export default function Calendar() {
   const [currentWeek, setCurrentWeek] = useState(new Date());
@@ -20,52 +21,55 @@ export default function Calendar() {
   }
 
   return (
-    <YStack width="100%" padding="$4" space="$4">
-      <XStack
-        width="100%"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Pressable onPress={prev}>
-          <ArrowLeftCircle size="$3" color="$color" />
-        </Pressable>
-
+    <>
+      <YStack width="100%" padding="$4" space="$4">
         <XStack
-          flex={1}
-          justifyContent="space-between"
+          width="100%"
           alignItems="center"
-          paddingHorizontal="$2"
+          justifyContent="space-between"
         >
-          {days.map((day, index) => {
-            const isSelected = isSameDay(day, selectedDay);
-            return (
-              <YStack key={index} alignItems="center" space="$1">
-                <Text fontSize="$1" fontWeight="600">
-                  {format(day, 'EEE')}
-                </Text>
-                <Circle
-                  size="$3"
-                  backgroundColor={isSelected ? "$color6" : ""}
-                  onPress={() => setSelectedDay(day)}
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Text
-                    color={isSelected ? "$color12" : "$color"}
-                    fontWeight="700"
-                  >
-                    {format(day, 'd')}
-                  </Text>
-                </Circle>
-              </YStack>
-            );
-          })}
-        </XStack>
+          <Pressable onPress={prev}>
+            <ArrowLeftCircle size="$3" color="$color" />
+          </Pressable>
 
-        <Pressable onPress={next}>
-          <ArrowRightCircle size="$3" color="$color" />
-        </Pressable>
-      </XStack>
-    </YStack>
+          <XStack
+            flex={1}
+            justifyContent="space-between"
+            alignItems="center"
+            paddingHorizontal="$2"
+          >
+            {days.map((day, index) => {
+              const isSelected = isSameDay(day, selectedDay);
+              return (
+                <YStack key={index} alignItems="center" space="$1">
+                  <Text fontSize="$1" fontWeight="600">
+                    {format(day, 'EEE')}
+                  </Text>
+                  <Circle
+                    size="$3"
+                    backgroundColor={isSelected ? "$color6" : ""}
+                    onPress={() => setSelectedDay(day)}
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Text
+                      color={isSelected ? "$color12" : "$color"}
+                      fontWeight="700"
+                    >
+                      {format(day, 'd')}
+                    </Text>
+                  </Circle>
+                </YStack>
+              );
+            })}
+          </XStack>
+
+          <Pressable onPress={next}>
+            <ArrowRightCircle size="$3" color="$color" />
+          </Pressable>
+        </XStack>
+      </YStack>
+      <TargetResults selectedDay={selectedDay} />
+    </>
   );
 }
