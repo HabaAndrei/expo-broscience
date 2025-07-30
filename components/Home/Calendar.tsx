@@ -45,8 +45,7 @@ export default function Calendar() {
                 </Text>
                 <Circle
                   size="$3"
-                  backgroundColor={isSelected ? "$color6" : "$gray4"}
-                  pressStyle={{ backgroundColor: "$color7" }}
+                  backgroundColor={isSelected ? "$color6" : ""}
                   onPress={() => setSelectedDay(day)}
                   justifyContent="center"
                   alignItems="center"
