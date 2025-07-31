@@ -107,7 +107,7 @@ export function calculateMacrosAndHealthScore({ gender, workouts, height, weight
   age = Number(age);
   workouts = Number(workouts)
 
-  if (gender.toLowerCase() === 'male') {
+  if (gender?.toLowerCase() === 'male') {
     BMR = 10 *  (weight) + 6.25 * height - 5 * age + 5;
   } else {
     BMR = 10 * weight + 6.25 * height - 5 * age - 161;

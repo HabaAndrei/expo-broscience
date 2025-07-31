@@ -47,14 +47,14 @@ export default function TotalsFoodAnalysis(props: any) {
     const { calories, protein, carbs, fats } = totals;
 
     const fieldsToStore = {
-      calories,
-      carbohydrate: carbs,
-      protein,
-      fat: fats,
-      metricServingAmount: total_quantity,
+      calories: Number(calories),
+      carbohydrate: Number(carbs),
+      protein: Number(protein),
+      fat: Number(fats),
+      metricServingAmount: Number(total_quantity),
       metricServingUnit: 'g',
       foodName: name,
-      healthScore: health_score,
+      healthScore: Number(health_score),
       brandName: '',
       type: "scan"
     }

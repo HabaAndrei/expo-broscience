@@ -33,11 +33,11 @@ export default function SelectedOption({ selected, setSelected }: any) {
 
     const {calories, carbohydrate, fat, metric_serving_amount, metric_serving_unit, protein } = selectedValue;
     const fieldsToStore = {
-      calories,
-      carbohydrate,
-      protein,
-      fat,
-      metricServingAmount: metric_serving_amount,
+      calories: Number(calories),
+      carbohydrate: Number(carbohydrate),
+      protein: Number(protein),
+      fat: Number(fat),
+      metricServingAmount: Number(metric_serving_amount),
       metricServingUnit: metric_serving_unit,
       foodName: food_name,
       healthScore: null,

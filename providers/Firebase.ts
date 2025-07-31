@@ -1,10 +1,14 @@
 import { EnvConfig } from './EnvConfig';
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, doc, setDoc, getDoc, Firestore } from "firebase/firestore";
+import {
+  getFirestore, collection, addDoc, doc, setDoc, getDoc, serverTimestamp,
+  query, where, getDocs, Timestamp
+ } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getReactNativePersistence } from '@firebase/auth/dist/rn/index.js';
-import {signOut, deleteUser, initializeAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
-  sendPasswordResetEmail, reauthenticateWithCredential, EmailAuthProvider, Auth
+import {
+  signOut, deleteUser, initializeAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  sendPasswordResetEmail, reauthenticateWithCredential, EmailAuthProvider
 } from "firebase/auth";
 import * as Device from 'expo-device';
 import { StorageService } from '@/providers/StorageService';
@@ -54,21 +58,28 @@ class Firebase {
       };
       const rez: any = await createUserWithEmailAndPassword(auth, email, password);
       const {uid} = rez.user;
-      const {createdAt} = rez.user.metadata;
       const initialInformations = await StorageService.getStorage("initialInformations");
       if (!initialInformations.isResolved || !initialInformations.data) throw new Error("couldn't get initialInformations from async storage")
       await this.addIntoDatabase({
         database: 'users',
         id: uid,
         columnsWithValues: {
-          uid, createdAt, email, firstName, secondName, email_verified: false,
+          uid,
+          createdAt: serverTimestamp(),
+          email,
+          firstName,
+          secondName,
+          emailVerified: false,
           ...initialInformations.data.userDetails
         }
       });
       await this.addIntoDatabase({
-        database: 'usersPlan',
+        database: 'user_plan',
         id: uid,
-        columnsWithValues: initialInformations.data.plan
+        columnsWithValues: {
+          ...initialInformations.data.plan,
+          createdAt: serverTimestamp()
+        }
       });
       return {isResolved: true, data: rez};
     })
@@ -119,7 +130,7 @@ class Firebase {
         throw new Error("auth is not defined at _signOut function");
       };
       await signOut(auth);
-      await StorageService.multiRemoveStorage(["initialInformations"]);
+      await StorageService.deleteStorage();
       router.replace('/login');
       return {isResolved: true};
     })
@@ -173,7 +184,7 @@ class Firebase {
         modelId,
         brand,
         mesErr: err?.message,
-        createdAt: new Date()
+        createdAt: serverTimestamp()
       });
       return {isResolved: false, err: err.message}
     }
@@ -187,7 +198,7 @@ class Firebase {
       const docRef = doc(db, "users", uid);
       const dataFromDB = await getDoc(docRef);
       const data = dataFromDB.data();
-      return {data};
+      return {isResolved: true, data};
     })
   }
 
@@ -212,9 +223,48 @@ class Firebase {
     return this.catchAndStoreError(async ()=>{
       const uid = auth?.currentUser?.uid;
       await this.addIntoDatabase({
-        database: "userFood", id: null, columnsWithValues: {...food, uid}
+        database: "user_foods", id: null, columnsWithValues: {
+          ...food,
+          uid,
+          createdAt: serverTimestamp()
+        }
       })
       return {isResolved: true};
+    })
+  }
+
+  async getUserPlan(){
+    if ( !auth || !db) {
+      throw new Error("auth or db are not defined at getUserPlan function");
+    };
+    const uid = auth?.currentUser?.uid;
+    const docRef = doc(db, "user_plan", uid);
+    const dataFromDB = await getDoc(docRef);
+    const data = dataFromDB.data();
+    return {isResolved: true, data};
+  }
+
+  async getUserFoodByDay(day = new Date()): Promise<any>{
+    return this.catchAndStoreError(async ()=>{
+      if ( !auth || !db ) {
+        throw new Error("auth or db are not defined at getUserPlan function");
+      };
+
+      const startOfToday = new Date(day.getFullYear(), day.getMonth(), day.getDate());
+      const startOfTomorrow = new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1);
+
+      const uid = auth?.currentUser?.uid;
+      const q = query(collection(db, "user_foods"),
+        where("uid", "==", uid),
+        where('createdAt', '>=', Timestamp.fromDate(startOfToday)),
+        where('createdAt', '<', Timestamp.fromDate(startOfTomorrow))
+      );
+      const querySnapshot = await getDocs(q);
+      let foods: any[] = [];
+      querySnapshot.forEach((doc) => {
+        foods.push(doc.data());
+      });
+      return {isResolved: true, data: foods};
     })
   }
 
