@@ -238,3 +238,11 @@ export const nutrientsLabels: Record<string, { title: string; paragraph: string;
     label: 'Quantity'
   }
 };
+
+export const capitalized = (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
+
+export function calculatePercent(current: number, total: number): number {
+  if (total === 0) return 0;
+  const percent = (current / total) * 100;
+  return Number(percent.toFixed(1));
+}
