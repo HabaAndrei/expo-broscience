@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { format, startOfWeek, addDays, addWeeks, subWeeks, isSameDay } from 'date-fns';
 import { Pressable } from "react-native";
 import PlanResults from '@/components/Home/PlanResults'
+import { months } from '@/helpers/diverse';
 
 export default function Calendar() {
   const [currentWeek, setCurrentWeek] = useState(new Date());
@@ -11,6 +12,8 @@ export default function Calendar() {
 
   const startOfCurrentWeek = startOfWeek(currentWeek, { weekStartsOn: 1 });
   const days = [...Array(7)].map((_, index) => addDays(startOfCurrentWeek, index));
+  const monthFirstDay = months[days[0].getMonth()];
+  const monthLastDay = months[days[6].getMonth()];
 
   function prev() {
     setCurrentWeek((prev) => subWeeks(prev, 1));
@@ -32,16 +35,22 @@ export default function Calendar() {
             <ArrowLeftCircle size="$3" color="$color" />
           </Pressable>
 
-          <XStack
-            flex={1}
-            justifyContent="space-between"
-            alignItems="center"
-            paddingHorizontal="$2"
-          >
+          <XStack flex={1} justifyContent="space-between" alignItems="center" paddingHorizontal="$2">
             {days.map((day, index) => {
               const isSelected = isSameDay(day, selectedDay);
+              const showMonth = index === 0 ? monthFirstDay : index === 6 ? monthLastDay : "";
               return (
                 <YStack key={index} alignItems="center" space="$1">
+                  <Text
+                    fontSize="$2"
+                    fontWeight="700"
+                    color="$color10"
+                    height={20}
+                    marginBottom="$1"
+                  >
+                    {showMonth}
+                  </Text>
+
                   <Text fontSize="$1" fontWeight="600">
                     {format(day, 'EEE')}
                   </Text>
