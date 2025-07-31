@@ -255,7 +255,7 @@ export function calculatePercent(current: number, total: number): number {
 export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
 
-export const nutrientsIcons = {
+export const nutrientsIcons: any = {
   calories: <Flame size="$1.5" color="black" />,
   protein: <Drumstick size="$1.5" color="#E26A6A" />,
   carbohydrate: <Cake size="$1.5" color="#C58A47" />,

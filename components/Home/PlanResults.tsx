@@ -1,9 +1,10 @@
-import { View, XStack } from "tamagui";
+import { Text, View, XStack } from "tamagui";
 import { useEffect, useState } from "react";
 import { Firebase } from '@/providers/Firebase';
 import CircularProgressCard from '@/components/Cards/CircularProgressCard';
 import { capitalized, calculatePercent } from '@/helpers/diverse';
 import FoodCard from '@/components/Cards/FoodCard';
+import { nutrientsIcons } from '@/helpers/diverse';
 
 export default function PlanResults({selectedDay}: {selectedDay: Date}){
 
@@ -70,6 +71,7 @@ export default function PlanResults({selectedDay}: {selectedDay: Date}){
             fill={procent}
             title={capitalized(key)}
             subtitle={`${value} / ${targe}`}
+            icon={nutrientsIcons?.[key] ? nutrientsIcons?.[key] : null}
           />
         })}
       </XStack>
