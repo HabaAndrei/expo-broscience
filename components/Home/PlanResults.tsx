@@ -29,7 +29,6 @@ export default function PlanResults({selectedDay}: {selectedDay: Date}){
     const foods = foodResult.data;
     let calories = 0, carbohydrate = 0, fat = 0, protein = 0;
     foods.forEach((food)=>{
-      console.log(food);
       calories += Number(food.calories ?? 0);
       carbohydrate += Number(food.carbohydrate ?? 0);
       fat += Number(food.fat ?? 0);
