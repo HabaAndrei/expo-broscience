@@ -246,3 +246,5 @@ export function calculatePercent(current: number, total: number): number {
   const percent = (current / total) * 100;
   return Number(percent.toFixed(1));
 }
+
+export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
