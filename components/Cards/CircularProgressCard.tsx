@@ -9,6 +9,7 @@ type CircularProgressCardProps = {
   title?: string
   subtitle?: string
   backgroundColor?: string
+  icon?: any
 }
 
 export default function CircularProgressCard({
@@ -18,6 +19,7 @@ export default function CircularProgressCard({
   title = '',
   subtitle = '',
   backgroundColor = '#E0E0E0',
+  icon = ''
 }: CircularProgressCardProps) {
   return (
     <Card pt="$3" pb="$3" elevate bordered width={size} alignItems="center">
@@ -40,6 +42,8 @@ export default function CircularProgressCard({
         {title ? (
           <Text fontSize="$1" fontWeight="700">{title}</Text>
         ) : null}
+
+        {icon ? icon : null}
 
         {subtitle ? (
           <Text fontSize="$1"> {subtitle}</Text>
