@@ -1,6 +1,11 @@
 import * as FileSystem from 'expo-file-system';
 import { Platform } from 'react-native';
-
+import {
+  Flame,
+  Drumstick,
+  Cake,
+  Droplet,
+} from '@tamagui/lucide-icons';
 
 // Simple email validation
 export const isValidEmail = (email: string) =>
@@ -248,3 +253,11 @@ export function calculatePercent(current: number, total: number): number {
 }
 
 export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+
+export const nutrientsIcons = {
+  calories: <Flame size="$1.5" color="black" />,
+  protein: <Drumstick size="$1.5" color="#E26A6A" />,
+  carbohydrate: <Cake size="$1.5" color="#C58A47" />,
+  fat: <Droplet size="$1.5" color="#4D9DE0" />
+}

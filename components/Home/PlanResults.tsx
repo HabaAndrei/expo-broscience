@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Firebase } from '@/providers/Firebase';
 import CircularProgressCard from '@/components/Cards/CircularProgressCard';
 import { capitalized, calculatePercent } from '@/helpers/diverse';
+import FoodCard from '@/components/Cards/FoodCard';
 
 export default function PlanResults({selectedDay}: {selectedDay: Date}){
 
@@ -72,6 +73,13 @@ export default function PlanResults({selectedDay}: {selectedDay: Date}){
           />
         })}
       </XStack>
+
+      {foods?.meals?.map((food: any, index: number)=>{
+        return <FoodCard
+          key={index}
+          food={food}
+        />
+      })}
 
     </View>
   )
