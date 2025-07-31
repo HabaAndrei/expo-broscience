@@ -10,7 +10,7 @@ export default function SearchResults(props: any) {
       borderWidth={1}
       borderColor="#ddd"
       elevation={5}
-      maxHeight={200}
+      maxHeight={250}
       overflow="scroll"
       backgroundColor="white"
       shadowColor="#000"
@@ -24,7 +24,7 @@ export default function SearchResults(props: any) {
         <Button
           key={idx}
           onPress={() => props.func(option)}
-          size="$4"
+          size="$5"
           justifyContent="center"
           alignItems="center"
           backgroundColor="transparent"
@@ -35,7 +35,7 @@ export default function SearchResults(props: any) {
         >
           <YStack alignItems="center" width="100%" paddingHorizontal={10}>
             <Text
-              fontSize={15}
+              fontSize={13}
               color="#333"
               fontWeight="600"
               textAlign="center"
@@ -45,7 +45,7 @@ export default function SearchResults(props: any) {
             </Text>
             {option.brand_name && (
               <Text
-                fontSize={13}
+                fontSize={11}
                 color="#888"
                 textAlign="center"
                 flexShrink={1}

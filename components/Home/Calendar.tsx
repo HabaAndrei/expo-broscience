@@ -12,6 +12,9 @@ export default function Calendar() {
   const startOfCurrentWeek = startOfWeek(currentWeek, { weekStartsOn: 1 });
   const days = [...Array(7)].map((_, index) => addDays(startOfCurrentWeek, index));
 
+  const firstDayLabel = format(days[0], 'd MMMM');
+  const lastDayLabel = format(days[6], 'd MMMM');
+
   function prev() {
     setCurrentWeek((prev) => subWeeks(prev, 1));
   }
@@ -23,6 +26,14 @@ export default function Calendar() {
   return (
     <>
       <YStack width="100%" padding="$4" space="$4">
+        <Text
+          fontSize="$5"
+          fontWeight="700"
+          textAlign="center"
+        >
+          {firstDayLabel} – {lastDayLabel}
+        </Text>
+
         <XStack
           width="100%"
           alignItems="center"
@@ -32,12 +43,7 @@ export default function Calendar() {
             <ArrowLeftCircle size="$3" color="$color" />
           </Pressable>
 
-          <XStack
-            flex={1}
-            justifyContent="space-between"
-            alignItems="center"
-            paddingHorizontal="$2"
-          >
+          <XStack flex={1} justifyContent="space-between" alignItems="center" paddingHorizontal="$2">
             {days.map((day, index) => {
               const isSelected = isSameDay(day, selectedDay);
               return (
@@ -69,6 +75,7 @@ export default function Calendar() {
           </Pressable>
         </XStack>
       </YStack>
+
       <PlanResults selectedDay={selectedDay} />
     </>
   );

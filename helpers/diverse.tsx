@@ -1,6 +1,11 @@
 import * as FileSystem from 'expo-file-system';
 import { Platform } from 'react-native';
-
+import {
+  Flame,
+  Drumstick,
+  Cake,
+  Droplet,
+} from '@tamagui/lucide-icons';
 
 // Simple email validation
 export const isValidEmail = (email: string) =>
@@ -36,7 +41,7 @@ export const ingredientsLabels: any = {
     paragraph: 'Calories per image',
     label: 'Calories'
   },
-  carbs: {
+  carbohydrate: {
     title: ' g',
     paragraph: 'Carbs per image',
     label: 'Carbs'
@@ -46,7 +51,7 @@ export const ingredientsLabels: any = {
     paragraph: 'Protein per image',
     label: 'Protein'
   },
-  fats: {
+  fat: {
     title: ' g',
     paragraph: 'Fats per image',
     label: 'Fats'
@@ -191,8 +196,8 @@ export function calculateMacrosAndHealthScore({ gender, workouts, height, weight
   return {
     calories: Math.round(calories),
     protein: Math.round(protein),
-    carbs: Math.round(carbs),
-    fats: Math.round(fat),
+    carbohydrate: Math.round(carbs),
+    fat: Math.round(fat),
     healthScore,
   };
 }
@@ -238,3 +243,21 @@ export const nutrientsLabels: Record<string, { title: string; paragraph: string;
     label: 'Quantity'
   }
 };
+
+export const capitalized = (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
+
+export function calculatePercent(current: number, total: number): number {
+  if (total === 0) return 0;
+  const percent = (current / total) * 100;
+  return Number(percent.toFixed(1));
+}
+
+export const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+
+export const nutrientsIcons: any = {
+  calories: <Flame size="$1.5" color="black" />,
+  protein: <Drumstick size="$1.5" color="#E26A6A" />,
+  carbohydrate: <Cake size="$1.5" color="#C58A47" />,
+  fat: <Droplet size="$1.5" color="#4D9DE0" />
+}

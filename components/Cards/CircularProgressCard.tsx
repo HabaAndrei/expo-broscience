@@ -8,6 +8,8 @@ type CircularProgressCardProps = {
   fill: number
   title?: string
   subtitle?: string
+  backgroundColor?: string
+  icon?: any
 }
 
 export default function CircularProgressCard({
@@ -16,9 +18,11 @@ export default function CircularProgressCard({
   fill = 90,
   title = '',
   subtitle = '',
+  backgroundColor = '#E0E0E0',
+  icon = ''
 }: CircularProgressCardProps) {
   return (
-    <Card padded elevate bordered width={size} alignItems="center">
+    <Card pt="$3" pb="$3" elevate bordered width={size} alignItems="center">
       <YStack style={{alignItems: "center"}} space>
         <AnimatedCircularProgress
           size={size / 1.5}
@@ -26,6 +30,7 @@ export default function CircularProgressCard({
           fill={fill}
           lineCap="round"
           rotation={0}
+          backgroundColor={backgroundColor}
         >
           {() => (
             <Text fontWeight="600" fontSize="$5">
@@ -38,8 +43,10 @@ export default function CircularProgressCard({
           <Text fontSize="$1" fontWeight="700">{title}</Text>
         ) : null}
 
+        {icon ? icon : null}
+
         {subtitle ? (
-          <Text fontSize="$1">{subtitle}</Text>
+          <Text fontSize="$1"> {subtitle}</Text>
         ) : null}
 
       </YStack>

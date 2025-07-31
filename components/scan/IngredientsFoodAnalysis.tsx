@@ -38,21 +38,21 @@ export default function IngredientsFoodAnalysis(props: any) {
     let updatedIngredients = [...ingredients]
     updatedIngredients.splice(index, 1);
 
-    let calories = 0, protein = 0, carbs = 0, fats = 0, total_quantity = 0;
+    let calories = 0, protein = 0, carbohydrate = 0, fat = 0, total_quantity = 0;
 
     // Recalculate the total values for each nutrient
     for(let ingredient of updatedIngredients){
       calories += ingredient.calories;
       protein += ingredient.protein;
-      carbs += ingredient.carbs;
-      fats += ingredient.fats;
+      carbohydrate += ingredient.carbohydrate;
+      carbohydrate += ingredient.fat;
       total_quantity += ingredient.quantity;
     }
     // Update the state variable with the new totals and ingredient list
     props.setAnalysis((prev: any) => {
       return {
         ...prev,
-        totals: {calories, protein, carbs, fats, total_quantity},
+        totals: {calories, protein, carbohydrate, fat, total_quantity},
         ingredients: [...updatedIngredients],
         total_quantity
       };

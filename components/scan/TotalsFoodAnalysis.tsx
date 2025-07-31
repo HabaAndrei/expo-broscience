@@ -44,13 +44,13 @@ export default function TotalsFoodAnalysis(props: any) {
 
     isStoring.current = true;
     const { health_score, name, total_quantity } = props.analysis;
-    const { calories, protein, carbs, fats } = totals;
+    const { calories, protein, carbohydrate, fat } = totals;
 
     const fieldsToStore = {
       calories: Number(calories),
-      carbohydrate: Number(carbs),
+      carbohydrate: Number(carbohydrate),
       protein: Number(protein),
-      fat: Number(fats),
+      fat: Number(fat),
       metricServingAmount: Number(total_quantity),
       metricServingUnit: 'g',
       foodName: name,
