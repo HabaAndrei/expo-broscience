@@ -36,7 +36,7 @@ export const ingredientsLabels: any = {
     paragraph: 'Calories per image',
     label: 'Calories'
   },
-  carbs: {
+  carbohydrate: {
     title: ' g',
     paragraph: 'Carbs per image',
     label: 'Carbs'
@@ -46,7 +46,7 @@ export const ingredientsLabels: any = {
     paragraph: 'Protein per image',
     label: 'Protein'
   },
-  fats: {
+  fat: {
     title: ' g',
     paragraph: 'Fats per image',
     label: 'Fats'
@@ -191,8 +191,8 @@ export function calculateMacrosAndHealthScore({ gender, workouts, height, weight
   return {
     calories: Math.round(calories),
     protein: Math.round(protein),
-    carbs: Math.round(carbs),
-    fats: Math.round(fat),
+    carbohydrate: Math.round(carbs),
+    fat: Math.round(fat),
     healthScore,
   };
 }

@@ -14,7 +14,7 @@ const detailsPlanText: any = {
     paragraph: 'Calories per day',
     label: 'Calories'
   },
-  carbs: {
+  carbohydrate: {
     title: ' g',
     paragraph: 'Carbs per day',
     label: 'Carbs'
@@ -24,7 +24,7 @@ const detailsPlanText: any = {
     paragraph: 'Protein per day',
     label: 'Protein'
   },
-  fats: {
+  fat: {
     title: ' g',
     paragraph: 'Fats per day',
     label: 'Fats'
