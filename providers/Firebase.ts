@@ -1,9 +1,13 @@
 import { EnvConfig } from './EnvConfig';
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import {
+  getFirestore, collection, addDoc, doc, setDoc, getDoc, serverTimestamp,
+  query, where, getDocs, Timestamp
+ } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getReactNativePersistence } from '@firebase/auth/dist/rn/index.js';
-import {signOut, deleteUser, initializeAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+import {
+  signOut, deleteUser, initializeAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   sendPasswordResetEmail, reauthenticateWithCredential, EmailAuthProvider
 } from "firebase/auth";
 import * as Device from 'expo-device';
@@ -65,12 +69,12 @@ class Firebase {
           email,
           firstName,
           secondName,
-          email_verified: false,
+          emailVerified: false,
           ...initialInformations.data.userDetails
         }
       });
       await this.addIntoDatabase({
-        database: 'usersPlan',
+        database: 'user_plan',
         id: uid,
         columnsWithValues: {
           ...initialInformations.data.plan,
@@ -219,7 +223,7 @@ class Firebase {
     return this.catchAndStoreError(async ()=>{
       const uid = auth?.currentUser?.uid;
       await this.addIntoDatabase({
-        database: "userFood", id: null, columnsWithValues: {
+        database: "user_foods", id: null, columnsWithValues: {
           ...food,
           uid,
           createdAt: serverTimestamp()
@@ -234,10 +238,34 @@ class Firebase {
       throw new Error("auth or db are not defined at getUserPlan function");
     };
     const uid = auth?.currentUser?.uid;
-    const docRef = doc(db, "usersPlan", uid);
+    const docRef = doc(db, "user_plan", uid);
     const dataFromDB = await getDoc(docRef);
     const data = dataFromDB.data();
     return {isResolved: true, data};
+  }
+
+  async getUserFoodByDay(day = new Date()): Promise<any>{
+    return this.catchAndStoreError(async ()=>{
+      if ( !auth || !db ) {
+        throw new Error("auth or db are not defined at getUserPlan function");
+      };
+
+      const startOfToday = new Date(day.getFullYear(), day.getMonth(), day.getDate());
+      const startOfTomorrow = new Date(day.getFullYear(), day.getMonth(), day.getDate() + 1);
+
+      const uid = auth?.currentUser?.uid;
+      const q = query(collection(db, "user_foods"),
+        where("uid", "==", uid),
+        where('createdAt', '>=', Timestamp.fromDate(startOfToday)),
+        where('createdAt', '<', Timestamp.fromDate(startOfTomorrow))
+      );
+      const querySnapshot = await getDocs(q);
+      let foods: any[] = [];
+      querySnapshot.forEach((doc) => {
+        foods.push(doc.data());
+      });
+      return {isResolved: true, data: foods};
+    })
   }
 
 }
