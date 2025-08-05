@@ -14,33 +14,34 @@ export default function FoodCard({ food }: any) {
       borderRadius="$6"
       backgroundColor="$background"
     >
-      <YStack space="$3">
+      <YStack space="$2">
 
         <XStack justifyContent="space-between" alignItems="center">
-        <YStack>
-            <Text fontWeight="700" fontSize="$5">
+          <YStack>
+            <Text fontWeight="700" fontSize="$4">
               {food.foodName ?? ""}
             </Text>
             {food.brandName && (
               <Text
                 fontSize="$1"
                 color="$color10"
-                mt="$1"
               >
                 {food.brandName}
               </Text>
             )}
           </YStack>
-          <Text
-            backgroundColor="$gray3"
-            paddingHorizontal="$2"
-            paddingVertical="$1"
-            borderRadius="$4"
-            fontSize="$1"
-            color="$color10"
-          >
-            {minutes && hours ? `${hours}:${minutes}`: ''}
-          </Text>
+          <YStack>
+            <Text
+              backgroundColor="$gray3"
+              paddingHorizontal="$2"
+              paddingVertical="$1"
+              borderRadius="$4"
+              fontSize="$1"
+              color="$color10"
+            >
+              {minutes >= 0 && hours >= 0  ? `${hours == 0 ? '00' : hours }:${minutes == 0 ? '00' : minutes}`: ''}
+            </Text>
+          </YStack>
         </XStack>
 
         <XStack alignItems="center" space="$2">
