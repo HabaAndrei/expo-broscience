@@ -5,7 +5,7 @@ export default function SearchResults(props: any) {
     <YStack
       width="90%"
       position="absolute"
-      top={48}
+      top={61}
       borderRadius={10}
       borderWidth={1}
       borderColor="#ddd"
