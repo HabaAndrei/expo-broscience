@@ -15,7 +15,7 @@ export default function NavigationBar({actualScreen}: {actualScreen: string}){
           </Button>
         </Group.Item>
         <Group.Item>
-          <Button onPress={()=>router.replace('/searchFood')}>
+          <Button onPress={()=>router.replace('/search-food')}>
             <Search size={20} strokeWidth={actualScreen == 'search' ? 4 : 2} />
             <Text fontSize={actualScreen == 'search' ? 18 : 13} >Search</Text>
           </Button>

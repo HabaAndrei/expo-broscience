@@ -30,7 +30,7 @@ export default function SearchBar() {
     input = input?.trim();
     if (!input?.length) return;
     try {
-      const resultSearch = await axios.get(EnvConfig.get('serverAddress') + "/searchFood", {params: {input}});
+      const resultSearch = await axios.get(EnvConfig.get('serverAddress') + "/search-food", {params: {input}});
       if (!resultSearch?.data?.is_resolved) {
         console.log("the search is not completed");
         return;
