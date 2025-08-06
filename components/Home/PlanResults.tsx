@@ -5,20 +5,24 @@ import CircularProgressCard from '@/components/Cards/CircularProgressCard';
 import { capitalized, calculatePercent } from '@/helpers/diverse';
 import FoodCard from '@/components/Cards/FoodCard';
 import { nutrientsIcons } from '@/helpers/diverse';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function PlanResults({selectedDay}: {selectedDay: Date}){
 
   const [plan , setPlan] = useState<any>({});
   const [foods, setFoods] = useState<any>({});
+  const isFocused = useIsFocused();
   const firebaseClient = new Firebase();
 
   useEffect(()=>{
+    if (!isFocused) return;
     getUserPlan();
-  }, []);
+  }, [isFocused]);
 
   useEffect(()=>{
+    if (!isFocused) return;
     getUserFood();
-  }, [selectedDay]);
+  }, [isFocused, selectedDay]);
 
   async function getUserFood(){
     const foodResult:  {isResolved: boolean, data: any[]} = await firebaseClient.getUserFoodByDay(selectedDay);

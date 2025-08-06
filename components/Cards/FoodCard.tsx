@@ -17,15 +17,12 @@ export default function FoodCard({ food }: any) {
       <YStack space="$2">
 
         <XStack justifyContent="space-between" alignItems="center">
-          <YStack>
-            <Text fontWeight="700" fontSize="$4">
+          <YStack maxWidth={250}>
+            <Text fontWeight="700" fontSize="$4" flexWrap="wrap">
               {food.foodName ?? ""}
             </Text>
             {food.brandName && (
-              <Text
-                fontSize="$1"
-                color="$color10"
-              >
+              <Text fontSize="$1" color="$color10" flexWrap="wrap">
                 {food.brandName}
               </Text>
             )}
