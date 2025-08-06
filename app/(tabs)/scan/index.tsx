@@ -9,6 +9,7 @@ import { base64Image } from '@/helpers/diverse';
 import CardFoodImage from '@/components/Scan/CardFoodImage';
 import TotalsFoodAnalysis from '@/components/Scan/TotalsFoodAnalysis';
 import IngredientsFoodAnalysis from '@/components/Scan/IngredientsFoodAnalysis';
+import NavigationBar from '@/components/Scan/NavigationBar';
 
 export default function ScanIndex() {
 
@@ -51,12 +52,14 @@ export default function ScanIndex() {
       <Stack.Screen
         options={{
           headerTitle: "Scan food",
-          headerRight: () => <HomeButton />
+          // home botton from right up corner
+          // headerRight: () => <HomeButton />
         }}
       />
 
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollView}>
+          <NavigationBar actualScreen="scan" />
           <CameraUploader
             setUri={setUri}
             uri={uri}
