@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useState } from 'react';
 import { H4 } from 'tamagui';
+import { formatDateToYMD } from '@/helpers/diverse';
 
 export default function BornDate({date, setBornDate}: any){
   const [spinnerDate, setSpinnerDate] = useState<Date>(new Date(date));
@@ -19,7 +20,7 @@ export default function BornDate({date, setBornDate}: any){
         value={spinnerDate}
         onChange={(event: any, selectedDate: any) => {
           if (event.timeStamp) {
-            setBornDate(selectedDate.getTime());
+            setBornDate(formatDateToYMD(new Date(selectedDate.getTime())));
             setSpinnerDate(selectedDate);
           }
         }}

@@ -76,7 +76,7 @@ export default function PlanDetails(props: any){
 
   async function generatePlan(){
     const userDetails = props.getUserDetails();
-    const age = new Date()?.getFullYear() - userDetails?.bornDate?.getFullYear();
+    const age = new Date()?.getFullYear() - new Date(userDetails?.bornDate).getFullYear();
     const { gender, workouts, height, goal, weight } = userDetails;
     // two functions:
 
