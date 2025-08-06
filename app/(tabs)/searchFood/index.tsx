@@ -1,7 +1,8 @@
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import SearchBar from '@/components/SearchFood/SearchBar';
-import { ScrollView } from 'react-native'
+import { ScrollView } from 'react-native';
+import NavigationBar from '@/components/Scan/NavigationBar';
 
 export default function SearchFoodIndex() {
   return (
@@ -10,12 +11,14 @@ export default function SearchFoodIndex() {
       <Stack.Screen
         options={{
           headerTitle: "Search food",
-          headerRight: () => <HomeButton />
+          // home botton from right up corner
+          // headerRight: () => <HomeButton />
         }}
       />
 
-      <ScrollView contentContainerStyle={{ padding: 16 }}>
-        <SearchBar></SearchBar>
+      <ScrollView >
+        <NavigationBar actualScreen="search" />
+        <SearchBar/>
       </ScrollView>
 
     </>
