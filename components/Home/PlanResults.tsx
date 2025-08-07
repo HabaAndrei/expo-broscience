@@ -1,4 +1,4 @@
-import { Text, View, XStack } from "tamagui";
+import { View, XStack } from "tamagui";
 import { useEffect, useState } from "react";
 import { Firebase } from '@/providers/Firebase';
 import CircularProgressCard from '@/components/Cards/CircularProgressCard';

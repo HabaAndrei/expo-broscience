@@ -213,6 +213,8 @@ export type FoodTrackEntry = {
   healthScore: number | null;
   brandName: string | null;
   type: 'scan' | 'db' | string;
+  uid?: string | null | undefined;
+  createdAt?: any;
 };
 
 
