@@ -1,17 +1,17 @@
 import { SafeAreaView, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
-import AuthForm from '@/components/userDetails/AuthForm';
+import AuthForm from '@/components/UserDetails/AuthForm';
 import { useReducer } from 'react';
 import { Button, XStack } from 'tamagui';
 import { CircleArrowLeft } from '@tamagui/lucide-icons'
-import Welcome from '@/components/userDetails/Welcome';
-import Gender from '@/components/userDetails/Gender';
-import Workouts from '@/components/userDetails/Workouts';
-import HeightWeight from '@/components/userDetails/HeightWeight';
-import BornDate from '@/components/userDetails/BornDate';
-import ClientGoal from '@/components/userDetails/ClientGoal';
-import ThanksMessage from '@/components/userDetails/ThanksMessage';
-import Feedbacks from '@/components/userDetails/Feedbacks';
-import PlanDetails from '@/components/userDetails/PlanDetails';
+import Welcome from '@/components/UserDetails/Welcome';
+import Gender from '@/components/UserDetails/Gender';
+import Workouts from '@/components/UserDetails/Workouts';
+import HeightWeight from '@/components/UserDetails/HeightWeight';
+import BornDate from '@/components/UserDetails/BornDate';
+import ClientGoal from '@/components/UserDetails/ClientGoal';
+import ThanksMessage from '@/components/UserDetails/ThanksMessage';
+import Feedbacks from '@/components/UserDetails/Feedbacks';
+import PlanDetails from '@/components/UserDetails/PlanDetails';
 import ColorPalette from '@/components/ColorPalette';
 import { StorageService } from '@/providers/StorageService';
 
@@ -28,7 +28,7 @@ export default function LoginIndex(){
         ], chosenIndex: null, disabled: true
       },
       "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
-      "BornDate": {done: true, date: new Date(2000, 0, 1), disabled: false}, // in production =>  done: false, disabled: true
+      "BornDate": {done: true, date: "2000-01-01", disabled: false}, // in production =>  done: false, disabled: true
       "ClientGoal": {done: false, values: ["Lose weight", "Maintain", "Gain weight"], chosenIndex: null, disabled: true},
       "ThanksMessage": { done: true, disabled: false },
       "Feedbacks": { done: true, disabled: false },

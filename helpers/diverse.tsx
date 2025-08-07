@@ -213,6 +213,8 @@ export type FoodTrackEntry = {
   healthScore: number | null;
   brandName: string | null;
   type: 'scan' | 'db' | string;
+  uid?: string | null | undefined;
+  createdAt?: any;
 };
 
 
@@ -260,4 +262,11 @@ export const nutrientsIcons: any = {
   protein: <Drumstick size="$1.5" color="#E26A6A" />,
   carbohydrate: <Cake size="$1.5" color="#C58A47" />,
   fat: <Droplet size="$1.5" color="#4D9DE0" />
+}
+
+export function formatDateToYMD(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexated
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }

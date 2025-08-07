@@ -32,6 +32,12 @@ const auth = initializeAuth(app, {
 
 const router = useRouter();
 
+type StandardResponseFirebase = {
+  isResolved: boolean,
+  err?: any,
+  data?: any
+}
+
 
 // singleton
 class Firebase {
@@ -167,7 +173,7 @@ class Firebase {
     return rezFin
   }
 
-  async catchAndStoreError(cb: ()=>{}){
+  async catchAndStoreError(cb: ()=>Promise<StandardResponseFirebase>):Promise<StandardResponseFirebase>{
     try{
       const data = await cb();
       return data;
@@ -190,11 +196,12 @@ class Firebase {
     }
   }
 
-  async getDetailsUser(uid: string){
+  async getDetailsUser(){
     return this.catchAndStoreError(async ()=>{
       if ( !auth || !db) {
         throw new Error("auth or db are not defined at getDetailsUser function");
       };
+      const uid = auth?.currentUser?.uid;
       const docRef = doc(db, "users", uid);
       const dataFromDB = await getDoc(docRef);
       const data = dataFromDB.data();

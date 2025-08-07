@@ -26,7 +26,7 @@ export default function ScanIndex() {
         setAnalysisError({ isError: false, message: '' });
       }
       setIsLoading(true);
-      const resultAnalyses = await axios.post(EnvConfig.get('serverAddress') + '/analyzeImage',
+      const resultAnalyses = await axios.post(EnvConfig.get('serverAddress') + '/analyze-image',
         { image }, { headers: { 'Content-Type': 'application/json' } }
       );
       const result = resultAnalyses.data;

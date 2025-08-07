@@ -1,9 +1,11 @@
 import { Card, Text, XStack, YStack } from "tamagui";
 import { nutrientsIcons } from '@/helpers/diverse';
+import { FoodTrackEntry } from '@/helpers/diverse';
 
-export default function FoodCard({ food }: any) {
-  const minutes = food.createdAt.toDate().getMinutes();
-  const hours = food.createdAt.toDate().getHours();
+export default function FoodCard({ food }: {food: FoodTrackEntry}) {
+
+  const minutes = food?.createdAt?.toDate()?.getMinutes();
+  const hours = food?.createdAt?.toDate()?.getHours();
 
   return (
     <Card
@@ -19,17 +21,16 @@ export default function FoodCard({ food }: any) {
         <XStack justifyContent="space-between" alignItems="center">
           <YStack maxWidth={250}>
             <Text fontWeight="700" fontSize="$4" flexWrap="wrap">
-              {food.foodName ?? ""}
+              {food?.foodName ?? ""}
             </Text>
-            {food.brandName && (
+            {food?.brandName && (
               <Text fontSize="$1" color="$color10" flexWrap="wrap">
-                {food.brandName}
+                {food?.brandName}
               </Text>
             )}
           </YStack>
           <YStack>
             <Text
-              backgroundColor="$gray3"
               paddingHorizontal="$2"
               paddingVertical="$1"
               borderRadius="$4"
@@ -42,29 +43,29 @@ export default function FoodCard({ food }: any) {
         </XStack>
 
         <XStack alignItems="center" space="$2">
-          {nutrientsIcons.calories}
+          {nutrientsIcons?.calories}
           <Text fontSize="$4" fontWeight="600">
-            {food.calories} calories
+            {food?.calories} calories
           </Text>
         </XStack>
 
         <XStack justifyContent="flex-start" space="$4" alignItems="center">
           <XStack space="$1" alignItems="center">
-            {nutrientsIcons.protein}
+            {nutrientsIcons?.protein}
             <Text fontSize="$2" color="$color10">
-              {food.protein}g
+              {food?.protein}g
             </Text>
           </XStack>
           <XStack space="$1" alignItems="center">
             {nutrientsIcons.carbohydrate}
             <Text fontSize="$2" color="$color10">
-              {food.carbohydrate}g
+              {food?.carbohydrate}g
             </Text>
           </XStack>
           <XStack space="$1" alignItems="center">
             {nutrientsIcons.fat}
             <Text fontSize="$2" color="$color10">
-              {food.fat}g
+              {food?.fat}g
             </Text>
           </XStack>
         </XStack>
