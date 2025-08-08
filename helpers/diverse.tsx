@@ -211,7 +211,7 @@ export type FoodTrackEntry = {
   metricServingUnit: string;
   foodName: string;
   healthScore: number | null;
-  brandName: string | null;
+  brandName: string | null | undefined;
   type: 'scan' | 'db' | string;
   uid?: string | null | undefined;
   createdAt?: any;
