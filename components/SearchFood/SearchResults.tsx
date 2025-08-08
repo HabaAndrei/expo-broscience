@@ -1,37 +1,24 @@
-import { Button, Text, YStack } from "tamagui"
+import { Text, YStack } from "tamagui"
+import { Pressable } from "react-native"
 
 export default function SearchResults(props: any) {
   return (
-    <YStack
-      width="90%"
-      position="absolute"
-      top={61}
-      borderRadius={10}
-      borderWidth={1}
-      borderColor="#ddd"
-      elevation={5}
-      maxHeight={250}
-      overflow="scroll"
-      backgroundColor="white"
-      shadowColor="#000"
-      shadowOpacity={0.1}
-      shadowRadius={10}
-      shadowOffset={{ width: 0, height: 4 }}
-      zIndex={1000}
-      alignSelf="center"
-    >
+    <YStack>
       {props.options.map((option: any, idx: number) => (
-        <Button
+        <Pressable
           key={idx}
           onPress={() => props.func(option)}
-          size="$5"
-          justifyContent="center"
-          alignItems="center"
-          backgroundColor="transparent"
-          borderBottomWidth={idx === props.options.length - 1 ? 0 : 1}
-          borderBottomColor="#eee"
-          px="$3"
-          py="$2"
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "transparent",
+            borderBottomWidth: idx === props.options.length - 1 ? 0 : 1,
+            borderBottomColor: "#eee",
+            width: "100%",
+            paddingHorizontal: 10,
+            paddingVertical: 8,
+            flexShrink: 0,
+          }}
         >
           <YStack alignItems="center" width="100%" paddingHorizontal={10}>
             <Text
@@ -54,7 +41,7 @@ export default function SearchResults(props: any) {
               </Text>
             )}
           </YStack>
-        </Button>
+        </Pressable>
       ))}
     </YStack>
   )
