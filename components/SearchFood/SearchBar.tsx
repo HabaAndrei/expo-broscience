@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { YStack, Input } from 'tamagui';
+import { YStack, Input, ScrollView, View } from 'tamagui';
 import axios from 'axios';
 import { EnvConfig } from '@/providers/EnvConfig';
 import SearchResults from '@/components/SearchFood/SearchResults';
@@ -28,7 +28,10 @@ export default function SearchBar() {
 
   async function searchFood(input: string){
     input = input?.trim();
-    if (!input?.length) return;
+    if (!input?.length) {
+      setShowOptions(false);
+      return
+    };
     try {
       const resultSearch = await axios.get(EnvConfig.get('serverAddress') + "/search-food", {params: {input}});
       if (!resultSearch?.data?.is_resolved) {
@@ -50,7 +53,10 @@ export default function SearchBar() {
   }
 
   return (
-    <YStack style={{ alignSelf: 'center', padding: 16 }}  width="100%" space="$2" mt="$4" position="relative">
+    <YStack
+      style={{ alignSelf: 'center', padding: 16 }}
+      width="100%" space="$2" mt="$4" position="relative" mb="$10"
+    >
       <Input
         style={{alignSelf: 'center'}}
         placeholder="Search..."
@@ -69,13 +75,33 @@ export default function SearchBar() {
       />
 
       {showOptions && options.length > 0 && (
-        <SearchResults
-          options={options}
-          func={(option:FoodItem)=>{
-            setShowOptions(false)
-            selectFood(option)
+        <View
+          style={{
+            position: 'absolute',
+            zIndex: 1000,
+            maxHeight: 250,
+            alignSelf: "center",
+            top: 63,
+            backgroundColor: "white",
+            shadowColor: "#000",
+            shadowOpacity: 0.1,
+            shadowRadius: 10,
+            width: "90%",
+            borderRadius: 10,
+            borderWidth: 0.1,
           }}
-        />
+        >
+          <ScrollView style={{maxHeight: 300}}>
+            <SearchResults
+              options={options}
+              func={(option:FoodItem)=>{
+                setShowOptions(false)
+                selectFood(option)
+              }}
+            />
+          </ScrollView>
+
+        </View>
       )}
 
       {selected ? (
