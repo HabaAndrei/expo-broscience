@@ -63,7 +63,11 @@ export default function SearchBar() {
           setSearchText(text)
           setShowOptions(true)
         }}
-        onFocus={() => setShowOptions(true)}
+        onFocus={() => {
+          if (searchText?.trim()?.length) {
+            setShowOptions(true)
+          }
+        }}
         onBlur={() => {
           setTimeout(() => setShowOptions(false), 200)
         }}
