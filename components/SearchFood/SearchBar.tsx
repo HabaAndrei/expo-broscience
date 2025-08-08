@@ -23,15 +23,13 @@ export default function SearchBar() {
   const [options, setOptions] = useState<string[]>([]);
 
   useEffect(()=>{
+    if (!searchText?.trim()?.length) setShowOptions(false);
     searchFood(searchText)
   }, [searchText]);
 
   async function searchFood(input: string){
     input = input?.trim();
-    if (!input?.length) {
-      setShowOptions(false);
-      return
-    };
+    if (!input?.length) return;
     try {
       const resultSearch = await axios.get(EnvConfig.get('serverAddress') + "/search-food", {params: {input}});
       if (!resultSearch?.data?.is_resolved) {

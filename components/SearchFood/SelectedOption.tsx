@@ -44,7 +44,7 @@ export default function SelectedOption(
       metricServingUnit: metric_serving_unit,
       foodName: food_name,
       healthScore: null,
-      brandName: brand_name,
+      brandName: brand_name ?? '',
       type: "db"
     }
     const responseSave: any = await firebaseClient.storeUsersFood(fieldsToStore);
