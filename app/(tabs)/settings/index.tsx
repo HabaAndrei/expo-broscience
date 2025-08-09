@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import UserDetails from '@/components/Settings/UserDetails';
 import ColorPalette from '@/components/ColorPalette';
 import { Button } from 'tamagui';
@@ -20,10 +20,14 @@ export default function SettingsIndex(){
 
       <ScrollView >
 
-        <ColorPalette/>
-        <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
+        <View style={{alignSelf: "center", margin: 10}} >
+          <ColorPalette/>
+        </View>
 
         <UserDetails/>
+
+        <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
+
       </ScrollView>
 
     </>

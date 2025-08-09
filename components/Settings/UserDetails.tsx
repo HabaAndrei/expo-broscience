@@ -3,10 +3,12 @@ import AccordionDemo from '@/components/General/AccordionDemo';
 import { Firebase } from '@/providers/Firebase';
 import { useEffect, useState } from 'react';
 import { useToastNotification } from '@/contexts/ToastNotificationContext';
+import { UserDetails as userDetailsType } from '@/helpers/diverse';
+import GeneralDetails from '@/components/Settings/GeneralDetails';
 
 export default function UserDetails(){
 
-  const [userDetails, setUserDetails] = useState({});
+  const [userDetails, setUserDetails] = useState<null | userDetailsType>(null);
   const firebase = new Firebase();
   const { addNotification } = useToastNotification()
 
@@ -37,8 +39,8 @@ export default function UserDetails(){
 
   const details = [
     {
-      title: "heelooo 1",
-      component: <View><Text>Coponent 1 </Text></View>
+      title: "General Details",
+      component: <GeneralDetails userDetails={userDetails} />
     },
     {
       title: "heelooo 2",
