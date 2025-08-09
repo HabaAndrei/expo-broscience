@@ -1,7 +1,7 @@
-import { Text, View } from "tamagui";
+import { Button, View } from "tamagui";
 import AccordionDemo from '@/components/General/AccordionDemo';
 import { Firebase } from '@/providers/Firebase';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useToastNotification } from '@/contexts/ToastNotificationContext';
 import { UserDetails as userDetailsType } from '@/helpers/diverse';
 import GeneralDetails from '@/components/Settings/GeneralDetails';
@@ -10,6 +10,7 @@ import BornDate from '@/components/UserDetails/BornDate';
 export default function UserDetails(){
 
   const [userDetails, setUserDetails] = useState<null | userDetailsType>(null);
+  const newBornDate = useRef('');
   const firebase = new Firebase();
   const { addNotification } = useToastNotification()
 
@@ -17,25 +18,46 @@ export default function UserDetails(){
     getUserDetails();
   }, []);
 
+  function success(){
+    addNotification({ type: 'success', title: 'Success!', description: 'The action has completed successfully.' })
+  }
+
+  function error(){
+    addNotification({ type: 'error', title: 'Error!', description: 'Please try again.' })
+  }
 
   async function getUserDetails(){
     const result = await firebase.getDetailsUser();
     if (!result.isResolved || !result.data) {
-      console.log(result);
-      addNotification(
-        {
-          type: 'error',
-          title: 'Error!',
-          description: 'Please try again.',
-        }
-      )
+      error();
       return;
     }
     setUserDetails(result.data);
     console.log(result.data);
-
   }
 
+  async function updateUserDetails(details: userDetailsType){
+    const resultUpdate = await firebase.updateUser(details);
+    if (resultUpdate.isResolved) success();
+    else error();
+  }
+
+  function updateBordDate(){
+    if (!newBornDate.current) return;
+    if (userDetails?.bornDate == newBornDate.current){
+      success()
+      return;
+    }
+    setUserDetails((prev: userDetailsType | null)=>{
+      if (prev) {
+        const newDetails = {...prev, bornDate: newBornDate.current}
+        updateUserDetails(newDetails);
+        return newDetails
+      }else{
+        return prev
+      }
+    })
+  }
 
 
   const details = [
@@ -49,9 +71,15 @@ export default function UserDetails(){
         {userDetails?.bornDate ?
           <BornDate
             date={userDetails.bornDate}
-            setBornDate={(date: string)=>console.log(date)}
+            setBornDate={(date: string)=>newBornDate.current = date}
           /> : null
         }
+        <Button
+          style={{alignSelf: "center"}} width={200} size="$3" variant="outlined"
+          onPress={updateBordDate}
+        >
+          Update
+        </Button>
       </View>
     }
   ]
