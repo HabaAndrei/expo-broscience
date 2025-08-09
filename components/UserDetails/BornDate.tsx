@@ -4,11 +4,13 @@ import { useState } from 'react';
 import { H4 } from 'tamagui';
 import { formatDateToYMD } from '@/helpers/diverse';
 
-export default function BornDate({date, setBornDate}: any){
+export default function BornDate({date, setBornDate, title}: {
+  date: string, setBornDate: (date: string)=>void, title?: string | undefined
+}){
   const [spinnerDate, setSpinnerDate] = useState<Date>(new Date(date));
   return (
     <View style={{alignItems: 'center'}} >
-      <H4>Select your born date</H4>
+      {title ? <H4>{title}</H4> : null}
 
       <DateTimePicker
         style={{margin: 30}}

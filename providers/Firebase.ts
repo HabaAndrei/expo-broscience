@@ -13,7 +13,7 @@ import {
 import * as Device from 'expo-device';
 import { StorageService } from '@/providers/StorageService';
 import { useRouter } from 'expo-router';
-import { FoodTrackEntry } from '@/helpers/diverse';
+import { FoodTrackEntry, UserDetails as userDetailsType } from '@/helpers/diverse';
 
 const firebaseConfig = {
   apiKey: EnvConfig.get('firebaseApiKey'),
@@ -211,7 +211,7 @@ class Firebase {
 
   async addIntoDatabase(
     {database, id, columnsWithValues}:
-    {database: string, id: string | number | null, columnsWithValues: object}
+    {database: string, id: string | number | null | undefined, columnsWithValues: object}
   ){
     return this.catchAndStoreError(async ()=>{
       if ( !auth || !db) {
@@ -272,6 +272,21 @@ class Firebase {
         foods.push(doc.data());
       });
       return {isResolved: true, data: foods};
+    })
+  }
+
+  async updateUser(details: userDetailsType): Promise<any>{
+    return this.catchAndStoreError(async ()=>{
+      if ( !auth || !db ) {
+        throw new Error("auth or db are not defined at updateUser function");
+      };
+      const uid = auth?.currentUser?.uid;
+      const result = await this.addIntoDatabase({
+        database: 'users',
+        id: uid,
+        columnsWithValues: details
+      })
+      return result;
     })
   }
 
