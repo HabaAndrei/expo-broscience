@@ -6,8 +6,11 @@ import { useRef } from "react";
 import { Firebase } from '@/providers/Firebase';
 import { useRouter } from 'expo-router';
 import { useToastNotification } from '@/contexts/ToastNotificationContext';
+import { FoodItem } from '@/components/SearchFood/SearchBar';
 
-export default function SelectedOption({ selected, setSelected }: any) {
+export default function SelectedOption(
+  { selected, setSelected }: {selected: FoodItem, setSelected: any}
+) {
 
   const isStoring = useRef(false);
   const router = useRouter();
@@ -41,7 +44,7 @@ export default function SelectedOption({ selected, setSelected }: any) {
       metricServingUnit: metric_serving_unit,
       foodName: food_name,
       healthScore: null,
-      brandName: brand_name,
+      brandName: brand_name ?? '',
       type: "db"
     }
     const responseSave: any = await firebaseClient.storeUsersFood(fieldsToStore);

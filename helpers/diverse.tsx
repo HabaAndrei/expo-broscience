@@ -207,12 +207,12 @@ export type FoodTrackEntry = {
   carbohydrate: number;
   protein: number;
   fat: number;
-  metricServingAmount: number;
-  metricServingUnit: string;
+  metricServingAmount: number | undefined | null | string;
+  metricServingUnit: number | undefined | null | string;
   foodName: string;
   healthScore: number | null;
-  brandName: string | null;
-  type: 'scan' | 'db' | string;
+  brandName: string | null | undefined;
+  type: 'scan' | 'db' | 'manualy' | string;
   uid?: string | null | undefined;
   createdAt?: any;
 };
@@ -269,4 +269,23 @@ export function formatDateToYMD(date: Date): string {
   const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexated
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+
+export function calculateCalories({fat, carbohydrate, protein}:
+  {
+    fat: string | number | undefined | null,
+    carbohydrate: string | number | undefined | null,
+    protein: string | number | undefined | null
+  }
+) {
+  // Ensure numbers, default to 0 if missing
+  fat = Number(fat) || 0;
+  carbohydrate = Number(carbohydrate) || 0;
+  protein = Number(protein) || 0;
+
+  // Calorie formula
+  const calories = (fat * 9) + (carbohydrate * 4) + (protein * 4);
+
+  return calories;
 }
