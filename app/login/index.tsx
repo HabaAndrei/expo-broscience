@@ -86,6 +86,7 @@ export default function LoginIndex(){
         />
       case 'BornDate':
         return <BornDate
+          title={"Select your born date"}
           setBornDate={setBornDate}
           date={userNavigationState?.pages?.BornDate?.date}
         />

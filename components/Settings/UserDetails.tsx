@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useToastNotification } from '@/contexts/ToastNotificationContext';
 import { UserDetails as userDetailsType } from '@/helpers/diverse';
 import GeneralDetails from '@/components/Settings/GeneralDetails';
+import BornDate from '@/components/UserDetails/BornDate';
 
 export default function UserDetails(){
 
@@ -43,8 +44,15 @@ export default function UserDetails(){
       component: <GeneralDetails userDetails={userDetails} />
     },
     {
-      title: "heelooo 2",
-      component: <View><Text>Coponent 2 </Text></View>
+      title: "Born Date",
+      component: <View>
+        {userDetails?.bornDate ?
+          <BornDate
+            date={userDetails.bornDate}
+            setBornDate={(date: string)=>console.log(date)}
+          /> : null
+        }
+      </View>
     }
   ]
 
