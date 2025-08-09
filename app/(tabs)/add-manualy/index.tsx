@@ -2,8 +2,9 @@ import { ScrollView, SafeAreaView, StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import NavigationBar from '@/components/Scan/NavigationBar';
+import FormFoodManualy from '@/components/AddManualy/FormFoodManualy';
 
-export default function ScanIndex() {
+export default function AddManualyIndex() {
   return (
     <>
       <Stack.Screen
@@ -17,6 +18,7 @@ export default function ScanIndex() {
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollView}>
           <NavigationBar actualScreen="add-manualy" />
+          <FormFoodManualy/>
         </ScrollView>
       </SafeAreaView>
     </>
