@@ -32,6 +32,12 @@ export default function TabLayout() {
       icon: (focused: boolean) => <></>,
       href: null
     },
+    {
+      name: "add-manualy",
+      title: "Add manualy",
+      icon: (focused: boolean) => <></>,
+      href: null
+    },
   ]
 
 

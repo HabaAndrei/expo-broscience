@@ -58,7 +58,7 @@ export default function TotalsFoodAnalysis(props: any) {
       brandName: '',
       type: "scan"
     }
-    const responseSave: any = await firebaseClient.storeUsersFood(fieldsToStore);
+    const responseSave = await firebaseClient.storeUsersFood(fieldsToStore);
     isStoring.current = false;
 
     if (responseSave.isResolved == true) router.replace("/")
