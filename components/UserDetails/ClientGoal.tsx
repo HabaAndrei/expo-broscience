@@ -3,17 +3,23 @@ import { RadioGroup, YStack } from 'tamagui'
 import RadioGroupItemWithLabel from '@/components/RadioGroupItemWithLabel';
 import { H4 } from 'tamagui';
 
-export default function ClientGoal(props: any){
+
+export default function ClientGoal(props: {
+  chosenIndex: string | undefined,
+  onChange: (newVal: string)=>void,
+  values: string[] | number[],
+  title?: string | undefined
+}){
   return (
     <View style={{alignItems: 'center'}} >
-      <H4>Select your goal</H4>
+      {props.title ? <H4>{props.title}</H4> : null}
       <RadioGroup
         style={{margin: 30}}
         aria-labelledby="Select your goal"
         name="form"
-        value={props?.value?.pages?.ClientGoal?.chosenIndex}
+        value={props?.chosenIndex}
         onValueChange={(newVal)=>{
-          props.handleChangeDispatch({ type: 'setGoal', payload: newVal })
+          props.onChange(newVal)
         }}
       >
         <YStack
@@ -21,7 +27,7 @@ export default function ClientGoal(props: any){
           style={{alignItems: "center"}}
           space="$2"
         >
-          {props.value.pages.ClientGoal.values.map((value: any, index: any)=>{
+          {props?.values.map((value: any, index: any)=>{
             return (
               <RadioGroupItemWithLabel
                 key={index}

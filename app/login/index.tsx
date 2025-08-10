@@ -91,7 +91,14 @@ export default function LoginIndex(){
           date={userNavigationState?.pages?.BornDate?.date}
         />
       case 'ClientGoal':
-        return <ClientGoal value={userNavigationState} handleChangeDispatch={handleChangeDispatch} />;
+        return <ClientGoal
+          chosenIndex={userNavigationState?.pages?.ClientGoal?.chosenIndex}
+          onChange={(newVal:string)=>{
+            handleChangeDispatch({ type: 'setGoal', payload: newVal })
+          }}
+          values={userNavigationState?.pages.ClientGoal.values}
+          title={"Select your goal"}
+        />;
       case 'ThanksMessage':
         return <ThanksMessage />;
       case 'Feedbacks':
