@@ -8,11 +8,13 @@ import GeneralDetails from '@/components/Settings/GeneralDetails';
 import BornDate from '@/components/UserDetails/BornDate';
 import { clientGoalValues } from '@/app/login';
 import ClientGoal from '@/components/UserDetails/ClientGoal';
+import HeightWeight from '@/components/UserDetails/HeightWeight';
 
 export default function UserDetails(){
 
   const [userDetails, setUserDetails] = useState<null | userDetailsType>(null);
   const newBornDate = useRef('');
+  const newHeightWeight = useRef<{height: string | number, weight: string | number}>({height: '', weight: ''});
   const firebase = new Firebase();
   const { addNotification } = useToastNotification()
 
@@ -74,6 +76,22 @@ export default function UserDetails(){
     if (userDetails) updateUserDetails(userDetails);
   }
 
+  function updateHeightWeight(){
+    if ( newHeightWeight.current?.height && newHeightWeight.current?.weight) {
+      setUserDetails((prev: userDetailsType | null)=>{
+        if (prev) {
+          const newDetails = {...prev,
+            height: newHeightWeight.current?.height,
+            weight: newHeightWeight.current?.weight,
+          }
+          updateUserDetails(newDetails);
+          return newDetails
+        }
+        return prev;
+      })
+    }
+  }
+
   const details = [
     {
       title: "General Details",
@@ -108,6 +126,23 @@ export default function UserDetails(){
         <Button
           style={{alignSelf: "center"}} width={200} size="$3" variant="outlined"
           onPress={updateGoal}
+        >
+          Update
+        </Button>
+      </View>
+    },
+    {
+      title: "Height and Weight",
+      component:
+      <View>
+        <HeightWeight
+          height={userDetails?.height}
+          weight={userDetails?.weight}
+          setHeightWeight={(val:{height: number, weight: number})=>newHeightWeight.current = val}
+        />
+        <Button
+          style={{alignSelf: "center"}} width={200} size="$3" variant="outlined"
+          onPress={updateHeightWeight}
         >
           Update
         </Button>
