@@ -15,6 +15,8 @@ import PlanDetails from '@/components/UserDetails/PlanDetails';
 import ColorPalette from '@/components/ColorPalette';
 import { StorageService } from '@/providers/StorageService';
 
+export const clientGoalValues = ["Lose weight", "Maintain", "Gain weight"];
+
 export default function LoginIndex(){
 
   const initialArg = {
@@ -29,7 +31,7 @@ export default function LoginIndex(){
       },
       "HeightWeight": {done: false, height: 160, weight: 60, disabled: true},
       "BornDate": {done: true, date: "2000-01-01", disabled: false}, // in production =>  done: false, disabled: true
-      "ClientGoal": {done: false, values: ["Lose weight", "Maintain", "Gain weight"], chosenIndex: null, disabled: true},
+      "ClientGoal": {done: false, values: clientGoalValues, chosenIndex: null, disabled: true},
       "ThanksMessage": { done: true, disabled: false },
       "Feedbacks": { done: true, disabled: false },
       "PlanDetails": { done: false, disabled: true, plan: undefined },
@@ -93,7 +95,7 @@ export default function LoginIndex(){
       case 'ClientGoal':
         return <ClientGoal
           chosenIndex={userNavigationState?.pages?.ClientGoal?.chosenIndex}
-          onChange={(newVal:string)=>{
+          onChange={(newVal:number)=>{
             handleChangeDispatch({ type: 'setGoal', payload: newVal })
           }}
           values={userNavigationState?.pages.ClientGoal.values}

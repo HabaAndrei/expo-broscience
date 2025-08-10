@@ -1,12 +1,12 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { RadioGroup, YStack } from 'tamagui'
 import RadioGroupItemWithLabel from '@/components/RadioGroupItemWithLabel';
 import { H4 } from 'tamagui';
 
 
 export default function ClientGoal(props: {
-  chosenIndex: string | undefined,
-  onChange: (newVal: string)=>void,
+  chosenIndex: string | undefined | number,
+  onChange: (newVal: number)=>void,
   values: string[] | number[],
   title?: string | undefined
 }){
@@ -18,7 +18,7 @@ export default function ClientGoal(props: {
         aria-labelledby="Select your goal"
         name="form"
         value={props?.chosenIndex}
-        onValueChange={(newVal)=>{
+        onValueChange={(newVal: number)=>{
           props.onChange(newVal)
         }}
       >

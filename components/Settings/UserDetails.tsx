@@ -6,6 +6,8 @@ import { useToastNotification } from '@/contexts/ToastNotificationContext';
 import { UserDetails as userDetailsType } from '@/helpers/diverse';
 import GeneralDetails from '@/components/Settings/GeneralDetails';
 import BornDate from '@/components/UserDetails/BornDate';
+import { clientGoalValues } from '@/app/login';
+import ClientGoal from '@/components/UserDetails/ClientGoal';
 
 export default function UserDetails(){
 
@@ -53,12 +55,24 @@ export default function UserDetails(){
         const newDetails = {...prev, bornDate: newBornDate.current}
         updateUserDetails(newDetails);
         return newDetails
-      }else{
-        return prev
       }
+      return prev;
     })
   }
 
+  function setNewGoal(newVal: number){
+    const newGoal = clientGoalValues[newVal];
+    setUserDetails((prev: userDetailsType | null)=>{
+      if (prev) {
+        return {...prev, goal: newGoal}
+      }
+      return prev;
+    });
+  }
+
+  function updateGoal(){
+    if (userDetails) updateUserDetails(userDetails);
+  }
 
   const details = [
     {
@@ -81,7 +95,25 @@ export default function UserDetails(){
           Update
         </Button>
       </View>
+    },
+    {
+      title: "Goal",
+      component:
+      <View>
+        <ClientGoal
+          chosenIndex={clientGoalValues.indexOf(userDetails?.goal ?? '')}
+          onChange={(newVal: number)=>setNewGoal(newVal)}
+          values={clientGoalValues}
+        />
+        <Button
+          style={{alignSelf: "center"}} width={200} size="$3" variant="outlined"
+          onPress={updateGoal}
+        >
+          Update
+        </Button>
+      </View>
     }
+
   ]
 
 
