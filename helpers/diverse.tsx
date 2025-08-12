@@ -232,6 +232,12 @@ export type UserDetails = {
   workouts: number | string;
 };
 
+export type Plan = {
+  calories: string | number,
+  carbohydrate: string | number,
+  healthScore: string | number,
+  protein: string | number
+}
 
 export const nutrientsLabels: Record<string, { title: string; paragraph: string; label: string }> = {
   calories: {

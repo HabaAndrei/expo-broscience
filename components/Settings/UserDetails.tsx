@@ -49,7 +49,6 @@ export default function UserDetails(){
       return;
     }
     setUserDetails(result.data);
-    console.log(result.data);
   }
 
   async function updateUserDetails(details: userDetailsType){
