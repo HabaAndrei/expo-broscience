@@ -179,7 +179,7 @@ export default function UserDetails(){
     {
       title: "Plan",
       component:
-        <View>
+        <View pb="$3" >
           {userPlan && Object?.keys(userPlan)?.length ?
             <>
               <PlanDetailsCards
