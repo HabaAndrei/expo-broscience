@@ -14,7 +14,7 @@ import * as Device from 'expo-device';
 import { StorageService } from '@/providers/StorageService';
 import { useRouter } from 'expo-router';
 import { UserDetails as userDetailsType } from '@/types/user';
-import { FoodTrackEntry } from '@/types/food';
+import { FoodTrackEntry, Plan } from '@/types/food';
 
 const firebaseConfig = {
   apiKey: EnvConfig.get('firebaseApiKey'),
@@ -248,7 +248,7 @@ class Firebase {
     const uid = auth?.currentUser?.uid;
     const docRef = doc(db, "user_plan", uid);
     const dataFromDB = await getDoc(docRef);
-    const data = dataFromDB.data();
+    const data: Plan = dataFromDB.data();
     return {isResolved: true, data};
   }
 

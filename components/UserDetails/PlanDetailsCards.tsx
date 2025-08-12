@@ -18,7 +18,7 @@ type DetailsPlanText = {
 };
 
 export default function PlanDetailsCards({ plan, editPlan, title }:
-  {plan: Plan, editPlan: ({key, value}: {key: string, value: string})=>void, title: string}
+  {plan: Plan, editPlan: ({key, value}: {key: string, value: string})=>void, title?: string | undefined | null}
 ){
 
   const detailsPlanText: DetailsPlanText = {
@@ -49,12 +49,22 @@ export default function PlanDetailsCards({ plan, editPlan, title }:
     },
   };
 
+  function acceptedKeys(keys: string[]){
+    const accepted = ['calories', 'carbohydrate', 'protein', 'fat', 'healthScore'];
+    let finalKeys = [];
+    for (let key of accepted) {
+      if (keys.includes(key)) {
+        finalKeys.push(key);
+      }
+    }
+    return finalKeys;
+  }
 
   return (
     <View style={{alignItems: 'center'}} >
       {title ? <H5>{title}</H5> : null}
       <XStack style={{marginTop: 30, justifyContent: "center", alignItems: "center"}} flexWrap="wrap" gap={6} >
-        {Object?.keys(plan).map((key, index) => (
+        {acceptedKeys(Object?.keys(plan)).map((key, index) => (
           <PlanCard
             key={index}
             title={plan?.[key] + detailsPlanText?.[key]?.title}

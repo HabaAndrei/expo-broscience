@@ -25,7 +25,7 @@ export default function AccordionDemo({accordionValues}: {
             )}
           </Accordion.Trigger>
           <Accordion.HeightAnimator animation="medium">
-            <Accordion.Content animation="medium" exitStyle={{ opacity: 0 }}>
+            <Accordion.Content p={0} animation="medium" exitStyle={{ opacity: 0 }}>
               {value.component}
             </Accordion.Content>
           </Accordion.HeightAnimator>
