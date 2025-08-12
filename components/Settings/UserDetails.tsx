@@ -41,7 +41,6 @@ export default function UserDetails(){
       error();
       return;
     }
-    console.log(result.data);
     setUserPlan(result.data);
   }
 
