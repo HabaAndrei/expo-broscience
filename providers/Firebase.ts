@@ -196,10 +196,10 @@ class Firebase {
     }
   }
 
-  async getDetailsUser(){
+  async getUserDetails(){
     return this.catchAndStoreError(async ()=>{
       if ( !auth || !db) {
-        throw new Error("auth or db are not defined at getDetailsUser function");
+        throw new Error("auth or db are not defined at getUserDetails function");
       };
       const uid = auth?.currentUser?.uid;
       const docRef = doc(db, "users", uid);

@@ -13,13 +13,16 @@ import HeightWeight from '@/components/UserDetails/HeightWeight';
 export default function UserDetails(){
 
   const [userDetails, setUserDetails] = useState<null | userDetailsType>(null);
+  const [userPlane, setUserPlan] = useState()
   const newBornDate = useRef('');
   const newHeightWeight = useRef<{height: string | number, weight: string | number}>({height: '', weight: ''});
+
   const firebase = new Firebase();
   const { addNotification } = useToastNotification()
 
   useEffect(()=>{
-    getUserDetails();
+    getUserDetails_();
+    getUserPlan_();
   }, []);
 
   function success(){
@@ -30,8 +33,17 @@ export default function UserDetails(){
     addNotification({ type: 'error', title: 'Error!', description: 'Please try again.' })
   }
 
-  async function getUserDetails(){
-    const result = await firebase.getDetailsUser();
+  async function getUserPlan_(){
+    const result = await firebase.getUserPlan();
+    if (!result.isResolved || !result.data) {
+      error();
+      return;
+    }
+    // console.log(result.data);
+  }
+
+  async function getUserDetails_(){
+    const result = await firebase.getUserDetails();
     if (!result.isResolved || !result.data) {
       error();
       return;
