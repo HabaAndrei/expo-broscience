@@ -27,5 +27,6 @@ export type Plan = {
   carbohydrate: string | number,
   healthScore: string | number,
   protein: string | number,
-  createdAt ?: any
+  createdAt?: any,
+  updatedAt?: any
 }

@@ -1,6 +1,7 @@
 export type UserDetails = {
   bornDate: string;
-  createdAt: any;
+  createdAt?: any;
+  updatedAt?: any
   email: string;
   emailVerified: boolean;
   firstName: string | undefined;
