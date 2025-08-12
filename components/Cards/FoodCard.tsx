@@ -1,6 +1,6 @@
 import { Card, Text, XStack, YStack } from "tamagui";
 import { nutrientsIcons } from '@/helpers/diverse';
-import { FoodTrackEntry } from '@/helpers/diverse';
+import { FoodTrackEntry } from '@/types/food';
 
 export default function FoodCard({ food }: {food: FoodTrackEntry}) {
 

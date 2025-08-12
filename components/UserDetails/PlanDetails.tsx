@@ -1,40 +1,13 @@
 import { View } from 'react-native';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { XStack, H5, YStack, Text, Card, Button } from 'tamagui';
+import { XStack, YStack, Text, Card } from 'tamagui';
 import { AlertTriangle } from '@tamagui/lucide-icons';
-import PlanCard from '@/components/Cards/PlanCard';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import { EnvConfig } from '@/providers/EnvConfig';
-import { calculateMacrosAndHealthScore, PlanInputType } from '@/helpers/diverse';
-
-const detailsPlanText: any = {
-  calories: {
-    title: '',
-    paragraph: 'Calories per day',
-    label: 'Calories'
-  },
-  carbohydrate: {
-    title: ' g',
-    paragraph: 'Carbs per day',
-    label: 'Carbs'
-  },
-  protein: {
-    title: ' g',
-    paragraph: 'Protein per day',
-    label: 'Protein'
-  },
-  fat: {
-    title: ' g',
-    paragraph: 'Fats per day',
-    label: 'Fats'
-  },
-  healthScore: {
-    title: ' / 10',
-    paragraph: 'Healty score',
-    label: 'Healty score'
-  },
-}
+import { calculateMacrosAndHealthScore } from '@/helpers/diverse';
+import PlanDetailsCards from '@/components/UserDetails/PlanDetailsCards';
+import { PlanInputType } from '@/types/food';
 
 export default function PlanDetails(props: any){
 
@@ -98,32 +71,11 @@ export default function PlanDetails(props: any){
     <View>
 
       {Object?.keys(plan)?.length ?
-        <View style={{alignItems: 'center'}} >
-          <H5>Daily plan to achieve</H5>
-          <XStack style={{marginTop: 30, justifyContent: "center", alignItems: "center"}} flexWrap="wrap" gap={6} >
-            {Object?.keys(plan).map((key, index) => (
-              <PlanCard
-                key={index}
-                title={plan?.[key] + detailsPlanText?.[key]?.title}
-                paragraph={detailsPlanText?.[key]?.paragraph}
-                button={"Edit"}
-                edit={
-                  {
-                    inputValue: `${plan?.[key]}`,
-                    func: (newVal: string)=>editPlan({key: key, value: newVal}),
-                    title: `${detailsPlanText?.[key]?.paragraph}`,
-                    description: "Edit value",
-                    label: `${detailsPlanText?.[key]?.label}`,
-                    buttonComponent:
-                      <Button style={{alignSelf: "center"}} size="$2">
-                        Edit
-                      </Button>
-                  }
-                }
-              />
-            ))}
-          </XStack>
-        </View> : null
+        <PlanDetailsCards
+          plan={plan}
+          editPlan={editPlan}
+          title={"Daily plan to achieve"}
+        />: null
       }
 
       {!isError && !Object?.keys(plan)?.length ?

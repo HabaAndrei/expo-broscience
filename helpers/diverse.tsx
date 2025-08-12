@@ -6,6 +6,7 @@ import {
   Cake,
   Droplet,
 } from '@tamagui/lucide-icons';
+import { PlanInputType } from '@/types/food';
 
 // Simple email validation
 export const isValidEmail = (email: string) =>
@@ -94,15 +95,6 @@ export function calculateBodyFat({ gender, waist, neck, height, hips = 0 }: {
   }
   return Number(bodyFat.toFixed(2)); // round to 2 decimal places
 }
-
-export type PlanInputType = {
-  gender: string;
-  workouts: number | string;
-  height: number | string;
-  weight: number | string;
-  goal: string;
-  age: number | string;
-};
 
 export function calculateMacrosAndHealthScore({ gender, workouts, height, weight, age, goal }: PlanInputType ) {
   // --- Calculate BMR ---
@@ -201,21 +193,6 @@ export function calculateMacrosAndHealthScore({ gender, workouts, height, weight
     healthScore,
   };
 }
-
-export type FoodTrackEntry = {
-  calories: number;
-  carbohydrate: number;
-  protein: number;
-  fat: number;
-  metricServingAmount: number | undefined | null | string;
-  metricServingUnit: number | undefined | null | string;
-  foodName: string;
-  healthScore: number | null;
-  brandName: string | null | undefined;
-  type: 'scan' | 'db' | 'manualy' | string;
-  uid?: string | null | undefined;
-  createdAt?: any;
-};
 
 
 export const nutrientsLabels: Record<string, { title: string; paragraph: string; label: string }> = {

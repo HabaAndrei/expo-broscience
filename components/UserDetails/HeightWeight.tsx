@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Slider, XStack } from 'tamagui';
-import { H4, H5 } from 'tamagui';
+import { H5 } from 'tamagui';
 
-type HeightWeightProps = {
+export type HeightWeightProps = {
   setHeightWeight: ({}: any) => void;
   height: number | null | undefined | string;
   weight: number | null | undefined | string;

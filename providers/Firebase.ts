@@ -13,7 +13,8 @@ import {
 import * as Device from 'expo-device';
 import { StorageService } from '@/providers/StorageService';
 import { useRouter } from 'expo-router';
-import { FoodTrackEntry } from '@/helpers/diverse';
+import { UserDetails as userDetailsType } from '@/types/user';
+import { FoodTrackEntry, Plan } from '@/types/food';
 
 const firebaseConfig = {
   apiKey: EnvConfig.get('firebaseApiKey'),
@@ -72,6 +73,7 @@ class Firebase {
         columnsWithValues: {
           uid,
           createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
           email,
           firstName,
           secondName,
@@ -84,7 +86,8 @@ class Firebase {
         id: uid,
         columnsWithValues: {
           ...initialInformations.data.plan,
-          createdAt: serverTimestamp()
+          updatedAt: serverTimestamp(),
+          createdAt: serverTimestamp(),
         }
       });
       return {isResolved: true, data: rez};
@@ -196,10 +199,10 @@ class Firebase {
     }
   }
 
-  async getDetailsUser(){
+  async getUserDetails(){
     return this.catchAndStoreError(async ()=>{
       if ( !auth || !db) {
-        throw new Error("auth or db are not defined at getDetailsUser function");
+        throw new Error("auth or db are not defined at getUserDetails function");
       };
       const uid = auth?.currentUser?.uid;
       const docRef = doc(db, "users", uid);
@@ -211,7 +214,7 @@ class Firebase {
 
   async addIntoDatabase(
     {database, id, columnsWithValues}:
-    {database: string, id: string | number | null, columnsWithValues: object}
+    {database: string, id: string | number | null | undefined, columnsWithValues: object}
   ){
     return this.catchAndStoreError(async ()=>{
       if ( !auth || !db) {
@@ -247,7 +250,7 @@ class Firebase {
     const uid = auth?.currentUser?.uid;
     const docRef = doc(db, "user_plan", uid);
     const dataFromDB = await getDoc(docRef);
-    const data = dataFromDB.data();
+    const data: Plan = dataFromDB.data();
     return {isResolved: true, data};
   }
 
@@ -272,6 +275,36 @@ class Firebase {
         foods.push(doc.data());
       });
       return {isResolved: true, data: foods};
+    })
+  }
+
+  async updateUser(details: userDetailsType): Promise<any>{
+    return this.catchAndStoreError(async ()=>{
+      if ( !auth || !db ) {
+        throw new Error("auth or db are not defined at updateUser function");
+      };
+      const uid = auth?.currentUser?.uid;
+      const result = await this.addIntoDatabase({
+        database: 'users',
+        id: uid,
+        columnsWithValues: details
+      })
+      return result;
+    })
+  }
+
+  async updateUserPlan(plan: Plan): Promise<any>{
+    return this.catchAndStoreError(async ()=>{
+      if ( !auth || !db ) {
+        throw new Error("auth or db are not defined at updateUserPlan function");
+      };
+      const uid = auth?.currentUser?.uid;
+      const result = await this.addIntoDatabase({
+        database: 'user_plan',
+        id: uid,
+        columnsWithValues: {...plan, updatedAt: serverTimestamp()}
+      })
+      return result;
     })
   }
 
