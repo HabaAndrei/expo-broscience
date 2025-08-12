@@ -73,6 +73,7 @@ class Firebase {
         columnsWithValues: {
           uid,
           createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
           email,
           firstName,
           secondName,
@@ -85,7 +86,8 @@ class Firebase {
         id: uid,
         columnsWithValues: {
           ...initialInformations.data.plan,
-          createdAt: serverTimestamp()
+          updatedAt: serverTimestamp(),
+          createdAt: serverTimestamp(),
         }
       });
       return {isResolved: true, data: rez};
@@ -286,6 +288,21 @@ class Firebase {
         database: 'users',
         id: uid,
         columnsWithValues: details
+      })
+      return result;
+    })
+  }
+
+  async updateUserPlan(plan: Plan): Promise<any>{
+    return this.catchAndStoreError(async ()=>{
+      if ( !auth || !db ) {
+        throw new Error("auth or db are not defined at updateUserPlan function");
+      };
+      const uid = auth?.currentUser?.uid;
+      const result = await this.addIntoDatabase({
+        database: 'user_plan',
+        id: uid,
+        columnsWithValues: {...plan, updatedAt: serverTimestamp()}
       })
       return result;
     })
