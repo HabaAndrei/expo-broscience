@@ -1,4 +1,4 @@
-import { UserDetails as userDetailsType } from '@/helpers/diverse';
+import { UserDetails as userDetailsType } from '@/types/user';
 import { Text, View } from 'tamagui';
 
 export default function GeneralDetails({userDetails} : {userDetails: null | userDetailsType} ){

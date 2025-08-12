@@ -5,8 +5,9 @@ import { XStack, YStack, Text, Card } from 'tamagui';
 import { AlertTriangle } from '@tamagui/lucide-icons';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import { EnvConfig } from '@/providers/EnvConfig';
-import { calculateMacrosAndHealthScore, PlanInputType } from '@/helpers/diverse';
+import { calculateMacrosAndHealthScore } from '@/helpers/diverse';
 import PlanDetailsCards from '@/components/UserDetails/PlanDetailsCards';
+import { PlanInputType } from '@/types/food';
 
 export default function PlanDetails(props: any){
 
@@ -65,8 +66,6 @@ export default function PlanDetails(props: any){
     setPlan(_plan)
     props.setUserPlan(_plan);
   }
-
-  console.log(plan);
 
   return (
     <View>

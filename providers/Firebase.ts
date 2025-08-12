@@ -13,7 +13,8 @@ import {
 import * as Device from 'expo-device';
 import { StorageService } from '@/providers/StorageService';
 import { useRouter } from 'expo-router';
-import { FoodTrackEntry, UserDetails as userDetailsType } from '@/helpers/diverse';
+import { UserDetails as userDetailsType } from '@/types/user';
+import { FoodTrackEntry } from '@/types/food';
 
 const firebaseConfig = {
   apiKey: EnvConfig.get('firebaseApiKey'),

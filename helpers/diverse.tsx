@@ -6,6 +6,7 @@ import {
   Cake,
   Droplet,
 } from '@tamagui/lucide-icons';
+import { PlanInputType } from '@/types/food';
 
 // Simple email validation
 export const isValidEmail = (email: string) =>
@@ -94,15 +95,6 @@ export function calculateBodyFat({ gender, waist, neck, height, hips = 0 }: {
   }
   return Number(bodyFat.toFixed(2)); // round to 2 decimal places
 }
-
-export type PlanInputType = {
-  gender: string;
-  workouts: number | string;
-  height: number | string;
-  weight: number | string;
-  goal: string;
-  age: number | string;
-};
 
 export function calculateMacrosAndHealthScore({ gender, workouts, height, weight, age, goal }: PlanInputType ) {
   // --- Calculate BMR ---
@@ -202,42 +194,6 @@ export function calculateMacrosAndHealthScore({ gender, workouts, height, weight
   };
 }
 
-export type FoodTrackEntry = {
-  calories: number;
-  carbohydrate: number;
-  protein: number;
-  fat: number;
-  metricServingAmount: number | undefined | null | string;
-  metricServingUnit: number | undefined | null | string;
-  foodName: string;
-  healthScore: number | null;
-  brandName: string | null | undefined;
-  type: 'scan' | 'db' | 'manualy' | string;
-  uid?: string | null | undefined;
-  createdAt?: any;
-};
-
-export type UserDetails = {
-  bornDate: string;
-  createdAt: any;
-  email: string;
-  emailVerified: boolean;
-  firstName: string | undefined;
-  gender: string;
-  goal: string;
-  height: number | string;
-  secondName: string;
-  uid: string;
-  weight: number | string;
-  workouts: number | string;
-};
-
-export type Plan = {
-  calories: string | number,
-  carbohydrate: string | number,
-  healthScore: string | number,
-  protein: string | number
-}
 
 export const nutrientsLabels: Record<string, { title: string; paragraph: string; label: string }> = {
   calories: {

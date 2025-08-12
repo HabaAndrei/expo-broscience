@@ -3,7 +3,7 @@ import AccordionDemo from '@/components/General/AccordionDemo';
 import { Firebase } from '@/providers/Firebase';
 import { useEffect, useRef, useState } from 'react';
 import { useToastNotification } from '@/contexts/ToastNotificationContext';
-import { UserDetails as userDetailsType } from '@/helpers/diverse';
+import { UserDetails as userDetailsType } from '@/types/user';
 import GeneralDetails from '@/components/Settings/GeneralDetails';
 import BornDate from '@/components/UserDetails/BornDate';
 import { clientGoalValues } from '@/app/login';

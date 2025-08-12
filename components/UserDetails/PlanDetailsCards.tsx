@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { XStack, H5, Button } from 'tamagui';
 import PlanCard from '@/components/Cards/PlanCard';
-import { Plan } from '@/helpers/diverse';
+import { Plan } from '@/types/food';
 
 type PlanNutrientLabel = {
   title: string;
