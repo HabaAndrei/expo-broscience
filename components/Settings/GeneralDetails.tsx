@@ -3,7 +3,7 @@ import { Text, View } from 'tamagui';
 
 export default function GeneralDetails({userDetails} : {userDetails: null | userDetailsType} ){
   return (
-    <View>
+    <View p="$3" >
       {userDetails ? (
         <>
           <Text fontWeight="700" fontSize={14} color="$color12" mb="$1">

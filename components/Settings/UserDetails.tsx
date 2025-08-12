@@ -9,11 +9,13 @@ import BornDate from '@/components/UserDetails/BornDate';
 import { clientGoalValues } from '@/app/login';
 import ClientGoal from '@/components/UserDetails/ClientGoal';
 import HeightWeight from '@/components/UserDetails/HeightWeight';
+import { Plan } from '@/types/food';
+import PlanDetailsCards from '@/components/UserDetails/PlanDetailsCards';
 
 export default function UserDetails(){
 
   const [userDetails, setUserDetails] = useState<null | userDetailsType>(null);
-  const [userPlane, setUserPlan] = useState()
+  const [userPlan, setUserPlan] = useState<null | Plan>(null);
   const newBornDate = useRef('');
   const newHeightWeight = useRef<{height: string | number, weight: string | number}>({height: '', weight: ''});
 
@@ -39,7 +41,8 @@ export default function UserDetails(){
       error();
       return;
     }
-    // console.log(result.data);
+    console.log(result.data);
+    setUserPlan(result.data);
   }
 
   async function getUserDetails_(){
@@ -103,6 +106,21 @@ export default function UserDetails(){
     }
   }
 
+  async function updateUserPlan_(plan: Plan){
+    const resultUpdate = await firebase.updateUserPlan(plan);
+    if (resultUpdate.isResolved) success();
+    else error();
+  }
+
+  function editPlan({key, value}: {key: string, value: string}){
+    setUserPlan((prev)=>{
+      if (prev) {
+        return {...prev, [key]: value};
+      }
+      return prev;
+    })
+  }
+
   const details = [
     {
       title: "General Details",
@@ -110,7 +128,7 @@ export default function UserDetails(){
     },
     {
       title: "Born Date",
-      component: <View>
+      component: <View p="$3" >
         {userDetails?.bornDate ?
           <BornDate
             date={userDetails.bornDate}
@@ -128,7 +146,7 @@ export default function UserDetails(){
     {
       title: "Goal",
       component:
-      <View>
+      <View p="$3" >
         <ClientGoal
           chosenIndex={clientGoalValues.indexOf(userDetails?.goal ?? '')}
           onChange={(newVal: number)=>setNewGoal(newVal)}
@@ -145,7 +163,7 @@ export default function UserDetails(){
     {
       title: "Height and Weight",
       component:
-      <View>
+      <View p="$3" >
         <HeightWeight
           height={userDetails?.height}
           weight={userDetails?.weight}
@@ -158,11 +176,29 @@ export default function UserDetails(){
           Update
         </Button>
       </View>
+    },
+    {
+      title: "Plan",
+      component:
+        <View>
+          {userPlan && Object?.keys(userPlan)?.length ?
+            <>
+              <PlanDetailsCards
+                plan={userPlan}
+                editPlan={({key, value})=>editPlan({key, value})}
+              />
+              <Button
+                style={{alignSelf: "center"}} width={200} size="$3" variant="outlined"
+                onPress={()=>updateUserPlan_(userPlan)}
+              >
+                Update
+              </Button>
+            </>: null
+          }
+        </View>
     }
 
   ]
-
-
 
   return (
     <View style={{margin: 8}} >
