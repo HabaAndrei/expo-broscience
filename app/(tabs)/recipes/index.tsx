@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import { ScrollView } from 'react-native';
-import { Text, View } from 'tamagui';
+import Main from '@/components/Recipes/Main';
 
 export default function RecipesIndex() {
   return (
@@ -16,9 +16,7 @@ export default function RecipesIndex() {
       />
 
       <ScrollView >
-        <View>
-          <Text>okookok</Text>
-        </View>
+        <Main/>
       </ScrollView>
 
     </>

@@ -57,7 +57,7 @@ export default function SearchBar() {
     >
       <Input
         style={{alignSelf: 'center'}}
-        placeholder="Search..."
+        placeholder="Search food ..."
         value={searchText}
         onChangeText={text => {
           setSearchText(text)
