@@ -2,6 +2,7 @@ import { Text, Card, YStack, Image, XStack, Button } from "tamagui";
 import { ArrowRight } from "@tamagui/lucide-icons";
 import { nutrientsIcons } from "@/helpers/diverse";
 import { cutDecimals } from '@/helpers/diverse';
+import { router } from 'expo-router';
 
 type RecipeCardProps = {
   cooking_time_min?: string;
@@ -12,6 +13,7 @@ type RecipeCardProps = {
   carbohydrate?: string;
   fat?: string;
   protein?: string;
+  recipe_id: string
 };
 
 export default function RecipeCard({
@@ -23,6 +25,7 @@ export default function RecipeCard({
   carbohydrate,
   fat,
   protein,
+  recipe_id
 }: RecipeCardProps) {
   return (
     <Card
@@ -123,7 +126,12 @@ export default function RecipeCard({
             size="$3"
             theme="blue"
             iconAfter={ArrowRight}
-            onPress={() => {}}
+            onPress={() =>
+              router.navigate({
+                pathname: '/recipes/[id]',
+                params: { id: recipe_id }
+              })
+            }
           >
             View
           </Button>

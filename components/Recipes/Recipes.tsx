@@ -11,6 +11,7 @@ export default function Recipes({ recipes }: { recipes: Recipe[] }) {
           grams_per_portion,
           recipe_name,
           recipe_images,
+          recipe_id
         } = recipe ?? {};
         const image = recipe_images?.recipe_image?.[0] ?? "";
         const { calories, carbohydrate, fat, protein } =
@@ -19,6 +20,7 @@ export default function Recipes({ recipes }: { recipes: Recipe[] }) {
         return (
           <RecipeCard
             key={index}
+            recipe_id={recipe_id}
             cooking_time_min={cooking_time_min}
             grams_per_portion={grams_per_portion}
             recipe_name={recipe_name}
