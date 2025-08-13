@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input, YStack, XStack, Paragraph } from "tamagui";
+import { EnvConfig } from '@/providers/EnvConfig';
+import axios from 'axios';
+import { Recipe } from '@/types/food';
 
-
-export default function QueryTable(){
+export default function QueryTable({setRecipes}:
+  {  setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>}){
   const [query, setQuery] = useState({
     calories: { minValue: '', maxValue: '' },
     carbohydrate: { minValue: '', maxValue: '' },
@@ -11,6 +14,10 @@ export default function QueryTable(){
   });
 
   const [searchText, setSearchText] = useState("");
+
+  useEffect(()=>{
+    getRecipes();
+  }, [query, searchText]);
 
   const handleQueryChange = (nutrient: string, field: string, value: string) => {
     if (isNaN(Number(value))) return;
@@ -25,6 +32,22 @@ export default function QueryTable(){
     { key: "fat", label: "Fat" },
     { key: "protein", label: "Protein" }
   ];
+
+  async function getRecipes(){
+    try {
+      const resultSearch = await axios.get(EnvConfig.get('serverAddress') + "/search-recipe", {
+        params: {input: searchText, query: JSON.stringify(query)}
+      });
+      if (!resultSearch?.data?.is_resolved) {
+        console.log("the search is not completed");
+        return;
+      }
+      const recipes = resultSearch?.data?.data;
+      if (recipes?.length) setRecipes(recipes)
+    }catch(err){
+      console.log("the search is not completed", err);
+    }
+  }
 
   return (
     <YStack space="$3" p="$3">
