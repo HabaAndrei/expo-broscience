@@ -9,7 +9,7 @@ export default function Main() {
   const [recipes, setRecipes] = useState<Recipe[] | []>([]);
 
   return (
-    <View>
+    <View style={{paddingBottom: 100}} >
       <QueryTable setRecipes={setRecipes} />
       {recipes.length ?
         <Recipes recipes={recipes} /> : null
