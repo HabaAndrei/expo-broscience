@@ -31,18 +31,45 @@ export type Plan = {
   updatedAt?: any
 }
 
+export type Serving = {
+  calcium: string;
+  calories: string;
+  carbohydrate: string;
+  cholesterol: string;
+  fat: string;
+  fiber: string;
+  iron: string;
+  monounsaturated_fat: string;
+  polyunsaturated_fat: string;
+  potassium: string;
+  protein: string;
+  saturated_fat: string;
+  serving_size: string;
+  sodium: string;
+  sugar: string;
+  trans_fat: string;
+  vitamin_a: string;
+  vitamin_c: string;
+  metric_serving_amount?: any,
+  metric_serving_unit?: any
+  serving_description?: any
+};
+
+
 export type Recipe = {
+  cooking_time_min?: any;
   directions: {
-    direction: string[];
+    direction: any[];
   };
   grams_per_portion: string;
   ingredients: {
-    ingredient: string[];
+    ingredient: any[];
   };
   number_of_servings: string;
+  preparation_time_min?: string;
   rating: string;
   recipe_categories: {
-    recipe_category: string[];
+    recipe_category: any[];
   };
   recipe_description: string;
   recipe_id: string;
@@ -55,6 +82,6 @@ export type Recipe = {
   };
   recipe_url: string;
   serving_sizes: {
-    serving: Record<string, any>;
+    serving: Serving;
   };
 }
