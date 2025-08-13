@@ -30,3 +30,31 @@ export type Plan = {
   createdAt?: any,
   updatedAt?: any
 }
+
+export type Recipe = {
+  directions: {
+    direction: string[];
+  };
+  grams_per_portion: string;
+  ingredients: {
+    ingredient: string[];
+  };
+  number_of_servings: string;
+  rating: string;
+  recipe_categories: {
+    recipe_category: string[];
+  };
+  recipe_description: string;
+  recipe_id: string;
+  recipe_images: {
+    recipe_image: string[];
+  };
+  recipe_name: string;
+  recipe_types: {
+    recipe_type: string[];
+  };
+  recipe_url: string;
+  serving_sizes: {
+    serving: Record<string, any>;
+  };
+}
