@@ -1,5 +1,6 @@
 import { View, Text } from 'tamagui';
 import { FoodItem } from '@/components/SearchFood/SearchBar';
+import { cutDecimals } from '@/helpers/diverse';
 
 export default function NutritionLabel({selected}: {selected: FoodItem}){
 
@@ -79,7 +80,7 @@ export default function NutritionLabel({selected}: {selected: FoodItem}){
         <View flexDirection="row" style={{justifyContent:"space-between"}} mb="$2">
           <Text fontSize={14} fontWeight="600" color="#000">Metric serving amount</Text>
           <Text fontSize={14} fontWeight="600" color="#000">
-            {Math.trunc(Number(serving?.metric_serving_amount))} {serving.metric_serving_unit}
+            {cutDecimals(serving?.metric_serving_amount)} {serving.metric_serving_unit}
           </Text>
         </View>
 

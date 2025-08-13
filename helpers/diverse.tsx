@@ -266,3 +266,8 @@ export function calculateCalories({fat, carbohydrate, protein}:
 
   return calories;
 }
+
+
+export function cutDecimals(num: string | number){
+  return Math.trunc(Number(num))
+}
