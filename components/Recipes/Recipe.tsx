@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView } from 'tamagui';
+import { View, Text, Image } from 'tamagui';
 import { Recipe as RecipeType } from '@/types/food';
 import RecipeServingLabel from '@/components/Recipes/RecipeServingLabel';
 
