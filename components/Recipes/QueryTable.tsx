@@ -6,13 +6,13 @@ import { Recipe } from '@/types/food';
 
 export default function QueryTable({setRecipes}:
   {  setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>}){
+
   const [query, setQuery] = useState({
     calories: { minValue: '', maxValue: '' },
     carbohydrate: { minValue: '', maxValue: '' },
     fat: { minValue: '', maxValue: '' },
     protein: { minValue: '', maxValue: '' }
   });
-
   const [searchText, setSearchText] = useState("");
 
   useEffect(()=>{
