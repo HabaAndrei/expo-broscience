@@ -271,3 +271,47 @@ export function calculateCalories({fat, carbohydrate, protein}:
 export function cutDecimals(num: string | number){
   return Math.trunc(Number(num))
 }
+
+export const unitMapNutrients: Record<string, string> = {
+  calories: "kcal",
+  carbohydrate: "g",
+  protein: "g",
+  fat: "g",
+  saturated_fat: "g",
+  trans_fat: "g",
+  polyunsaturated_fat: "g",
+  monounsaturated_fat: "g",
+  cholesterol: "mg",
+  sodium: "mg",
+  potassium: "mg",
+  fiber: "g",
+  sugar: "g",
+  added_sugars: "g",
+  vitamin_a: "µg",
+  vitamin_c: "mg",
+  vitamin_d: "µg",
+  calcium: "mg",
+  iron: "mg"
+}
+
+export const nutrientLabels: Record<string, string> = {
+  calories: "Calories",
+  carbohydrate: "Carbohydrates",
+  protein: "Protein",
+  fat: "Total Fat",
+  saturated_fat: "Saturated Fat",
+  trans_fat: "Trans Fat",
+  polyunsaturated_fat: "Polyunsaturated Fat",
+  monounsaturated_fat: "Monounsaturated Fat",
+  cholesterol: "Cholesterol",
+  sodium: "Sodium",
+  potassium: "Potassium",
+  fiber: "Fiber",
+  sugar: "Sugars",
+  added_sugars: "Added Sugars",
+  vitamin_a: "Vitamin A",
+  vitamin_c: "Vitamin C",
+  vitamin_d: "Vitamin D",
+  calcium: "Calcium",
+  iron: "Iron"
+};
