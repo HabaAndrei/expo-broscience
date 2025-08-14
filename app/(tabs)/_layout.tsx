@@ -30,7 +30,7 @@ export default function TabLayout() {
       name: "recipes",
       title: "Recipes",
       icon: (focused: boolean) => <Croissant size={30} strokeWidth={focused ? 4 : 2} />,
-      href: true
+      href: '/recipes/'
     },
     {
       name: "search-food",

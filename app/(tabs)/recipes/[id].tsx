@@ -1,7 +1,6 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
-import { Text, View } from 'tamagui';
 import axios from 'axios';
 import { EnvConfig } from '@/providers/EnvConfig';
 import Recipe from '@/components/Recipes/Recipe';
@@ -47,9 +46,6 @@ export default function RecipeWithId() {
         {recipe?
           <Recipe recipe={recipe} /> : null
         }
-        <View>
-          <Text>Recipe ID: {id}</Text>
-        </View>
       </ScrollView>
     </>
   );
