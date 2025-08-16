@@ -55,8 +55,8 @@ export default function PlanDetails(props: any){
 
     // generated with ai or with a math formula
 
-    // generatePlanWithAi({ gender, workouts, height, weight, goal, age });
-    generatePlanWithFormula({ gender, workouts, height, weight, goal, age });
+    generatePlanWithAi({ gender, workouts, height, weight, goal, age });
+    // generatePlanWithFormula({ gender, workouts, height, weight, goal, age });
   }
 
   function editPlan(details: {key: string, value: string}){

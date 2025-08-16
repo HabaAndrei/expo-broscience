@@ -66,7 +66,7 @@ export const ingredientsLabels: any = {
 
 export function calculateBodyFat({ gender, waist, neck, height, hips = 0 }: {
   gender: string, waist: number, neck: number, height: number, hips: number
-}) {
+}): number {
 
   // hips is only for female
   // typical margins of error around ± 3-4%

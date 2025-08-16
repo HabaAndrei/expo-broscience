@@ -2,7 +2,7 @@ import { ScrollView, SafeAreaView } from 'react-native';
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { View } from 'tamagui';
+import Calculator from '@/components/CalculateBodyFat/Calculator';
 
 export default function CalculateBodyFatIndex() {
 
@@ -12,7 +12,7 @@ export default function CalculateBodyFatIndex() {
     <>
       <Stack.Screen
         options={{
-          headerTitle: "Scan food",
+          headerTitle: "Body Fat Calculator",
           // home botton from right up corner
           // headerRight: () => <HomeButton />
         }}
@@ -22,7 +22,7 @@ export default function CalculateBodyFatIndex() {
         <ScrollView
           contentContainerStyle={{ flexGrow: 1, paddingBottom: tabBarHeight }}
         >
-          <View>Text</View>
+          <Calculator/>
         </ScrollView>
       </SafeAreaView>
     </>
