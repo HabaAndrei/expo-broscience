@@ -7,6 +7,7 @@ import { Firebase } from '@/providers/Firebase';
 import { useRouter } from 'expo-router';
 import { useToastNotification } from '@/contexts/ToastNotificationContext';
 import { FoodItem } from '@/components/SearchFood/SearchBar';
+import { cutDecimals } from '@/helpers/diverse';
 
 export default function SelectedOption(
   { selected, setSelected }: {selected: FoodItem, setSelected: any}
@@ -24,7 +25,7 @@ export default function SelectedOption(
 
   let selectedValue = {
     ...editable,
-    metric_serving_amount: Math.trunc(Number(editable.metric_serving_amount)),
+    metric_serving_amount: cutDecimals(editable.metric_serving_amount),
   };
   // Ensure metric_serving_amount is the first property shown
   selectedValue = {metric_serving_amount: selectedValue.metric_serving_amount, ...selectedValue};

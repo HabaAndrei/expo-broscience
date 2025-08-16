@@ -2,7 +2,7 @@ import { Tabs } from 'expo-router';
 import { Platform } from 'react-native';
 import { HapticTab } from '@/components/HapticTab';
 import ProtectedRoute from '@/components/ProtectedRoute';
-import { Home, Apple, Settings2 } from '@tamagui/lucide-icons'
+import { Home, Apple, Settings2, Croissant } from '@tamagui/lucide-icons'
 
 
 export default function TabLayout() {
@@ -25,6 +25,12 @@ export default function TabLayout() {
       title: "Settings",
       icon: (focused: boolean) => <Settings2 size={30} strokeWidth={focused ? 4 : 2} />,
       href: true
+    },
+    {
+      name: "recipes",
+      title: "Recipes",
+      icon: (focused: boolean) => <Croissant size={30} strokeWidth={focused ? 4 : 2} />,
+      href: '/recipes/'
     },
     {
       name: "search-food",

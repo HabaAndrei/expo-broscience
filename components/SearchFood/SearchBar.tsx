@@ -5,6 +5,7 @@ import { EnvConfig } from '@/providers/EnvConfig';
 import SearchResults from '@/components/SearchFood/SearchResults';
 import SelectedOption from '@/components/SearchFood/SelectedOption';
 import NutritionLabel from '@/components/SearchFood/NutritionLabel';
+import { Serving } from '@/types/food';
 
 export type FoodItem = {
   brand_name?: string | undefined | null;
@@ -12,7 +13,7 @@ export type FoodItem = {
   food_name: string,
   food_type: string,
   food_url: string,
-  servings: any,
+  servings: Serving[],
   editable?: any,
 };
 
@@ -57,7 +58,7 @@ export default function SearchBar() {
     >
       <Input
         style={{alignSelf: 'center'}}
-        placeholder="Search..."
+        placeholder="Search food ..."
         value={searchText}
         onChangeText={text => {
           setSearchText(text)

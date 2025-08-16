@@ -1,58 +1,16 @@
 import { View, Text } from 'tamagui';
 import { FoodItem } from '@/components/SearchFood/SearchBar';
+import { cutDecimals, unitMapNutrients, nutrientLabels } from '@/helpers/diverse';
 
 export default function NutritionLabel({selected}: {selected: FoodItem}){
 
   const {food_name, servings} = selected;
   const serving = servings[0]
 
-  const unitMap: Record<string, string> = {
-    calories: "kcal",
-    carbohydrate: "g",
-    protein: "g",
-    fat: "g",
-    saturated_fat: "g",
-    trans_fat: "g",
-    polyunsaturated_fat: "g",
-    monounsaturated_fat: "g",
-    cholesterol: "mg",
-    sodium: "mg",
-    potassium: "mg",
-    fiber: "g",
-    sugar: "g",
-    added_sugars: "g",
-    vitamin_a: "µg",
-    vitamin_c: "mg",
-    vitamin_d: "µg",
-    calcium: "mg",
-    iron: "mg"
-  }
 
   const formatValue = (key: string, value: string | number) => {
-    const unit = unitMap[key] ?? ""
+    const unit = unitMapNutrients[key] ?? ""
     return `${value}${unit ? ' ' + unit : ''}`
-  }
-
-  const nutrientLabels: Record<string, string> = {
-    calories: "Calories",
-    carbohydrate: "Carbohydrates",
-    protein: "Protein",
-    fat: "Total Fat",
-    saturated_fat: "Saturated Fat",
-    trans_fat: "Trans Fat",
-    polyunsaturated_fat: "Polyunsaturated Fat",
-    monounsaturated_fat: "Monounsaturated Fat",
-    cholesterol: "Cholesterol",
-    sodium: "Sodium",
-    potassium: "Potassium",
-    fiber: "Fiber",
-    sugar: "Sugars",
-    added_sugars: "Added Sugars",
-    vitamin_a: "Vitamin A",
-    vitamin_c: "Vitamin C",
-    vitamin_d: "Vitamin D",
-    calcium: "Calcium",
-    iron: "Iron"
   }
 
   return (
@@ -79,7 +37,7 @@ export default function NutritionLabel({selected}: {selected: FoodItem}){
         <View flexDirection="row" style={{justifyContent:"space-between"}} mb="$2">
           <Text fontSize={14} fontWeight="600" color="#000">Metric serving amount</Text>
           <Text fontSize={14} fontWeight="600" color="#000">
-            {Math.trunc(Number(serving?.metric_serving_amount))} {serving.metric_serving_unit}
+            {cutDecimals(serving?.metric_serving_amount)} {serving.metric_serving_unit}
           </Text>
         </View>
 
