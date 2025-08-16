@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Input, YStack, XStack, Paragraph } from "tamagui";
 import { EnvConfig } from '@/providers/EnvConfig';
 import axios from 'axios';
@@ -7,21 +7,22 @@ import { Recipe } from '@/types/food';
 export default function QueryTable({setRecipes}:
   {  setRecipes: React.Dispatch<React.SetStateAction<Recipe[]>>}){
 
-  const [query, setQuery] = useState({
+  const [filter, setFilter] = useState({
     calories: { minValue: '', maxValue: '' },
     carbohydrate: { minValue: '', maxValue: '' },
     fat: { minValue: '', maxValue: '' },
     protein: { minValue: '', maxValue: '' }
   });
+  const pagination = useRef({limit: 10, offset: 0})
   const [searchText, setSearchText] = useState("");
 
   useEffect(()=>{
     getRecipes();
-  }, [query, searchText]);
+  }, [filter, searchText]);
 
   const handleQueryChange = (nutrient: string, field: string, value: string) => {
     if (isNaN(Number(value))) return;
-    setQuery((prev)=>{
+    setFilter((prev)=>{
       return {...prev, [nutrient]: {...prev[nutrient], [field]: value}}
     })
   };
@@ -36,7 +37,7 @@ export default function QueryTable({setRecipes}:
   async function getRecipes(){
     try {
       const resultSearch = await axios.get(EnvConfig.get('serverAddress') + "/search-recipe", {
-        params: {input: searchText, query: JSON.stringify(query)}
+        params: {input: searchText, filter: JSON.stringify(filter), pagination: JSON.stringify(pagination.current)}
       });
       if (!resultSearch?.data?.is_resolved) {
         console.log("the search is not completed");
@@ -89,7 +90,7 @@ export default function QueryTable({setRecipes}:
                 width={60}
                 placeholder="Min"
                 keyboardType="numeric"
-                value={query[row.key]?.minValue?.toString() || ""}
+                value={filter[row.key]?.minValue?.toString() || ""}
                 onChangeText={(val) =>
                   handleQueryChange(row.key, "minValue", val)
                 }
@@ -99,7 +100,7 @@ export default function QueryTable({setRecipes}:
                 width={60}
                 placeholder="Max"
                 keyboardType="numeric"
-                value={query[row.key]?.maxValue?.toString() || ""}
+                value={filter[row.key]?.maxValue?.toString() || ""}
                 onChangeText={(val) =>
                   handleQueryChange(row.key, "maxValue", val)
                 }
