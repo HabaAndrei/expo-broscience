@@ -1,9 +1,12 @@
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
-import { ScrollView } from 'react-native';
+import { ScrollView, SafeAreaView } from 'react-native';
 import Main from '@/components/Recipes/Main';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 export default function RecipesIndex() {
+  const tabBarHeight = useBottomTabBarHeight();
+
   return (
     <>
 
@@ -15,9 +18,13 @@ export default function RecipesIndex() {
         }}
       />
 
-      <ScrollView >
-        <Main/>
-      </ScrollView>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: tabBarHeight }}
+        >
+          <Main />
+        </ScrollView>
+      </SafeAreaView>
 
     </>
   );

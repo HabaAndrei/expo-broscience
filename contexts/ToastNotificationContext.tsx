@@ -1,6 +1,7 @@
 import React, { useState, createContext, useContext, ReactNode } from 'react'
 import { View, Text } from 'tamagui'
 import { X } from '@tamagui/lucide-icons'
+import { SafeAreaView } from 'react-native';
 
 type AlertType = 'success' | 'error' | 'info'
 
@@ -44,7 +45,7 @@ export function ToastNotificationProvider({ children }: { children: ReactNode })
 
   return (
     <ToastNotificationContext.Provider value={{ addNotification }}>
-      <View
+      <SafeAreaView
         position="absolute"
         top={40}
         gap="$2"
@@ -89,7 +90,7 @@ export function ToastNotificationProvider({ children }: { children: ReactNode })
             )}
           </View>
         ))}
-      </View>
+      </SafeAreaView>
 
       {children}
     </ToastNotificationContext.Provider>

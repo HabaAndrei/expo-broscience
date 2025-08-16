@@ -10,6 +10,7 @@ import CardFoodImage from '@/components/Scan/CardFoodImage';
 import TotalsFoodAnalysis from '@/components/Scan/TotalsFoodAnalysis';
 import IngredientsFoodAnalysis from '@/components/Scan/IngredientsFoodAnalysis';
 import NavigationBar from '@/components/Scan/NavigationBar';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 export default function ScanIndex() {
 
@@ -17,6 +18,8 @@ export default function ScanIndex() {
   const [isLoading, setIsLoading] = useState(false);
   const [analysisError, setAnalysisError] = useState({ isError: false, message: '' });
   const [analysis, setAnalysis] = useState({});
+
+  const tabBarHeight = useBottomTabBarHeight();
 
   async function analyzeImage() {
     if (!uri || isLoading) return;
@@ -57,8 +60,10 @@ export default function ScanIndex() {
         }}
       />
 
-      <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollView}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: tabBarHeight }}
+        >
           <NavigationBar actualScreen="scan" />
           <CameraUploader
             setUri={setUri}

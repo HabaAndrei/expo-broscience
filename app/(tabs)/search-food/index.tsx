@@ -1,10 +1,14 @@
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import SearchBar from '@/components/SearchFood/SearchBar';
-import { ScrollView } from 'react-native';
+import { ScrollView, SafeAreaView } from 'react-native';
 import NavigationBar from '@/components/Scan/NavigationBar';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 export default function SearchFoodIndex() {
+
+  const tabBarHeight = useBottomTabBarHeight();
+
   return (
     <>
 
@@ -16,10 +20,14 @@ export default function SearchFoodIndex() {
         }}
       />
 
-      <ScrollView >
-        <NavigationBar actualScreen="search" />
-        <SearchBar/>
-      </ScrollView>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: tabBarHeight }}
+        >
+          <NavigationBar actualScreen="search" />
+          <SearchBar/>
+        </ScrollView>
+      </SafeAreaView>
 
     </>
   );
