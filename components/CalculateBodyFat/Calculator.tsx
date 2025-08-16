@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, Button, YStack, RadioGroup, XStack } from "tamagui";
+import { Text, Button, YStack, RadioGroup, XStack, Card } from "tamagui";
 import { Calculator } from "@tamagui/lucide-icons";
 import { calculateBodyFat } from '@/helpers/diverse';
 import SimpleSlider from '@/components/General/SimpleSlider';
@@ -20,9 +20,17 @@ export default function CalculateBodyFat() {
 
   return (
     <YStack space="$6" p="$6">
-      <Text fontSize={22} fontWeight="bold">
-        Body Fat Calculator
-      </Text>
+
+      {/* Info Card */}
+      <Card
+        padding="$3"
+        backgroundColor="white"
+      >
+        <Text fontSize="$3" color="$color" fontStyle="italic">
+        * This method is used by the US Navy to estimate body fat percentage.
+        The typical error margin is approximately 3–4%.
+        </Text>
+      </Card>
 
       {/* Gender Selection with RadioGroup */}
       <RadioGroup value={gender} onValueChange={setGender} orientation="horizontal">
