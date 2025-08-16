@@ -3,8 +3,11 @@ import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import NavigationBar from '@/components/Scan/NavigationBar';
 import FormFoodManualy from '@/components/AddManualy/FormFoodManualy';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 export default function AddManualyIndex() {
+  const tabBarHeight = useBottomTabBarHeight();
+
   return (
     <>
       <Stack.Screen
@@ -15,8 +18,10 @@ export default function AddManualyIndex() {
         }}
       />
 
-      <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.scrollView}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: tabBarHeight }}
+        >
           <NavigationBar actualScreen="add-manualy" />
           <FormFoodManualy/>
         </ScrollView>

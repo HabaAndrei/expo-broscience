@@ -1,12 +1,16 @@
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, SafeAreaView } from 'react-native';
 import UserDetails from '@/components/Settings/UserDetails';
 import ColorPalette from '@/components/ColorPalette';
 import { Button } from 'tamagui';
 import { Firebase } from '@/providers/Firebase';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 export default function SettingsIndex(){
+
+  const tabBarHeight = useBottomTabBarHeight();
+
   return (
     <>
 
@@ -18,17 +22,22 @@ export default function SettingsIndex(){
         }}
       />
 
-      <ScrollView >
 
-        <View style={{alignSelf: "center", margin: 10}} >
-          <ColorPalette/>
-        </View>
+      <SafeAreaView style={{ flex: 1 }}>
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1, paddingBottom: tabBarHeight }}
+          >
 
-        <UserDetails/>
+          <View style={{alignSelf: "center", margin: 10}} >
+            <ColorPalette/>
+          </View>
 
-        <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
+          <UserDetails/>
 
-      </ScrollView>
+          <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
+
+        </ScrollView>
+      </SafeAreaView>
 
     </>
   )
