@@ -53,7 +53,7 @@ export default function SearchBar() {
 
   return (
     <YStack
-      style={{ alignSelf: 'center', padding: 16 }}
+      style={{ alignSelf: 'center', padding: 16, minHeight: 1000 }}
       width="100%" space="$2" mt="$4" position="relative" mb="$10"
     >
       <Input
