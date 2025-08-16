@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Slider, XStack } from 'tamagui';
-import { H5 } from 'tamagui';
+import { H5, XStack } from 'tamagui';
+import SimpleSlider from '@/components/General/SimpleSlider';
 
 export type HeightWeightProps = {
   setHeightWeight: ({}: any) => void;
-  height: number | null | undefined | string;
-  weight: number | null | undefined | string;
+  height: number ;
+  weight: number ;
 };
 
 
 export default function HeightWeight({setHeightWeight, height, weight}: HeightWeightProps) {
 
-  const [heightSlider, setHeightSlider] = useState<any>(height);
-  const [weightSlider, setWeightSlider] = useState<any>(weight);
+  const [heightSlider, setHeightSlider] = useState<number>(height);
+  const [weightSlider, setWeightSlider] = useState<number>(weight);
 
   return (
     <View style={{alignItems: 'center'}} >
@@ -21,7 +21,7 @@ export default function HeightWeight({setHeightWeight, height, weight}: HeightWe
       <H5>Selected your height: {heightSlider} cm</H5>
       <XStack height={50} style={{alignItems: "center"}} gap="$8">
         <SimpleSlider
-          width={250}
+          width={300}
           value={[heightSlider]}
           onValueChange={(val:any) => {
             setHeightSlider(val[0]);
@@ -40,7 +40,7 @@ export default function HeightWeight({setHeightWeight, height, weight}: HeightWe
       <H5> Selected your weight: {weightSlider} kg </H5>
       <XStack height={50} style={{alignItems: "center"}} gap="$8">
         <SimpleSlider
-          width={250}
+          width={300}
           value={[weightSlider]}
           onValueChange={(val:any) => {
             setWeightSlider(val[0]);
@@ -50,23 +50,11 @@ export default function HeightWeight({setHeightWeight, height, weight}: HeightWe
             });
           }}
           defaultValue={weightSlider}
-          max={120}
+          max={200}
         />
       </XStack>
 
 
     </View>
-  );
-}
-
-function SimpleSlider({ children, defaultValue, max, ...props }: any) {
-  return (
-    <Slider defaultValue={[defaultValue]} max={max} step={1} {...props}>
-      <Slider.Track>
-        <Slider.TrackActive />
-      </Slider.Track>
-      <Slider.Thumb size="$2" index={0} circular />
-      {children}
-    </Slider>
   );
 }

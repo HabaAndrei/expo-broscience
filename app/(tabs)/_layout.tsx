@@ -44,6 +44,12 @@ export default function TabLayout() {
       icon: (focused: boolean) => <></>,
       href: null
     },
+    {
+      name: "calculate-body-fat",
+      title: "Calculate body fat",
+      icon: (focused: boolean) => <></>,
+      href: null
+    },
   ]
 
 
