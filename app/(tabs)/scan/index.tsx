@@ -1,4 +1,4 @@
-import { ScrollView, SafeAreaView, StyleSheet } from 'react-native';
+import { ScrollView, SafeAreaView } from 'react-native';
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
 import CameraUploader from '@/components/Scan/CameraUploader';
@@ -88,12 +88,3 @@ export default function ScanIndex() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollView: {
-    paddingBottom: 50,
-  }
-});
