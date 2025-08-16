@@ -6,6 +6,8 @@ import Recipes from '@/components/Recipes/Recipes';
 import axios from 'axios';
 import { EnvConfig } from '@/providers/EnvConfig';
 import { ArrowRightCircle, ArrowLeftCircle } from '@tamagui/lucide-icons'
+import { Pressable } from "react-native";
+
 
 type NutrientFilter = {
   minValue: string;
@@ -33,6 +35,7 @@ export default function Main() {
   const pagination = useRef({limit: 10, offset: 0});
 
   useEffect(()=>{
+    pagination.current.offset = 0;
     getRecipes();
   }, [filter, searchText]);
 
@@ -46,10 +49,28 @@ export default function Main() {
         return;
       }
       const recipes = resultSearch?.data?.data;
-      if (recipes?.length) setRecipes(recipes)
+      setRecipes(recipes ?? [])
     }catch(err){
       console.log("the search is not completed", err);
     }
+  }
+
+  const isDisabledLeft = pagination.current.offset < 1;
+  const isDisabledRight = recipes?.length < pagination.current.limit;
+
+  function changePage(direction: 'left' | 'right'){
+    if (direction == 'left'){
+      const newVal = pagination.current.offset - pagination.current.limit;
+      if (newVal < 0) {
+        pagination.current.offset = 0;
+        return;
+      }
+      pagination.current.offset = newVal;
+    }else if (direction == 'right'){
+      if (recipes?.length < pagination.current.limit ) return;
+      pagination.current.offset = pagination.current.offset + pagination.current.limit;
+    }
+    getRecipes();
   }
 
   return (
@@ -60,9 +81,25 @@ export default function Main() {
         setSearchText={setSearchText}
         searchText={searchText}
       />
+
       {recipes.length ?
         <Recipes recipes={recipes} /> : null
       }
+
+        <View>
+          <Pressable
+            disabled={isDisabledLeft}
+            onPress={()=>changePage('left')}
+          >
+            <ArrowLeftCircle></ArrowLeftCircle>
+          </Pressable>
+          <Pressable
+            disabled={isDisabledRight}
+            onPress={()=>changePage('right')}
+          >
+            <ArrowRightCircle></ArrowRightCircle>
+          </Pressable>
+        </View>
     </View>
   );
 }
