@@ -79,7 +79,7 @@ export default function Main() {
   }
 
   return (
-    <View style={{ paddingBottom: 100 }}>
+    <View>
       <QueryTable
         setFilter={setFilter}
         filter={filter}
