@@ -2,6 +2,9 @@ import { StyleSheet, View } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { Image } from 'expo-image';
 import Calendar from '@/components/Home/Calendar';
+import { Card, Paragraph, XStack } from 'tamagui';
+import { Activity } from '@tamagui/lucide-icons';
+import { Link } from 'expo-router';
 
 const index = () => {
   return (
@@ -14,6 +17,27 @@ const index = () => {
         />
       }>
       <View>
+
+        <Link href="/calculate-body-fat"  asChild>
+          <Card
+            elevate
+            bordered
+            backgroundColor="$blue2"
+            p="$3"
+            m="$3"
+            borderRadius="$6"
+          >
+            <XStack style={{alignSelf:"center", justifyContent: "space-between"}}  space="$3">
+              <XStack  style={{alignSelf:"center"}}  space="$2">
+                <Activity size={18} color="#007AFF" />
+                <Paragraph size="$3" fontWeight="600" color="$blue10">
+                  Check your body fat %
+                </Paragraph>
+              </XStack>
+            </XStack>
+          </Card>
+        </Link>
+
         <Calendar></Calendar>
       </View>
     </ParallaxScrollView>

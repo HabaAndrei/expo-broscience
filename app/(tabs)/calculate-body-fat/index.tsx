@@ -1,18 +1,18 @@
 import { ScrollView, SafeAreaView } from 'react-native';
 import { Stack } from 'expo-router';
 import HomeButton from '@/components/Buttons/Home';
-import NavigationBar from '@/components/Scan/NavigationBar';
-import FormFoodManualy from '@/components/AddManualy/FormFoodManualy';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import Calculator from '@/components/CalculateBodyFat/Calculator';
 
-export default function AddManualyIndex() {
+export default function CalculateBodyFatIndex() {
+
   const tabBarHeight = useBottomTabBarHeight();
 
   return (
     <>
       <Stack.Screen
         options={{
-          headerTitle: "Add manualy",
+          headerTitle: "Body Fat Calculator",
           // home botton from right up corner
           // headerRight: () => <HomeButton />
         }}
@@ -22,10 +22,10 @@ export default function AddManualyIndex() {
         <ScrollView
           contentContainerStyle={{ flexGrow: 1, paddingBottom: tabBarHeight }}
         >
-          <NavigationBar actualScreen="add-manualy" />
-          <FormFoodManualy/>
+          <Calculator/>
         </ScrollView>
       </SafeAreaView>
     </>
   );
 }
+

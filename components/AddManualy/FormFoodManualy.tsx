@@ -35,11 +35,11 @@ export default function FormFoodManualy() {
 
   const rows = [
     { key: 'foodName', label: 'Food Name' },
-    { key: 'calories', label: 'Calories (kcal)' },
     { key: 'carbohydrate', label: 'Carbohydrate (g)' },
     { key: 'protein', label: 'Protein (g)' },
     { key: 'fat', label: 'Fat (g)' },
-    { key: 'metricServingAmount', label: 'Serving Size (g)' }
+    { key: 'metricServingAmount', label: 'Serving Size (g)' },
+    { key: 'calories', label: 'Calories (kcal)' },
   ];
 
   function addCalories(){
@@ -130,6 +130,7 @@ export default function FormFoodManualy() {
             paddingHorizontal="$3"
             paddingVertical="$2"
             borderBottomWidth={index !== rows.length - 1 ? 1 : 0}
+            backgroundColor={row.key == 'calories' ? 'white': ''}
           >
             <Paragraph>{row.label}</Paragraph>
 
