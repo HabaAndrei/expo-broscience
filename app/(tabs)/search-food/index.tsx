@@ -23,6 +23,7 @@ export default function SearchFoodIndex() {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView
           contentContainerStyle={{ flexGrow: 1, paddingBottom: tabBarHeight }}
+          keyboardShouldPersistTaps="handled"
         >
           <NavigationBar actualScreen="search" />
           <SearchBar/>

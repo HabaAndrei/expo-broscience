@@ -53,7 +53,7 @@ export default function SearchBar() {
 
   return (
     <YStack
-      style={{ alignSelf: 'center', padding: 16, minHeight: 1000 }}
+      style={{ alignSelf: 'center', padding: 16, minHeight: 10 }}
       width="100%" space="$2" mt="$4" position="relative"
     >
       <Input
@@ -68,9 +68,6 @@ export default function SearchBar() {
           if (searchText?.trim()?.length) {
             setShowOptions(true)
           }
-        }}
-        onBlur={() => {
-          setTimeout(() => setShowOptions(false), 200)
         }}
         width="90%"
         borderColor="#ccc"
@@ -94,7 +91,11 @@ export default function SearchBar() {
             borderWidth: 0.1,
           }}
         >
-          <ScrollView style={{maxHeight: 300}}>
+          <ScrollView
+            style={{maxHeight: 300}}
+            nestedScrollEnabled={true}
+            keyboardShouldPersistTaps="handled"
+          >
             <SearchResults
               options={options}
               func={(option:FoodItem)=>{
