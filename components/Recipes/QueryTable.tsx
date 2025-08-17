@@ -42,7 +42,7 @@ export default function QueryTable(
       {/* Compact table */}
       <YStack
         borderWidth={1}
-        borderColor="$borderColor"
+        borderColor="$color6"
         borderRadius="$4"
         overflow="hidden"
         marginBottom="$4"
@@ -55,8 +55,7 @@ export default function QueryTable(
             paddingHorizontal="$3"
             paddingVertical="$2"
             borderBottomWidth={index !== rows.length - 1 ? 1 : 0}
-            borderColor="$borderColor"
-            space="$"
+            borderColor="$color6"
           >
             <Paragraph>{row.label}</Paragraph>
             <XStack space="$2">

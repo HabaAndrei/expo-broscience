@@ -22,15 +22,15 @@ const index = () => {
           <Card
             elevate
             bordered
-            backgroundColor="$blue2"
+            backgroundColor="$color2"
             p="$3"
             m="$3"
             borderRadius="$6"
           >
             <XStack style={{alignSelf:"center", justifyContent: "space-between"}}  space="$3">
               <XStack  style={{alignSelf:"center"}}  space="$2">
-                <Activity size={18} color="#007AFF" />
-                <Paragraph size="$3" fontWeight="600" color="$blue10">
+                <Activity size={18} color="$color10"/>
+                <Paragraph size="$3" fontWeight="600">
                   Check your body fat %
                 </Paragraph>
               </XStack>
