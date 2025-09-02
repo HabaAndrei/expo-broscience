@@ -34,7 +34,14 @@ export default function SettingsIndex(){
 
           <UserDetails/>
 
-          <Button onPress={()=>{new Firebase()._signOut()}} >Log out</Button>
+          <Button
+            onPress={()=>{new Firebase()._signOut()}}
+            variant="outlined"
+            style={{width: 200, alignSelf: "center"}}
+            m="$3"
+          >
+            Log out
+          </Button>
 
         </ScrollView>
       </SafeAreaView>
