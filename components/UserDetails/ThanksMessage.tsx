@@ -20,11 +20,11 @@ export default function ThanksMessage() {
         Thank You for Choosing Bro Science
       </H2>
 
-      <Paragraph size="$5" color="$color10" style={{alignSelf: "center"}}>
+      <Paragraph fontWeight="700" color="$color12" style={{alignSelf: "center"}}>
         We’re excited to support your journey toward healthier eating and better living.
       </Paragraph>
 
-      <Paragraph size="$4" color="$color9" style={{alignSelf: "center"}}>
+      <Paragraph fontWeight="700" color="$color12" style={{alignSelf: "center"}}>
         Your privacy is our top priority. We keep your data safe and secure, and we are
         committed to delivering the highest quality service to help you reach your goals.
       </Paragraph>
