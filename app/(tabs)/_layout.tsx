@@ -9,21 +9,15 @@ export default function TabLayout() {
 
   const navigators = [
     {
-      name: "index",
-      title: "Home",
-      icon: (focused: boolean) => <Home size={30} strokeWidth={focused ? 4 : 2} />,
+      name: "settings",
+      title: "Settings",
+      icon: (focused: boolean) => <Settings2 size={30} strokeWidth={focused ? 4 : 2} />,
       href: true
     },
     {
       name: "scan",
       title: "Add food",
       icon: (focused: boolean) => <Apple size={30} strokeWidth={focused ? 4 : 2} />,
-      href: true
-    },
-    {
-      name: "settings",
-      title: "Settings",
-      icon: (focused: boolean) => <Settings2 size={30} strokeWidth={focused ? 4 : 2} />,
       href: true
     },
     {
@@ -49,6 +43,12 @@ export default function TabLayout() {
       title: "Calculate body fat",
       icon: (focused: boolean) => <></>,
       href: null
+    },
+    {
+      name: "index",
+      title: "Home",
+      icon: (focused: boolean) => <Home size={30} strokeWidth={focused ? 4 : 2} />,
+      href: true
     },
   ]
 
