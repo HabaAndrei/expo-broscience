@@ -1,7 +1,7 @@
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useRef, useState } from "react";
 import { Modal, Pressable, StyleSheet, View, } from "react-native";
-import { X, RefreshCcw, Image as Img, Camera, NotebookPen} from '@tamagui/lucide-icons';
+import { X, RefreshCcw, Image as Img, Camera} from '@tamagui/lucide-icons';
 import * as ImagePicker from 'expo-image-picker';
 import GroupButtons from '@/components/Buttons/GroupButtons';
 
@@ -100,7 +100,6 @@ export default function CameraUploader(props: any) {
           buttons={[
             {name: 'Take photo', icon: <Camera/>, func: openCamera},
             {name: 'Upload', icon: <Img/>, func: pickImage},
-            {name: 'Tutorial', icon: <NotebookPen/>, func: ()=>console.log('tutorial!!')}
           ]}
         />
       </View>
