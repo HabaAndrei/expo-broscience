@@ -110,7 +110,7 @@ export default function LoginIndex(){
       case 'AuthForm':
         return <AuthForm handleChangeDispatch={handleChangeDispatch} />
       default:
-        return <Text> Aici am terminat, suntem gata </Text>;
+        return <Welcome handleChangeDispatch={handleChangeDispatch} />;
     }
   };
 
