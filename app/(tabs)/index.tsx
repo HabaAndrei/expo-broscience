@@ -9,10 +9,15 @@ import { Link } from 'expo-router';
 const index = () => {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#A1CEDC' }}
+      headerBackgroundColor={{
+        light: '#ffffff1b',
+        dark: '#ffffff1b' ,
+        // light: '#A1CEDC',
+        // dark: '#A1CEDC'
+      }}
       headerImage={
         <Image
-          source={require('@/assets/images/partial-react-logo.png')}
+          source={require('@/assets/images/icon.png')}
           style={styles.reactLogo}
         />
       }>
@@ -48,10 +53,10 @@ export default index
 
 const styles = StyleSheet.create({
   reactLogo: {
-    height: 178,
-    width: 290,
+    height: 200,
+    width: 200,
     bottom: 0,
-    left: 0,
+    alignSelf: 'center',
     position: 'absolute',
   },
 });
