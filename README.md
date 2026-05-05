@@ -2,7 +2,7 @@
 
 A cross‑platform fitness & nutrition app built with **Expo + React Native + Tamagui**. Track meals, scan food with the camera for AI ingredient/macro analysis, browse recipes, calculate body fat, and get a personalised daily nutrition plan.
 
-> This repository is the mobile client. The Python/FastAPI backend lives in [`server-broscience`](../server-broscience). Both must run together for full functionality.
+> This repository is the mobile client. The Python/FastAPI backend lives in [`server-broscience`](https://github.com/HabaAndrei/server-broscience/). Both must run together for full functionality.
 
 ---
 
